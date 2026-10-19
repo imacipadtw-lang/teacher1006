@@ -474,7 +474,7 @@ function freeCount(d,p){
 function anyClassAt(d,p){ return CLS.some((_,ci) => cell(d,p,ci)); }
 
 /* ── 畫面 ───────────────────────────── */
-const S = {tab:'find', me:'', d:1, p:'', freePick:null, ttMode:'class', ttWho:0, ttDay:1, date:'', pp:''};
+const S = {tab:'patrol', me:'', d:1, p:'', freePick:null, ttMode:'class', ttWho:0, ttDay:1, date:'', pp:''};
 { const w = weekdayOf(new Date()); if (w){ S.d = w; S.ttDay = w; } }
 const h = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const TABS = [
@@ -954,10 +954,10 @@ function syncHash(){
   if (S.tab === 'table'){ q.set('m', S.ttMode); S.ttMode === 'all' ? q.set('day', S.ttDay) : q.set('w', S.ttWho); }
   if (S.tab === 'patrol'){ if (S.date) q.set('date', S.date); if (S.pp) q.set('pp', S.pp); }
   if (S.tab === 'free' && S.freePick){ q.set('s', S.freePick.d + '-' + S.freePick.p); }
-  history.replaceState(null, '', '#' + q.toString());
+  try { history.replaceState(null, '', '#' + q.toString()); } catch(e){ /* 沙盒或 srcdoc 環境不允許改網址，略過 */ }
 }
 function readHash(){
-  const q = new URLSearchParams(location.hash.slice(1));
+  let q; try { q = new URLSearchParams(location.hash.slice(1)); } catch(e){ return; }
   if (q.get('t') && TABS.some(t => t.id === q.get('t'))) S.tab = q.get('t');
   if (q.get('me') && teacherList.includes(q.get('me'))) S.me = q.get('me');
   if (+q.get('d') >= 1 && +q.get('d') <= 5) S.d = +q.get('d');
