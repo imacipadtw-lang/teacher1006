@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Listen and Point · 回家聽力練習</title>
+<link rel="icon" href="img/loudspeaker.png">
+<style>
+:root{--p:#7C5CFF;--p2:#5A3FE0;--y:#FFC83D;--o:#FF8A3D;--g:#2ECC8A;--r:#FF5C7A;--ink:#2B2340;--ink2:#5B5370}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;background:linear-gradient(135deg,#FFF4D6,#DDEFFF 55%,#FFE0EC);min-height:100vh;color:var(--ink);display:flex;flex-direction:column;align-items:center;padding:16px;user-select:none}
+h1{font-size:26px;color:var(--p2);margin:8px 0 2px;text-align:center}
+.sub{color:var(--ink2);font-size:14px;text-align:center;margin:0 0 12px}
+.card{background:#fff;border-radius:24px;box-shadow:0 10px 30px -12px rgba(43,35,64,.35);padding:18px;width:min(100%,560px);text-align:center;margin-bottom:14px}
+.big{font-size:22px;font-weight:700;min-height:34px}
+.btn{font-size:20px;font-weight:700;padding:12px 26px;border-radius:999px;border:0;color:#fff;background:linear-gradient(135deg,var(--p),#3DA5FF);cursor:pointer;margin:4px}
+.btn.ghost{background:#fff;color:var(--p2);box-shadow:0 4px 14px -6px rgba(0,0,0,.3)}
+.days{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:min(100%,560px)}
+.day{background:#fff;border-radius:18px;padding:14px 4px;text-align:center;font-weight:700;font-size:17px;color:var(--p2);box-shadow:0 6px 16px -8px rgba(0,0,0,.3);border:4px solid transparent;cursor:pointer}
+.day small{display:block;color:var(--ink2);font-weight:500;font-size:12px}
+.day.ok{border-color:var(--g);background:#E9FBF3}
+.day.no{border-color:var(--r);background:#FFEDF1;animation:sh .4s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.score{font-size:18px;color:var(--ink2);margin:10px 0}
+.done{font-size:30px;color:var(--o);font-weight:900}
+.lv{display:flex;gap:6px;justify-content:center;margin-bottom:10px}
+.lv button{border:0;border-radius:999px;padding:6px 14px;font-weight:700;background:#fff;color:var(--ink2)}
+.lv button.on{background:var(--p);color:#fff}
+</style>
+</head>
+<body>
+<img src="img/loudspeaker.png" alt="" style="width:70px">
+<h1>Listen and Point!</h1>
+<p class="sub">Unit 1 回家聽力練習 · 聽到哪一天就點哪一天 · 共 10 題</p>
+<div class="lv"><button data-lv="1">基礎</button><button data-lv="2" class="on">標準</button><button data-lv="3">挑戰</button></div>
+<div class="card">
+  <div class="big" id="hint">按 ▶ 開始</div>
+  <button class="btn" id="play">▶ Play</button><button class="btn ghost" id="again">🔁 再聽一次</button>
+  <div class="score">第 <b id="q">0</b> / 10 題 ・ 答對 <b id="s">0</b> 題</div>
+</div>
+<div class="days" id="days"></div>
+<div class="card" id="result" style="display:none"></div>
+<script>
+const DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],ABBR=["Mon.","Tue.","Wed.","Thu.","Fri.","Sat.","Sun."];
+let AUDIO={},LV=2,target=-1,q=0,s=0,last=null,lock=false,cur=null;
+fetch("audio/map.json").then(r=>r.json()).then(m=>AUDIO=m);
+function say(t,v="nar"){return new Promise(res=>{if(cur)cur.pause();const m=AUDIO[t];const f=m&&(m[v]||Object.values(m)[0]);if(!f){res();return}const a=new Audio("audio/"+f);cur=a;a.onended=res;a.onerror=res;a.play().catch(res)})}
+const daysEl=document.getElementById("days");
+DAYS.forEach((d,i)=>{const el=document.createElement("div");el.className="day";el.innerHTML=`${d}<small>${ABBR[i]}</small>`;el.onclick=()=>{if(target<0||lock)return;if(i===target){lock=true;el.classList.add("ok");s++;document.getElementById("s").textContent=s;document.getElementById("hint").textContent="✅ "+last[0];setTimeout(()=>{el.classList.remove("ok");lock=false;next()},1200)}else{el.classList.add("no");setTimeout(()=>el.classList.remove("no"),450)}};daysEl.appendChild(el)});
+function next(){if(q>=10){finish();return}q++;document.getElementById("q").textContent=q;let n;do{n=Math.floor(Math.random()*7)}while(n===target);target=n;const d=DAYS[n];const sp=[["kate","teddy","amy","ben"][n%4],["ben","snowy","staff","party"][n%4]];const pool=LV===1?[[d,"nar"]]:LV===2?[[`It's ${d}.`,"nar"],[`It's ${d}. Let's go!`,sp[0]]]:[[`It's ${d}. Let's go!`,sp[0]],[`What day is today? It's ${d}.`,sp[1]],[`No, it isn't. It's ${d}.`,"nar"]];last=pool[Math.floor(Math.random()*pool.length)];document.getElementById("hint").textContent="👂 Listening…";say(last[0],last[1]).then(()=>document.getElementById("hint").textContent="Which day? 👆")}
+function finish(){target=-1;const r=document.getElementById("result");r.style.display="block";r.innerHTML=`<div class="done">${s>=9?"🏆 Perfect!":s>=7?"⭐ Good job!":"💪 Try again!"}</div><div class="score">答對 ${s} / 10 題 ・ 把這個分數寫到學習單 C 的格子裡</div><button class="btn" onclick="location.reload()">🔄 再玩一次</button>`}
+document.getElementById("play").onclick=()=>{if(q===0||target<0&&q<10)next();else if(last)say(last[0],last[1])};
+document.getElementById("again").onclick=()=>{if(last)say(last[0],last[1])};
+document.querySelectorAll("[data-lv]").forEach(b=>b.onclick=()=>{LV=+b.dataset.lv;document.querySelectorAll("[data-lv]").forEach(x=>x.classList.toggle("on",x===b))});
+</script>
+</body>
+</html>

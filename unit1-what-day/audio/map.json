@@ -1,0 +1,267 @@
+{
+"Let's go here!": {
+"kate": "let_s_go_here_kate.mp3"
+},
+"OK. Let's book the tickets.": {
+"teddy": "ok_let_s_book_the_tickets_teddy.mp3"
+},
+"What day is today?": {
+"snowy": "what_day_is_today_snowy.mp3",
+"nar": "what_day_is_today_nar.mp3"
+},
+"It's Friday.": {
+"amy": "it_s_friday_amy.mp3",
+"nar": "it_s_friday_nar.mp3"
+},
+"Friday. Done! Let's go!": {
+"teddy": "friday_done_let_s_go_teddy.mp3"
+},
+"It's awesome!": {
+"kate": "it_s_awesome_kate.mp3",
+"ben": "it_s_awesome_ben.mp3"
+},
+"Hola.": {
+"snowy": "hola_snowy.mp3",
+"teddy": "hola_teddy.mp3"
+},
+"Let's go watch football.": {
+"amy": "let_s_go_watch_football_amy.mp3"
+},
+"Good idea!": {
+"kate": "good_idea_kate.mp3"
+},
+"Is it Wednesday today?": {
+"ben": "is_it_wednesday_today_ben.mp3",
+"nar": "is_it_wednesday_today_nar.mp3"
+},
+"No, it isn't. It's Friday.": {
+"kate": "no_it_isn_t_it_s_friday_kate.mp3",
+"nar": "no_it_isn_t_it_s_friday_nar.mp3"
+},
+"TGIF! There's a football game today.": {
+"teddy": "tgif_there_s_a_football_game_today_teddy.mp3"
+},
+"Have a good time.": {
+"staff": "have_a_good_time_staff.mp3"
+},
+"Thank you.": {
+"snowy": "thank_you_snowy.mp3"
+},
+"Big G, little o. Go! Go! Go!": {
+"staff": "big_g_little_o_go_go_go_staff.mp3"
+},
+"GOAL!": {
+"party": "goal_party.mp3"
+},
+"Good job!": {
+"snowy": "good_job_snowy.mp3",
+"staff": "good_job_staff.mp3"
+},
+"Monday": {
+"nar": "monday_nar.mp3"
+},
+"It's Monday.": {
+"nar": "it_s_monday_nar.mp3"
+},
+"Is it Monday today?": {
+"nar": "is_it_monday_today_nar.mp3"
+},
+"No, it isn't. It's Monday.": {
+"nar": "no_it_isn_t_it_s_monday_nar.mp3"
+},
+"Tuesday": {
+"nar": "tuesday_nar.mp3"
+},
+"It's Tuesday.": {
+"nar": "it_s_tuesday_nar.mp3"
+},
+"Is it Tuesday today?": {
+"nar": "is_it_tuesday_today_nar.mp3"
+},
+"No, it isn't. It's Tuesday.": {
+"nar": "no_it_isn_t_it_s_tuesday_nar.mp3"
+},
+"Wednesday": {
+"nar": "wednesday_nar.mp3"
+},
+"It's Wednesday.": {
+"nar": "it_s_wednesday_nar.mp3"
+},
+"No, it isn't. It's Wednesday.": {
+"nar": "no_it_isn_t_it_s_wednesday_nar.mp3"
+},
+"Thursday": {
+"nar": "thursday_nar.mp3"
+},
+"It's Thursday.": {
+"nar": "it_s_thursday_nar.mp3"
+},
+"Is it Thursday today?": {
+"nar": "is_it_thursday_today_nar.mp3"
+},
+"No, it isn't. It's Thursday.": {
+"nar": "no_it_isn_t_it_s_thursday_nar.mp3"
+},
+"Friday": {
+"nar": "friday_nar.mp3"
+},
+"Is it Friday today?": {
+"nar": "is_it_friday_today_nar.mp3"
+},
+"Saturday": {
+"nar": "saturday_nar.mp3"
+},
+"It's Saturday.": {
+"nar": "it_s_saturday_nar.mp3"
+},
+"Is it Saturday today?": {
+"nar": "is_it_saturday_today_nar.mp3"
+},
+"No, it isn't. It's Saturday.": {
+"nar": "no_it_isn_t_it_s_saturday_nar.mp3"
+},
+"Sunday": {
+"nar": "sunday_nar.mp3"
+},
+"It's Sunday.": {
+"nar": "it_s_sunday_nar.mp3"
+},
+"Is it Sunday today?": {
+"nar": "is_it_sunday_today_nar.mp3"
+},
+"No, it isn't. It's Sunday.": {
+"nar": "no_it_isn_t_it_s_sunday_nar.mp3"
+},
+"Yes, it is.": {
+"nar": "yes_it_is_nar.mp3"
+},
+"Yes!": {
+"nar": "yes_nar.mp3"
+},
+"No!": {
+"nar": "no_nar.mp3"
+},
+"Oh no, Monday!": {
+"nar": "oh_no_monday_nar.mp3"
+},
+"Let's go!": {
+"nar": "let_s_go_nar.mp3"
+},
+"Hump day!": {
+"nar": "hump_day_nar.mp3"
+},
+"Almost Friday!": {
+"nar": "almost_friday_nar.mp3"
+},
+"TGIF!": {
+"nar": "tgif_nar.mp3"
+},
+"Have a good time!": {
+"nar": "have_a_good_time_nar.mp3"
+},
+"Sunday fun day!": {
+"nar": "sunday_fun_day_nar.mp3"
+},
+"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday!": {
+"nar": "monday_tuesday_wednesday_thursday_friday_nar.mp3"
+},
+"They are in Spain! Hola!": {
+"nar": "they_are_in_spain_hola_nar.mp3"
+},
+"Perfect!": {
+"party": "perfect_party.mp3"
+},
+"Time's up!": {
+"nar": "time_s_up_nar.mp3"
+},
+"Baseball is popular in our class!": {
+"nar": "baseball_is_popular_in_our_class_nar.mp3"
+},
+"Basketball is popular in our class!": {
+"nar": "basketball_is_popular_in_our_class_nar.mp3"
+},
+"Badminton is popular in our class!": {
+"nar": "badminton_is_popular_in_our_class_nar.mp3"
+},
+"Table tennis is popular in our class!": {
+"nar": "table_tennis_is_popular_in_our_class_nar.mp3"
+},
+"Football is popular in our class!": {
+"nar": "football_is_popular_in_our_class_nar.mp3"
+},
+"Football is popular in Spain. What sport is popular in Taiwan?": {
+"nar": "football_is_popular_in_spain_what_sport__nar.mp3"
+},
+"It's Monday. Let's go!": {
+"kate": "it_s_monday_let_s_go_kate.mp3"
+},
+"What day is today? It's Monday.": {
+"ben": "what_day_is_today_it_s_monday_ben.mp3"
+},
+"It's Tuesday. Let's go!": {
+"teddy": "it_s_tuesday_let_s_go_teddy.mp3"
+},
+"What day is today? It's Tuesday.": {
+"snowy": "what_day_is_today_it_s_tuesday_snowy.mp3"
+},
+"It's Wednesday. Let's go!": {
+"amy": "it_s_wednesday_let_s_go_amy.mp3"
+},
+"What day is today? It's Wednesday.": {
+"staff": "what_day_is_today_it_s_wednesday_staff.mp3"
+},
+"It's Thursday. Let's go!": {
+"ben": "it_s_thursday_let_s_go_ben.mp3"
+},
+"What day is today? It's Thursday.": {
+"party": "what_day_is_today_it_s_thursday_party.mp3"
+},
+"It's Friday. Let's go!": {
+"kate": "it_s_friday_let_s_go_kate.mp3"
+},
+"What day is today? It's Friday.": {
+"ben": "what_day_is_today_it_s_friday_ben.mp3"
+},
+"It's Saturday. Let's go!": {
+"teddy": "it_s_saturday_let_s_go_teddy.mp3"
+},
+"What day is today? It's Saturday.": {
+"snowy": "what_day_is_today_it_s_saturday_snowy.mp3"
+},
+"It's Sunday. Let's go!": {
+"amy": "it_s_sunday_let_s_go_amy.mp3"
+},
+"What day is today? It's Sunday.": {
+"staff": "what_day_is_today_it_s_sunday_staff.mp3"
+},
+"Let's go to the night market.": {
+"amy": "let_s_go_to_the_night_market_amy.mp3"
+},
+"Let's play baseball.": {
+"amy": "let_s_play_baseball_amy.mp3"
+},
+"Let's watch a movie.": {
+"amy": "let_s_watch_a_movie_amy.mp3"
+},
+"Let's go to the park.": {
+"amy": "let_s_go_to_the_park_amy.mp3"
+},
+"Let's go swimming.": {
+"amy": "let_s_go_swimming_amy.mp3"
+},
+"Let's read a book.": {
+"amy": "let_s_read_a_book_amy.mp3"
+},
+"I can say the 7 days.": {
+"nar": "i_can_say_the_7_days_nar.mp3"
+},
+"I can ask What day is today?": {
+"nar": "i_can_ask_what_day_is_today_nar.mp3"
+},
+"I can answer Yes / No.": {
+"nar": "i_can_answer_yes_no_nar.mp3"
+},
+"I can use Daily Talk.": {
+"nar": "i_can_use_daily_talk_nar.mp3"
+}
+}

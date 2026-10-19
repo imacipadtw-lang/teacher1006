@@ -5,11 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Unit 1 · What Day Is Today? 互動簡報</title>
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="icon" href="img/soccer_ball.png">
 <style>
+@font-face{font-family:"Fredoka";font-weight:400;src:url(fonts/fredoka-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Fredoka";font-weight:600;src:url(fonts/fredoka-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Fredoka";font-weight:700;src:url(fonts/fredoka-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Noto Sans TC";font-weight:400;src:url(fonts/noto-sans-tc-chinese-traditional-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Noto Sans TC";font-weight:500;src:url(fonts/noto-sans-tc-chinese-traditional-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Noto Sans TC";font-weight:700;src:url(fonts/noto-sans-tc-chinese-traditional-700-normal.woff2) format("woff2")}
 :root{
   --bg1:#FFF4D6; --bg2:#DDEFFF; --bg3:#FFE0EC;
   --ink:#2B2340; --ink2:#5B5370; --card:#FFFFFF;
@@ -403,6 +406,22 @@ nav .icon-btn{width:52px;height:52px;font-size:22px}
   </div>
 </section>
 
+<!-- Listen and Point -->
+<section class="slide" data-time="3" data-tip="tL">
+  <div class="head"><h2>Listen and Point!<span class="zh">聽力辨識：聽到哪一天就點哪一天</span></h2><span class="sp" style="flex:1"></span><span class="score">Score <b id="lpScore">0</b></span></div>
+  <div class="stage">
+    <div class="days" id="lpDays"></div>
+    <div class="card" style="text-align:center;padding:14px 28px">
+      <div class="mid" id="lpHint">Press ▶ and listen carefully 👂</div>
+    </div>
+    <div class="row">
+      <button class="btn" id="lpPlay"><img src="img/loudspeaker.png" alt="">Play</button>
+      <button class="btn ghost" id="lpAgain">🔁 Again</button>
+    </div>
+    <div class="sub">不同角色、不同聲音 ✦ 答對會自動換下一題</div>
+  </div>
+</section>
+
 <!-- 12 Info gap -->
 <section class="slide" data-time="4" data-tip="t12">
   <div class="head"><h2>Game Schedule<span class="zh">資訊差：兩人一組</span></h2></div>
@@ -456,6 +475,20 @@ nav .icon-btn{width:52px;height:52px;font-size:22px}
   </div>
 </section>
 
+<!-- Plan a Day in Taiwan (real-life task) -->
+<section class="slide" data-time="4" data-tip="tP">
+  <div class="head"><h2>Plan a Day in Taiwan!<span class="zh">真實任務：用英文規劃你的一天</span></h2></div>
+  <div class="stage">
+    <div class="sub">① 選一天　② 選一件想做的事　③ 全組一起說出來，再換你們自己的計畫！</div>
+    <div class="days" id="pdDays"></div>
+    <div class="vote" id="pdActs" style="grid-template-columns:repeat(6,1fr)"></div>
+    <div class="card" style="text-align:center;padding:12px 28px;width:min(100%,900px)">
+      <div class="big" id="pdSay" style="font-size:clamp(22px,3.4vw,44px)">It's <span style="color:var(--p2)">___</span>. Let's <span style="color:var(--o)">___</span>!</div>
+    </div>
+    <div class="row"><button class="btn g" id="pdSpeak"><img src="img/loudspeaker.png" alt="">Say it!</button><button class="btn ghost" id="pdReset">🔄 Reset</button></div>
+  </div>
+</section>
+
 <!-- 16 Exit ticket -->
 <section class="slide" data-time="3" data-tip="t16">
   <div class="head"><h2>Exit Ticket<span class="zh">出場券</span></h2></div>
@@ -482,6 +515,20 @@ nav .icon-btn{width:52px;height:52px;font-size:22px}
   </div>
 </section>
 
+<!-- I can... -->
+<section class="slide" data-time="2" data-tip="tI">
+  <div class="head"><h2>I can…<span class="zh">自我評量：我做到了嗎？</span></h2></div>
+  <div class="stage">
+    <div class="sub">每個人想一想，老師唸一句，覺得「我可以」就舉手；點臉可以記錄全班人數</div>
+    <div class="goals" id="ican" style="grid-template-columns:repeat(2,1fr)">
+      <div class="goal"><img src="img/calendar.png" alt=""><b>I can say the 7 days.</b><p>我會說七天的名稱</p><div class="row ican-row" style="margin-top:8px"></div></div>
+      <div class="goal"><img src="img/speaking_head.png" alt=""><b>I can ask "What day is today?"</b><p>我會問今天星期幾並回答</p><div class="row ican-row" style="margin-top:8px"></div></div>
+      <div class="goal"><img src="img/check_mark_button.png" alt=""><b>I can answer Yes / No.</b><p>我會回答 Yes, it is. / No, it isn't.</p><div class="row ican-row" style="margin-top:8px"></div></div>
+      <div class="goal"><img src="img/megaphone.png" alt=""><b>I can use Daily Talk.</b><p>我會在對的時候說 Good job! / TGIF! / Have a good time.</p><div class="row ican-row" style="margin-top:8px"></div></div>
+    </div>
+  </div>
+</section>
+
 <!-- 17 Good job -->
 <section class="slide" data-time="2" data-tip="t17">
   <div class="stage">
@@ -493,7 +540,7 @@ nav .icon-btn{width:52px;height:52px;font-size:22px}
       <div class="goal"><img src="img/megaphone.png" alt=""><b>Daily Talk</b><p>Good idea! · TGIF!<br>Have a good time.</p></div>
     </div>
     <div class="sub">Next time ➜ Unit 2 · 你們猜猜下一站去哪裡？</div>
-    <button class="btn y" onclick="boom(2)">🎉 Celebrate!</button>
+    <button class="btn y" onclick="boom(2);say('Good job!','staff')">🎉 Celebrate!</button>
   </div>
 </section>
 
@@ -511,6 +558,7 @@ nav .icon-btn{width:52px;height:52px;font-size:22px}
       <label><input type="checkbox">開啟本簡報、輸入密碼、選好難度（基礎／標準／挑戰）</label>
       <label><input type="checkbox">加油口號道具：小旗子或彩色紙（選用）</label>
       <label><input type="checkbox">投票工具：用本頁投票即可；無觸控時可舉手計數</label>
+      <label><input type="checkbox">印回家學習單 worksheet.pdf（A4 雙面，每人 1 張；背面 QR 連到聽力頁）</label>
       <label><input type="checkbox">課本 p.7–11 翻好，Listen and Read 音軌 1-16、1-17 準備好</label>
     </div>
     <div class="sub">勾選狀態會記在這台電腦上 ✦ 按 <b>T</b> 可隨時打開每一頁的老師提示</div>
@@ -540,6 +588,13 @@ let LV=2;
 let AC=null,SND=true;
 function tone(f,d=0.12,type="sine",v=0.25,t0=0){if(!SND)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);const s=AC.currentTime+t0;o.start(s);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(0.001,s+d);o.stop(s+d+0.02);}catch(e){}}
 const sfx={click:()=>tone(660,.08,"triangle",.15),ok:()=>{tone(523,.12);tone(659,.12,"sine",.25,.1);tone(784,.2,"sine",.25,.2)},no:()=>{tone(220,.18,"sawtooth",.15);tone(180,.22,"sawtooth",.15,.12)},beat:()=>tone(880,.06,"square",.08),win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.22,"sine",.25,i*.11))};
+
+/* ======================= 真人語音（預錄 MP3 + 瀏覽器備援） ======================= */
+let AUDIO={},curA=null;
+fetch("audio/map.json").then(r=>r.json()).then(m=>AUDIO=m).catch(()=>{});
+const VOICE={nerd_face:"kate",grinning_face_with_big_eyes:"teddy",smiling_face_with_hearts:"amy","star-struck":"ben",polar_bear:"snowy",smiling_face_with_sunglasses:"staff",megaphone:"staff",partying_face:"party"};
+function say(text,voice="nar"){return new Promise(res=>{if(!SND){res();return}if(curA){curA.pause();curA=null}const t=text.replace(/<[^>]+>/g,"").trim();const m=AUDIO[t];const f=m&&(m[voice]||Object.values(m)[0]);if(f){const a=new Audio("audio/"+f);curA=a;a.onended=()=>{curA=null;res()};a.onerror=()=>{curA=null;res()};a.play().catch(()=>res())}else if("speechSynthesis"in window){const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;const vs=speechSynthesis.getVoices().filter(v=>v.lang.startsWith("en"));u.voice=vs.find(v=>/natural|premium|enhanced|samantha|aria|jenny/i.test(v.name))||vs.find(v=>/google/i.test(v.name))||vs[0]||null;u.onend=()=>res();speechSynthesis.cancel();speechSynthesis.speak(u)}else res()})}
+async function sayAll(list){for(const [t,v] of list)await say(t,v)}
 
 /* ======================= 彩帶 ======================= */
 const cf=document.getElementById("cf"),ctx=cf.getContext("2d");let parts=[];
@@ -575,6 +630,9 @@ t13:{h:"產出②　Reader's Theater",time:"3 分鐘",body:`<h4>分組／道具<
 t14:{h:"產出③　Make a Cheer!",time:"3 分鐘",body:`<h4>做法</h4><ul><li>先全班喊一次範本：Big G, little o. Go! Go! Go!</li><li>點 WIN / YES / GOAL，或打上組名，系統會自動生成同格式的口號。</li><li>各組編一句，30 秒後輪流表演，聲音最大的組得獎。</li></ul><h4>學習點</h4><ul><li>這是把「字母拼讀」偽裝成遊戲：Big = 大寫、little = 小寫。</li></ul>`},
 t15:{h:"產出④　Think and Say 投票",time:"3 分鐘",body:`<h4>做法</h4><ul><li>每人上台點一下自己最喜歡的運動（或老師代點）。</li><li>長條圖會即時長高，下方句子自動變成 <b>"___ is popular in our class."</b></li><li>帶全班唸出來，再問："Football is popular in Spain. What about Taiwan?"</li></ul><h4>延伸</h4><ul><li>可問：Is baseball popular in Taiwan? → Yes, it is.（把本課句型套到新情境）</li></ul>`},
 t16:{h:"檢核　Exit Ticket",time:"3 分鐘",body:`<h4>分組／道具</h4><ul><li>每人一張便利貼。</li></ul><h4>做法</h4><ul><li>按 Shuffle 隨機出現一個星期＋一個情境。按 Start 倒數 60 秒。</li><li>學生寫：① 一組問答（What day is today? → It's ___.）② 一句符合情境的短語。</li><li>收回便利貼即可下課；Sample answer 可給學生自我核對。</li></ul><h4>難度版本</h4><ul><li><span class="lv">基礎</span>只寫星期單字　<span class="lv">標準</span>寫完整問答　<span class="lv">挑戰</span>問答＋短語。</li></ul>`},
+tL:{h:"引導練習⑤　Listen and Point（聽力辨識）",time:"3 分鐘",body:`<h4>素養對應</h4><ul><li>聽力理解：在不同說話者、不同句型中抓出關鍵字（星期）。這是真實溝通最需要的能力。</li></ul><h4>做法</h4><ul><li>按 Play 會播一句真人語音（角色隨機），學生點對應的那一天。答對自動出下一題。</li><li>Again 可重播。建議全班先玩 3 題，再分組用平板各自玩，比誰先到 10 分。</li></ul><h4>難度版本</h4><ul><li><span class="lv">基礎</span>只唸單字　<span class="lv">標準</span>"It's Friday." / "It's Friday. Let's go!"　<span class="lv">挑戰</span>整段問答或否定句 "No, it isn't. It's Friday."（要從句尾抓答案）</li></ul><h4>常見錯誤</h4><ul><li>Tuesday / Thursday 聽混 → 回放兩次，請學生注意開頭 /t/ 與 /θ/。</li></ul>`},
+tP:{h:"產出⑤　Plan a Day in Taiwan（真實任務）",time:"4 分鐘",body:`<h4>素養對應</h4><ul><li>把課文句型遷移到學生自己的生活：用英文規劃「在台灣的一天」，連結文化與自我表達。</li></ul><h4>分組／道具</h4><ul><li>五人一組，不用道具；若有平板每組一台。</li></ul><h4>做法</h4><ul><li>先示範：點 Saturday ＋ night market，按 Say it! 全班跟著唸 "It's Saturday. Let's go to the night market!"</li><li>每組選一天、一件事，上台用英文說出來，並補一句 Daily Talk（Good idea! / It's awesome!）。</li><li>挑戰：組員用 "Is it Sunday?" 猜別組選的日子。</li></ul><h4>回饋語</h4><ul><li>學生只說單字 "Saturday, night market" → "Good! Full sentence? It's…?"</li></ul>`},
+tI:{h:"檢核　I can…（自我評量）",time:"2 分鐘",body:`<h4>素養對應</h4><ul><li>學習者自我監控：讓學生判斷自己「會了什麼」，而不是老師單方面評分。</li></ul><h4>做法</h4><ul><li>老師唸一句（點句子會播語音），學生舉手選 😊 完全會 / 🙂 大概會 / 🤔 還要練。</li><li>點臉記錄人數，看哪一項 🤔 最多，下次上課先複習那一項。</li></ul>`},
 t17:{h:"總結",time:"2 分鐘",body:`<ul><li>請學生用手指比出今天學到的三件事。</li><li>按 Celebrate! 放彩帶，全班一起說 Good job!</li><li>預告下一課，留一個懸念。</li></ul>`},
 t18:{h:"老師備課清單",time:"課前",body:`<ul><li>勾選會存在這台電腦的瀏覽器，下次開啟還在。</li><li>建議課前自己先跑一遍每個互動頁，確認觸控正常。</li></ul>`}
 };
@@ -603,13 +661,15 @@ sec.innerHTML=`<div class="head"><h2>${s.title}<span class="zh">${s.zh} · 先�
 <div class="row"><button class="btn g nextline"><img src="img/speaking_head.png" alt="">Next line</button><button class="btn ghost showall">Show all</button></div>
 <div class="keys">${s.keys.map(([e,z])=>`<div class="key">${e}<small>${z}</small></div>`).join("")}</div></div>`;
 const bubs=[...sec.querySelectorAll(".bub")];
-sec.querySelector(".nextline").onclick=()=>{const b=bubs.find(x=>!x.classList.contains("show"));if(b){b.classList.add("show");sfx.click()}else{toast("全部講完了 👏")}};
-sec.querySelector(".showall").onclick=()=>{bubs.forEach((b,i)=>setTimeout(()=>b.classList.add("show"),i*150))};
+const speakBub=b=>{const i=bubs.indexOf(b);const [ic,en]=s.lines[i];b.querySelector(".t").style.outline="4px solid var(--y)";return say(en,VOICE[ic]||"nar").then(()=>b.querySelector(".t").style.outline="")};
+bubs.forEach(b=>{b.style.cursor="pointer";b.onclick=()=>{if(b.classList.contains("show"))speakBub(b)}});
+sec.querySelector(".nextline").onclick=()=>{const b=bubs.find(x=>!x.classList.contains("show"));if(b){b.classList.add("show");speakBub(b)}else{toast("全部講完了 👏")}};
+sec.querySelector(".showall").onclick=async()=>{for(const b of bubs){b.classList.add("show");await speakBub(b)}};
 });
 
 /* ======================= 投影片導覽 ======================= */
 const slides=[...document.querySelectorAll(".slide")];let cur=0;
-const dots=document.getElementById("dots");slides.forEach((s,i)=>{const d=document.createElement("i");if([1,3,7,11,15].includes(i))d.classList.add("sec");d.onclick=()=>go(i);dots.appendChild(d)});
+const dots=document.getElementById("dots");slides.forEach((s,i)=>{const d=document.createElement("i");if([1,3,7,12,17].includes(i))d.classList.add("sec");d.onclick=()=>go(i);dots.appendChild(d)});
 function go(n){if(n<0||n>=slides.length)return;slides[cur].classList.remove("cur");cur=n;slides[cur].classList.add("cur");[...dots.children].forEach((d,i)=>d.classList.toggle("on",i===cur));document.getElementById("counter").textContent=`${cur+1} / ${slides.length}`;const t=slides[cur].dataset.time;document.getElementById("tbadge").textContent=t==="0"?"課前":`⏱ ${t} min`;renderTip();stopChant();stopTimer();location.hash=cur}
 document.getElementById("prevBtn").onclick=()=>go(cur-1);document.getElementById("nextBtn").onclick=()=>go(cur+1);
 addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(document.getElementById("gate").classList.contains("open")===false)return;if(e.key==="ArrowRight"||e.key==="PageDown"||e.key===" ")go(cur+1);else if(e.key==="ArrowLeft"||e.key==="PageUp")go(cur-1);else if(e.key.toLowerCase()==="t")toggleTip();else if(e.key.toLowerCase()==="f")fs();else if(e.key.toLowerCase()==="m")snd()});
@@ -624,10 +684,10 @@ function renderTip(){const t=TIPS[slides[cur].dataset.tip];document.getElementBy
 
 /* ======================= TPR chant ======================= */
 const daysEl=document.getElementById("days");
-DAYS.forEach((d,i)=>{const [ic,zh]=ACTS[i];const el=document.createElement("div");el.className="day";el.innerHTML=`<img src="img/${ic}.png" alt=""><div class="n">${d}</div><div class="ab">${ABBR[i]}</div><div class="act hidden">${zh}</div>`;el.onclick=()=>{sfx.click();el.querySelector(".act").classList.toggle("hidden");el.classList.add("hot");setTimeout(()=>el.classList.remove("hot"),600)};daysEl.appendChild(el)});
+DAYS.forEach((d,i)=>{const [ic,zh]=ACTS[i];const el=document.createElement("div");el.className="day";el.innerHTML=`<img src="img/${ic}.png" alt=""><div class="n">${d}</div><div class="ab">${ABBR[i]}</div><div class="act hidden">${zh}</div>`;el.onclick=()=>{say(d);el.querySelector(".act").classList.toggle("hidden");el.classList.add("hot");setTimeout(()=>el.classList.remove("hot"),600)};daysEl.appendChild(el)});
 let chantT=null,bpm=90;
 function stopChant(){clearInterval(chantT);chantT=null;document.querySelectorAll(".day").forEach(d=>d.classList.remove("hot"));const b=document.getElementById("chantPlay");if(b)b.innerHTML='<img src="img/musical_notes.png" alt="">Play Chant'}
-document.getElementById("chantPlay").onclick=()=>{if(chantT){stopChant();return}let i=0;const cards=[...document.querySelectorAll(".day")];document.getElementById("chantPlay").innerHTML="⏹ Stop";const step=()=>{cards.forEach(c=>c.classList.remove("hot"));cards[i%7].classList.add("hot");sfx.beat();i++};step();chantT=setInterval(step,60000/bpm)};
+document.getElementById("chantPlay").onclick=()=>{if(chantT){stopChant();return}let i=0;const cards=[...document.querySelectorAll(".day")];document.getElementById("chantPlay").innerHTML="⏹ Stop";const step=()=>{cards.forEach(c=>c.classList.remove("hot"));cards[i%7].classList.add("hot");say(DAYS[i%7]);i++};step();chantT=setInterval(step,60000/bpm)};
 document.getElementById("chantFast").onclick=()=>{bpm=bpm>=150?90:bpm+20;document.getElementById("bpm").textContent=bpm;if(chantT){stopChant();document.getElementById("chantPlay").click()}};
 
 /* ======================= 月曆工具 ======================= */
@@ -638,24 +698,26 @@ let cdDay=2,cdRound=1;
 function cdRender(){buildCal(document.getElementById("cal1"),cdDay);document.getElementById("cdAns").innerHTML="";document.getElementById("cdRound").textContent=cdRound}
 document.getElementById("cdNext").onclick=()=>{let n;do{n=1+Math.floor(Math.random()*31)}while(dowOf(n)===dowOf(cdDay));cdDay=n;cdRound++;sfx.click();cdRender()};
 const EXTRA={0:"Oh no, Monday!",1:"Let's go!",2:"Hump day!",3:"Almost Friday!",4:"TGIF!",5:"Have a good time!",6:"Sunday fun day!"};
-document.getElementById("cdReveal").onclick=()=>{const d=DAYS[dowOf(cdDay)];const txt=LV===1?d:LV===2?`It's ${d}.`:`It's ${d}. ${EXTRA[dowOf(cdDay)]}`;document.getElementById("cdAns").innerHTML=`<div class="big pop" style="color:var(--g)">${txt}</div>`;sfx.ok()};
+document.getElementById("cdReveal").onclick=()=>{const d=DAYS[dowOf(cdDay)];const txt=LV===1?d:LV===2?`It's ${d}.`:`It's ${d}. ${EXTRA[dowOf(cdDay)]}`;document.getElementById("cdAns").innerHTML=`<div class="big pop" style="color:var(--g)">${txt}</div>`;sfx.ok();if(LV===1)say(d);else if(LV===2)say(`It's ${d}.`);else sayAll([[`It's ${d}.`],[EXTRA[dowOf(cdDay)]]])};
+document.querySelector("#cdAns").parentElement.querySelector(".big").onclick=()=>say("What day is today?");
 cdRender();
 /* Yes or No */
 const YN=[[5,"Monday"],[14,"Thursday"],[9,"Friday"],[2,"Friday"],[24,"Saturday"],[17,"Sunday"]];let ynI=0,ynDone=false;
 function ynRender(){const [d,q]=YN[ynI];buildCal(document.getElementById("cal2"),d);document.getElementById("ynQuestion").textContent=`Is it ${q} today?`;document.getElementById("ynAns").innerHTML="";document.getElementById("ynQ").textContent=ynI+1;ynDone=false}
-document.querySelectorAll("[data-yn]").forEach(b=>b.onclick=()=>{if(ynDone)return;ynDone=true;const [d,q]=YN[ynI];const real=DAYS[dowOf(d)];const yes=real===q;const right=(+b.dataset.yn===1)===yes;let a;if(LV===1)a=yes?"Yes!":`No! ${real}`;else a=yes?"Yes, it is.":`No, it isn't. It's ${real}.`;if(LV===3&&!yes)a+=` ${EXTRA[dowOf(d)]}`;document.getElementById("ynAns").innerHTML=`<div class="big pop" style="color:${right?"var(--g)":"var(--r)"}">${a}</div>`;right?sfx.ok():sfx.no();if(right&&ynI===5)boom(1)});
+document.querySelectorAll("[data-yn]").forEach(b=>b.onclick=()=>{if(ynDone)return;ynDone=true;const [d,q]=YN[ynI];const real=DAYS[dowOf(d)];const yes=real===q;const right=(+b.dataset.yn===1)===yes;let a;if(LV===1)a=yes?"Yes!":`No! ${real}`;else a=yes?"Yes, it is.":`No, it isn't. It's ${real}.`;if(LV===3&&!yes)a+=` ${EXTRA[dowOf(d)]}`;document.getElementById("ynAns").innerHTML=`<div class="big pop" style="color:${right?"var(--g)":"var(--r)"}">${a}</div>`;right?sfx.ok():sfx.no();if(right&&ynI===5)boom(1);const seq=yes?[[LV===1?"Yes!":"Yes, it is."]]:[[LV===1?"No!":`No, it isn't. It's ${real}.`]];if(LV===3&&!yes)seq.push([EXTRA[dowOf(d)]]);setTimeout(()=>sayAll(seq),250)});
+document.getElementById("ynQuestion").onclick=()=>say(document.getElementById("ynQuestion").textContent);
 document.getElementById("ynNext").onclick=()=>{ynI=(ynI+1)%YN.length;sfx.click();ynRender()};ynRender();
 
 /* ======================= 對話重組 ======================= */
 const DLG=[["What day is today?","It's Friday.","Let's go watch football.","Good idea!"],["Is it Wednesday today?","No, it isn't. It's Friday.","TGIF! There's a football game today."],["Let's go here!","OK. Let's book the tickets.","Done! Let's go!"],["Have a good time.","Thank you.","Big G, little o. Go! Go! Go!","Good job!"]];
 let roI=0,roStep=0;
-function roRender(){const lines=DLG[roI];const order=lines.map((_,i)=>i).sort(()=>Math.random()-.5);const el=document.getElementById("lines");el.innerHTML="";roStep=0;order.forEach(i=>{const d=document.createElement("div");d.className="line";d.dataset.i=i;d.innerHTML=`<span class="num">?</span>${lines[i]}`;d.onclick=()=>{if(d.classList.contains("good"))return;if(+d.dataset.i===roStep){d.classList.add("good");d.querySelector(".num").textContent=roStep+1;roStep++;sfx.ok();if(roStep===lines.length){boom(1);toast("Perfect! 👏")}}else{d.classList.add("bad");sfx.no();setTimeout(()=>d.classList.remove("bad"),500)}};el.appendChild(d)})}
+function roRender(){const lines=DLG[roI];const order=lines.map((_,i)=>i).sort(()=>Math.random()-.5);const el=document.getElementById("lines");el.innerHTML="";roStep=0;order.forEach(i=>{const d=document.createElement("div");d.className="line";d.dataset.i=i;d.innerHTML=`<span class="num">?</span>${lines[i]}`;d.onclick=()=>{if(d.classList.contains("good"))return;if(+d.dataset.i===roStep){d.classList.add("good");d.querySelector(".num").textContent=roStep+1;roStep++;sfx.ok();if(roStep===lines.length){boom(1);toast("Perfect! 👏");sayAll([[lines[i]],["Perfect!","party"]])}else say(lines[i])}else{d.classList.add("bad");sfx.no();setTimeout(()=>d.classList.remove("bad"),500)}};el.appendChild(d)})}
 document.getElementById("roReset").onclick=roRender;document.getElementById("roNew").onclick=()=>{roI=(roI+1)%DLG.length;roRender()};roRender();
 
 /* ======================= 縮寫配對 ======================= */
 let mSel=null,mDone=0;
 function mRender(){mSel=null;mDone=0;const L=document.getElementById("mL"),R=document.getElementById("mR");L.innerHTML="";R.innerHTML="";const idx=[0,1,2,3,4,5,6];idx.sort(()=>Math.random()-.5).forEach(i=>L.appendChild(tile(DAYS[i],i,"L")));idx.sort(()=>Math.random()-.5).forEach(i=>R.appendChild(tile(ABBR[i],i,"R")))}
-function tile(t,i,side){const d=document.createElement("div");d.className="tile";d.textContent=t;d.dataset.i=i;d.dataset.side=side;d.onclick=()=>{sfx.click();if(mSel&&mSel.dataset.side!==side){if(mSel.dataset.i===d.dataset.i){mSel.classList.add("done");d.classList.add("done");mSel.classList.remove("sel");mSel=null;sfx.ok();if(++mDone===7){boom(1);toast("All matched! 🎉")}}else{d.classList.add("bad");mSel.classList.add("bad");sfx.no();const a=mSel;setTimeout(()=>{d.classList.remove("bad");a.classList.remove("bad","sel")},500);mSel=null}}else{document.querySelectorAll(".tile.sel").forEach(x=>x.classList.remove("sel"));d.classList.add("sel");mSel=d}};return d}
+function tile(t,i,side){const d=document.createElement("div");d.className="tile";d.textContent=t;d.dataset.i=i;d.dataset.side=side;d.onclick=()=>{side==="L"?say(t):sfx.click();if(mSel&&mSel.dataset.side!==side){if(mSel.dataset.i===d.dataset.i){mSel.classList.add("done");d.classList.add("done");mSel.classList.remove("sel");mSel=null;sfx.ok();if(++mDone===7){boom(1);toast("All matched! 🎉")}}else{d.classList.add("bad");mSel.classList.add("bad");sfx.no();const a=mSel;setTimeout(()=>{d.classList.remove("bad");a.classList.remove("bad","sel")},500);mSel=null}}else{document.querySelectorAll(".tile.sel").forEach(x=>x.classList.remove("sel"));d.classList.add("sel");mSel=d}};return d}
 document.getElementById("mReset").onclick=mRender;mRender();
 
 /* ======================= 資訊差 ======================= */
@@ -666,7 +728,28 @@ document.querySelectorAll("[data-ab]").forEach(b=>b.onclick=()=>{document.queryS
 
 /* ======================= 讀者劇場 ======================= */
 const ROLES=[["nerd_face","Kate","戴眼鏡女孩 · ①⑥⑩⑫","興奮、聰明","Let's go here! / It's awesome! / No, it isn't. It's Friday."],["grinning_face_with_big_eyes","Teddy","黑髮男孩 · ②⑤⑦⑬","開心、有活力","OK. Let's book the tickets. / TGIF! There's a football game today."],["smiling_face_with_hearts","Amy","金髮女孩 · ④⑨","溫柔、有禮貌","It's Friday. / Let's go watch football."],["star-struck","Ben","紅髮男孩 · ③⑪⑰","好奇、大聲","What day is today? / Is it Wednesday today? / Good job!"],["polar_bear","Snowy","白熊 · ⑧⑮","呆萌、可愛","Hola. / Thank you."],["smiling_face_with_sunglasses","Staff","驗票員＋加油隊 · ⑭⑯","有禮貌 → 超大聲","Have a good time. / Big G, little o. Go! Go! Go!"]];
-document.getElementById("roles").innerHTML=ROLES.map(([ic,n,zh,tone,l])=>`<div class="role" onclick="sfx.click();toast('${n}: ${l.replace(/'/g,"\\'")}')"><img src="img/${ic}.png" alt=""><div><b>${n}</b><small>${zh}</small><span class="tone">🎭 ${tone}</span></div></div>`).join("");
+document.getElementById("roles").innerHTML=ROLES.map(([ic,n,zh,tone,l],i)=>`<div class="role" data-r="${i}"><img src="img/${ic}.png" alt=""><div><b>${n}</b><small>${zh}</small><span class="tone">🎭 ${tone}</span></div></div>`).join("");
+document.getElementById("roles").addEventListener("click",e=>{const r=e.target.closest(".role");if(!r)return;const [ic,n,,,l]=ROLES[+r.dataset.r];toast(`${n}: ${l}`);sayAll(l.split(" / ").map(t=>[t,VOICE[ic]||"nar"]))});
+
+/* ======================= Listen and Point（聽力） ======================= */
+const lpDays=document.getElementById("lpDays");let lpTarget=-1,lpScore=0,lpLast=null,lpLock=false;
+DAYS.forEach((d,i)=>{const el=document.createElement("div");el.className="day";el.innerHTML=`<img src="img/${ACTS[i][0]}.png" alt=""><div class="n">${d}</div><div class="ab">${ABBR[i]}</div>`;el.onclick=()=>{if(lpTarget<0||lpLock)return;if(i===lpTarget){lpLock=true;el.classList.add("hot");sfx.ok();lpScore++;document.getElementById("lpScore").textContent=lpScore;document.getElementById("lpHint").textContent=`✅ ${lpLast[0]}`;if(lpScore%5===0)boom(1);setTimeout(()=>{el.classList.remove("hot");lpLock=false;lpPlay()},1300)}else{el.classList.add("no");sfx.no();setTimeout(()=>el.classList.remove("no"),500)}};lpDays.appendChild(el)});
+function lpPlay(){let n;do{n=Math.floor(Math.random()*7)}while(n===lpTarget);lpTarget=n;const d=DAYS[n];const sp=[["kate","teddy","amy","ben"][n%4],["ben","snowy","staff","party"][n%4]];const pool=LV===1?[[d,"nar"]]:LV===2?[[`It's ${d}.`,"nar"],[`It's ${d}. Let's go!`,sp[0]]]:[[`It's ${d}. Let's go!`,sp[0]],[`What day is today? It's ${d}.`,sp[1]],[`No, it isn't. It's ${d}.`,"nar"]];lpLast=pool[Math.floor(Math.random()*pool.length)];document.getElementById("lpHint").textContent="👂 Listening…";say(lpLast[0],lpLast[1]).then(()=>{document.getElementById("lpHint").textContent="Which day? Point! 👆"})}
+document.getElementById("lpPlay").onclick=lpPlay;document.getElementById("lpAgain").onclick=()=>{if(lpLast)say(lpLast[0],lpLast[1])};
+
+/* ======================= Plan a Day in Taiwan（真實任務） ======================= */
+const PACTS=[["sparkles","go to the night market","夜市"],["baseball","play baseball","打棒球"],["popcorn","watch a movie","看電影"],["national_park","go to the park","公園"],["goggles","go swimming","游泳"],["open_book","read a book","看書"]];
+let pdD=-1,pdA=-1;
+const pdDaysEl=document.getElementById("pdDays"),pdActsEl=document.getElementById("pdActs");
+DAYS.forEach((d,i)=>{const el=document.createElement("div");el.className="day";el.innerHTML=`<div class="n">${d}</div><div class="ab">${ABBR[i]}</div>`;el.onclick=()=>{pdD=i;[...pdDaysEl.children].forEach((c,j)=>c.classList.toggle("hot",j===i));say(d);pdRender()};pdDaysEl.appendChild(el)});
+PACTS.forEach(([ic,a,zh],i)=>{const el=document.createElement("div");el.className="vcard";el.innerHTML=`<img src="img/${ic}.png" alt=""><div class="en" style="font-size:clamp(13px,1.6vw,20px)">${a}</div><div class="sub">${zh}</div>`;el.onclick=()=>{pdA=i;[...pdActsEl.children].forEach((c,j)=>c.style.outline=j===i?"4px solid var(--o)":"");say(`Let's ${a}.`,"amy");pdRender()};pdActsEl.appendChild(el)});
+function pdRender(){document.getElementById("pdSay").innerHTML=`It's <span style="color:var(--p2)">${pdD<0?"___":DAYS[pdD]}</span>. Let's <span style="color:var(--o)">${pdA<0?"___":PACTS[pdA][1]}</span>!`;if(pdD>=0&&pdA>=0)document.getElementById("pdSay").classList.add("pop");setTimeout(()=>document.getElementById("pdSay").classList.remove("pop"),600)}
+document.getElementById("pdSpeak").onclick=()=>{if(pdD<0||pdA<0){toast("先選一天和一件事！");return}sayAll([[`It's ${DAYS[pdD]}.`],[`Let's ${PACTS[pdA][1]}.`,"amy"]]);boom(1)};
+document.getElementById("pdReset").onclick=()=>{pdD=pdA=-1;[...pdDaysEl.children].forEach(c=>c.classList.remove("hot"));[...pdActsEl.children].forEach(c=>c.style.outline="");pdRender()};
+
+/* ======================= I can… 自我評量 ======================= */
+document.querySelectorAll(".ican-row").forEach(row=>{row.innerHTML=`<button class="btn g" style="padding:6px 14px;font-size:18px">😊 <b>0</b></button><button class="btn y" style="padding:6px 14px;font-size:18px">🙂 <b>0</b></button><button class="btn ghost" style="padding:6px 14px;font-size:18px">🤔 <b>0</b></button>`;row.querySelectorAll("button").forEach(b=>b.onclick=()=>{const n=b.querySelector("b");n.textContent=+n.textContent+1;sfx.click()})});
+document.querySelectorAll("#ican .goal b").forEach(b=>{b.style.cursor="pointer";b.onclick=()=>say(b.textContent.replace(/[“”"]/g,""))});
 
 /* ======================= 加油口號 ======================= */
 function cheer(w){w=(w||"").toUpperCase().replace(/[^A-Z]/g,"").slice(0,6);if(!w){toast("先打上一個字！");return}const out=document.getElementById("cheerOut");out.innerHTML="";const parts=[...w].map((ch,i)=>`<span style="animation-delay:${i*.15}s">${i===0?"Big":"little"} ${i===0?ch:ch.toLowerCase()}${i===w.length-1?"":","}</span>`);const nice=w[0]+w.slice(1).toLowerCase();out.innerHTML=parts.join("")+`<span style="animation-delay:${w.length*.15}s">.</span>`+[0,1,2].map(i=>`<span class="go" style="animation-delay:${(w.length+1+i)*.15}s">${nice}!</span>`).join("");sfx.win()}
@@ -675,7 +758,7 @@ document.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>cheer(b.dataset.w
 /* ======================= 投票 ======================= */
 const SPORTS=[["baseball","Baseball","#FF8A3D"],["basketball","Basketball","#FF5C7A"],["badminton","Badminton","#2ECC8A"],["ping_pong","Table tennis","#3DA5FF"]];let votes=[0,0,0,0];
 const vEl=document.getElementById("vote");vEl.innerHTML=SPORTS.map(([ic,n,c],i)=>`<div class="vcard" data-v="${i}"><img src="img/${ic}.png" alt=""><div class="bar"><i style="background:${c}"></i></div><div class="cnt">0</div><div class="en">${n}</div></div>`).join("");
-function vRender(){const mx=Math.max(1,...votes);document.querySelectorAll(".vcard").forEach((c,i)=>{c.querySelector("i").style.height=(votes[i]/mx*100)+"%";c.querySelector(".cnt").textContent=votes[i]});const tot=votes.reduce((a,b)=>a+b,0);const say=document.getElementById("voteSay");if(!tot){say.textContent="Tap to vote! 👆";return}const top=votes.indexOf(Math.max(...votes));say.textContent=`${SPORTS[top][1]} is popular in our class! 🏆`}
+function vRender(){const mx=Math.max(1,...votes);document.querySelectorAll("#vote .vcard").forEach((c,i)=>{c.querySelector("i").style.height=(votes[i]/mx*100)+"%";c.querySelector(".cnt").textContent=votes[i]});const tot=votes.reduce((a,b)=>a+b,0);const say=document.getElementById("voteSay");if(!tot){say.textContent="Tap to vote! 👆";return}const top=votes.indexOf(Math.max(...votes));const s=`${SPORTS[top][1]} is popular in our class!`;if(say.dataset.last!==s){say.dataset.last=s;window.say(s)}say.textContent=s+" 🏆"}
 vEl.addEventListener("click",e=>{const c=e.target.closest(".vcard");if(!c)return;votes[+c.dataset.v]++;sfx.click();c.querySelector("img").classList.add("pop");setTimeout(()=>c.querySelector("img").classList.remove("pop"),600);vRender()});
 document.getElementById("voteReset").onclick=()=>{votes=[0,0,0,0];vRender()};
 
@@ -685,13 +768,13 @@ let etD=4,etS=0,timerT=null;
 document.getElementById("etShuffle").onclick=()=>{etD=Math.floor(Math.random()*7);etS=Math.floor(Math.random()*ETS.length);const b=document.getElementById("etIcon");b.src=`img/${ETS[etS][0]}.png`;b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");document.getElementById("etDay").textContent=DAYS[etD];document.getElementById("etScene").textContent=ETS[etS][1];document.getElementById("etAns").innerHTML="";sfx.click()};
 function stopTimer(){clearInterval(timerT);timerT=null}
 document.getElementById("etStart").onclick=()=>{stopTimer();let s=60;const el=document.getElementById("etTimer");el.textContent=s;timerT=setInterval(()=>{s--;el.textContent=s;if(s<=5)sfx.beat();if(s<=0){stopTimer();sfx.win();toast("Time's up! ✋")}},1000)};
-document.getElementById("etShow").onclick=()=>{const d=DAYS[etD];const a=LV===1?d:LV===2?`What day is today? → It's ${d}.`:`What day is today? → It's ${d}. <br>${ETS[etS][2]}`;document.getElementById("etAns").innerHTML=`<div class="mid pop" style="color:var(--g)">${a}</div>`;sfx.ok()};
+document.getElementById("etShow").onclick=()=>{const d=DAYS[etD];const a=LV===1?d:LV===2?`What day is today? → It's ${d}.`:`What day is today? → It's ${d}. <br>${ETS[etS][2]}`;document.getElementById("etAns").innerHTML=`<div class="mid pop" style="color:var(--g)">${a}</div>`;sfx.ok();const seq=LV===1?[[d]]:[["What day is today?"],[`It's ${d}.`]];if(LV===3)ETS[etS][2].split(" / ").forEach(p=>seq.push([p.replace("Go! Go! Go!","Big G, little o. Go! Go! Go!"),"staff"]));sayAll(seq)};
 
 /* ======================= 備課清單 ======================= */
 document.querySelectorAll("#chk input").forEach((c,i)=>{c.checked=localStorage.getItem("u1chk"+i)==="1";c.parentElement.classList.toggle("done",c.checked);c.onchange=()=>{localStorage.setItem("u1chk"+i,c.checked?"1":"0");c.parentElement.classList.toggle("done",c.checked);sfx.click()}});
 
 /* ======================= 其他 ======================= */
-document.getElementById("whereOpts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;if(o.dataset.ok==="1"){o.classList.add("ok");document.getElementById("whereAns").innerHTML=`<div class="big pop" style="color:var(--g)">They are in Spain! 🇪🇸 Hola!</div>`;boom(1)}else{o.classList.add("no");sfx.no();setTimeout(()=>o.classList.remove("no"),600)}});
+document.getElementById("whereOpts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;if(o.dataset.ok==="1"){o.classList.add("ok");document.getElementById("whereAns").innerHTML=`<div class="big pop" style="color:var(--g)">They are in Spain! 🇪🇸 Hola!</div>`;boom(1);setTimeout(()=>say("They are in Spain! Hola!"),400)}else{o.classList.add("no");sfx.no();setTimeout(()=>o.classList.remove("no"),600)}});
 go(Math.min(slides.length-1,parseInt(location.hash.slice(1))||0));
 </script>
 </body>
