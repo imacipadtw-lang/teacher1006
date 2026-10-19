@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>土城國小 課務查詢</title>
-<meta name="description" content="土城國小教師課務查詢：查空堂、找代課、兩人互調與三角調方案。">
+<meta name="description" content="土城國小教師課務查詢：巡堂觀課、查空堂、找代課、兩人互調與三角調方案。">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,7 +186,44 @@ details.help dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14p
 details.help dt{font-weight:700;color:var(--ink);white-space:nowrap}
 details.help dd{margin:0}
 
+/* ── 巡堂・觀課 ─────────────────────── */
+input[type=date]{border:1.5px solid var(--line);border-radius:9px;padding:10px 12px;width:100%;background:var(--card);color-scheme:light dark}
+input[type=date]:hover{border-color:var(--ink-3)}
+.datebar{display:flex;gap:8px;align-items:center}
+.datebar input{flex:1;min-width:0}
+.dayrow button{position:relative}
+.dayrow button .nt{position:absolute;top:-8px;right:-4px;background:var(--busy);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px;line-height:1.4}
+.dayrow button[aria-pressed="true"] .nt{background:#fff;color:var(--busy)}
+.dayrow button:disabled{opacity:.35;cursor:not-allowed}
+.dayrow button small{display:block;font-size:10.5px;font-weight:400;color:var(--ink-3);letter-spacing:-.02em}
+.dayrow button[aria-pressed="true"] small{color:#C8E6D6}
+.nowline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:14px}
+.nowline .pill{background:var(--busy-bg);color:var(--busy);border-radius:999px;padding:3px 11px;font-weight:700;font-size:13px}
+.nowline .pill.ok{background:var(--free-bg);color:var(--free)}
+table.obs{border-collapse:collapse;width:100%;min-width:640px}
+.obs th,.obs td{border-bottom:1px solid var(--line-2);padding:10px 10px;text-align:left;vertical-align:top;font-size:14.5px}
+.obs thead th{font-size:12.5px;color:var(--ink-2);font-weight:500;background:var(--paper);position:sticky;top:0}
+.obs td.cls b{font-size:17px;font-weight:900;display:block;line-height:1.2}
+.obs td.cls span{font-size:12px;color:var(--ink-3)}
+.obs td .s{font-weight:700;font-size:15.5px}
+.obs td .t{font-size:15px}
+.obs td .t b{font-weight:700}
+.obs td.none{color:var(--ink-3);background:repeating-linear-gradient(135deg,transparent 0 7px,var(--line-2) 7px 8px)}
+.obs tr.me td{background:var(--free-bg)}
+.obs td .btn{margin-top:2px}
+.obs .flag{display:inline-block;margin-top:4px}
+.tt td.now,.obs tr.now td{box-shadow:inset 0 0 0 2.5px var(--busy)}
+.tt tr.nowrow th.p{color:var(--busy)}
+.tt td .t b{color:var(--ink);font-weight:700}
+.cellbtn .nt{position:absolute;top:-7px;right:-4px;background:var(--busy);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px;line-height:1.4}
+.cellbtn{position:relative}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:760px){
+  .split{grid-template-columns:1fr}
+  .obs th,.obs td{padding:8px 6px;font-size:13.5px}
+  .obs td.cls b{font-size:15px}
+  table.obs{min-width:0}
+  .dayrow button small{display:none}
   body{font-size:15px}
   .ver .long{display:none}
   table.free{min-width:0;border-spacing:4px}
@@ -206,7 +243,8 @@ details.help dd{margin:0}
   .tt td{height:auto}
 }
 @media print{
-  header,nav,.toolbar,.btn,footer,details.help{display:none!important}
+  header,nav,.toolbar,.btn,footer,details.help,.console .steps,.nowline{display:none!important}
+  .obs td .btn{display:none}
   .console{box-shadow:none;border-color:#999}
   .sheetmark{border-bottom:1px solid #999;padding-bottom:8px}
   body{background:#fff}
@@ -221,7 +259,7 @@ details.help dd{margin:0}
     <div class="mark"><img class="crest" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALAAAACwCAMAAACYaRRsAAAA2FBMVEVLayOXmmPg26iippPasktcaU9omSUpThmsjDYiIxTvzWW62oVaEgn/+9TR0srarTqHdk7/+9R1kVb++tPEuqI8V0Oqx3WScSZ+lIK+x8HwwTw9O0C/v8D19fP/85n9+tNjmCJelSD/+9RwWiW+4XwxZSIVNBrA4n14YyvD5IQwWBnp6+bS2M/vxlSvuK0sRy746q4zZBsxWCbz1W91hnZxWByGaSe83XqLlorq6NRZiSJdkh4QKhRSZ1AaOSJYiB1qeWvb5NiVdiy4xLfy2or++tMIBAL/+9PflG6yAAAASHRSTlP///7/////////////XP///yr/rf////////////8A/f//BP/////////////////+//////////////////////////7L/5GuZ6SeAAActklEQVR42tVdC1viyrLtJAQEtoiMj5lzL1sQjSGJCcSAEAkPQf3//+hWdSfp7jwcUMczt7+9fQ0ki5VVq6orjyb/fnZcw2A/nB4fv729vLxcpQN+eXs7Pj69ll/5mUG+BCxgfftx9c748Raj/jRo8im09Nvx28vVXuPl7fhaeOM3A6Y7BWb3BJuCZkx/HDL5OLn7U1tE9EdpJh8l9/RjaBPMpx+lmXwI7vXxj6tPjh+M5j8OmMJ9KwExH41G6k4cKvxlXob57SOQycFwT9/KwO4ehHEfjwaMh4fdaFQI+fRgyORL4AKvDGaD4cOfErSNBgP+AHR/AeQDAJeIQR3tErT395VKRTmi45l+VSoVBjwGXYCZCuMPAAYaro8z++oitzFWRHr5PDUHk8lAGKY5fQbsFQb8/h7VkYUM4bc/yWR/ejM5ootwGbf3laPn5+n0EhFO6Ii/0R9hEMQNsEt4fjnen2SyL72nP7JwGbmNCqCdwrik6MyB3lb4aLfblPQJ/SjTWCJ5yD9O9yWZ7EtvzhR2FK0CYE0K6RnwaarqtGy7mwx7Pp876pkGyFEqwDMQXcFYzPnGviSTj9CLgUbhPgNQk8D/beWsxXEWjLmqKW0TpQHiYIGYgbwnyeQj9KIYGpWjKVWqqShn6ry7x2ipimIiz+azUmGQDyeZ/B5v1stUFcPsmRATXUDZD2yiEVVrmzimCPkho2VwuOvPAgY5vGThgt0eAVOT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" alt="土城國民小學校徽"></div>
     <div>
       <div class="title">課務查詢</div>
-      <div class="subtitle">土城國民小學　找代課・調課・查空堂</div>
+      <div class="subtitle">土城國民小學　巡堂觀課・找代課・調課・查空堂</div>
     </div>
     <div class="ver" id="ver"></div>
   </div>
@@ -230,7 +268,7 @@ details.help dd{margin:0}
 <main id="main" tabindex="-1"></main>
 <div class="toast" id="toast" role="status" hidden></div>
 
-<script id="timetable" type="application/json">{"classes":[{"name":"一甲","homeroom":"簡玉惠","students":2},{"name":"二甲","homeroom":"郭玉雪","students":2},{"name":"三甲","homeroom":"劉佳雯","students":8},{"name":"四甲","homeroom":"林家玉","students":5},{"name":"五甲","homeroom":"陳佳君","students":6},{"name":"六甲","homeroom":"黃羽瑄","students":5}],"times":["08:40–09:20","09:30–10:10","10:30–11:10","11:20–12:00","13:30–14:10","14:20–15:00","15:20–16:00"],"grid":{"1":[[{"subject":"數學","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"數學(簡玉惠)"},{"subject":"數學","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"數學(郭玉雪)"},{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"彈性(英語)","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"四甲彈性(英語)(陳怡伶) ELTA計畫"},{"subject":"數學","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"數學(陳佳君)"},{"subject":"自然","teachers":["李致德"],"groups":null,"notes":[],"raw":"六甲自然(李致德)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"彈性(國際)","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"三甲彈性(國際)(陳怡伶) ELTA計畫"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"彈性(資訊)","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"五甲彈性(資訊)(黃詠裕)"},{"subject":"自然","teachers":["李致德"],"groups":null,"notes":[],"raw":"六甲自然(李致德)"}],[{"subject":"彈性(國際)","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"一甲彈性(國際)(陳怡伶) ELTA計畫"},{"subject":"生活","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"二甲生活(廖恒慈)"},{"subject":"數學","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"數學(劉佳雯)"},{"subject":"自然","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"四甲自然(黃詠裕)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"數學","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"數學(黃羽瑄)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"彈性(國際)","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"二甲彈性(國際)(陳怡伶) ELTA計畫"},{"subject":"綜合","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"綜合(劉佳雯)"},{"subject":"自然","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"四甲自然(黃詠裕)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"五甲社會(廖恒慈)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[null,null,{"subject":"健康","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"健康(劉佳雯)"},{"subject":"社會","teachers":["林家玉"],"groups":null,"notes":[],"raw":"社會(林家玉)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"五甲社會(廖恒慈)"},{"subject":"彈性(國際)","teachers":["陳怡璇"],"groups":null,"notes":["ELTA計畫"],"raw":"六甲彈性(國際)(陳怡璇) ELTA計畫"}],[null,null,{"subject":"自然","teachers":["林繼于"],"groups":null,"notes":[],"raw":"三甲自然(林繼于)"},{"subject":"數學","teachers":["林家玉"],"groups":null,"notes":[],"raw":"數學(林家玉)"},{"subject":"彈性(國際)","teachers":["陳怡璇"],"groups":null,"notes":["ELTA計畫"],"raw":"五甲彈性(國際)(陳怡璇) ELTA計畫"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"六甲社會(廖恒慈)"}],[null,null,{"subject":"自然","teachers":["林繼于"],"groups":null,"notes":[],"raw":"三甲自然(林繼于)"},{"subject":"綜合","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"四甲綜合(陳怡璇)"},{"subject":"彈性(特色)","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"彈性(特色)(陳佳君)"},{"subject":"彈性(資訊)","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"六甲彈性(資訊)(黃詠裕)"}]],"2":[[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"數學","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"數學(郭玉雪)"},{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":[],"raw":"五甲音樂(許聖欣)"},{"subject":"英語","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"六甲英語(陳怡璇)"}],[{"subject":"數學","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"數學(簡玉惠)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":[],"raw":"三甲音樂(許聖欣)"},{"subject":"自然","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"四甲自然(黃詠裕)"},{"subject":"數學","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"數學(陳佳君)"},{"subject":"英語","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"六甲英語(陳怡璇)"}],[{"subject":"本土語","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"一甲本土語(黃詠裕)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"社會","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"三甲社會(陳怡璇)"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":[],"raw":"四甲音樂(許聖欣)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"數學","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"數學(黃羽瑄)"}],[{"subject":"生活","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"生活(簡玉惠)"},{"subject":"彈性(特色)","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"彈性(特色)(郭玉雪)"},{"subject":"數學","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"數學(劉佳雯)"},{"subject":"健康","teachers":["林家玉"],"groups":null,"notes":[],"raw":"健康(林家玉)"},{"subject":"彈性(愛閱)","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"彈性(愛閱)(陳佳君)"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":[],"raw":"六甲音樂(許聖欣)"}],[{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":["低年級合班"],"raw":"一甲音樂(許聖欣)｜低年級合班"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":["低年級合班"],"raw":"二甲音樂(許聖欣)｜低年級合班"},{"subject":"中年級體育","teachers":["廖恒慈","詹可德"],"groups":null,"notes":["協同教學"],"raw":"三甲中年級體育｜(詹可德+廖恒慈協同)"},{"subject":"中年級體育","teachers":["廖恒慈","詹可德"],"groups":null,"notes":["協同教學"],"raw":"四甲中年級體育｜(詹可德+廖恒慈協同)"},{"subject":"彈性(心木)","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"彈性(心木)(陳佳君)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[{"subject":"彈性(特色)","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"彈性(特色)(簡玉惠)"},{"subject":"健康","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"健康(郭玉雪)"},{"subject":"綜合","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"綜合(劉佳雯)"},{"subject":"綜合","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"四甲綜合(陳怡璇)"},{"subject":"高年級體育","teachers":["黃詠裕","詹可德"],"groups":null,"notes":["協同教學"],"raw":"五甲高年級體育｜(詹可德+黃詠裕協同)"},{"subject":"高年級體育","teachers":["黃詠裕","詹可德"],"groups":null,"notes":["協同教學"],"raw":"六甲高年級體育｜(詹可德+黃詠裕協同)"}],[{"subject":"低年級體育","teachers":["詹可德"],"groups":null,"notes":[],"raw":"一甲低年級體育(詹可德)"},{"subject":"低年級體育","teachers":["詹可德"],"groups":null,"notes":[],"raw":"二甲低年級體育(詹可德)"},{"subject":"自然","teachers":["林繼于"],"groups":null,"notes":[],"raw":"三甲自然(林繼于)"},{"subject":"本土語","teachers":["李致德"],"groups":null,"notes":[],"raw":"四甲本土語(李致德)"},{"subject":"英語","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"五甲英語(陳怡璇)"},{"subject":"彈性(特色)","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"彈性(特色)(黃羽瑄)"}]],"3":[[{"subject":"彈性(議題)","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"彈性(議題)(簡玉惠)"},{"subject":"彈性(議題)","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"彈性(議題)(郭玉雪)"},{"subject":"彈性(議題)","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"彈性(議題)(劉佳雯)"},{"subject":"彈性(議題)","teachers":["林家玉"],"groups":null,"notes":[],"raw":"彈性(議題)(林家玉)"},{"subject":"彈性(議題)","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"彈性(議題)(陳佳君)"},{"subject":"彈性(議題)","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"彈性(議題)(黃羽瑄)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"生活","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"二甲生活(廖恒慈)"},{"subject":"社會","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"三甲社會(陳怡璇)"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"高年級體育","teachers":["林繼于","詹可德"],"groups":null,"notes":["協同教學"],"raw":"五甲高年級體育｜(詹可德+林繼于協同)"},{"subject":"高年級體育","teachers":["林繼于","詹可德"],"groups":null,"notes":["協同教學"],"raw":"六甲高年級體育｜(詹可德+林繼于協同)"}],[{"subject":"數學","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"數學(簡玉惠)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"中年級體育","teachers":["廖恒慈","詹可德"],"groups":null,"notes":["協同教學"],"raw":"三甲中年級體育｜(詹可德+廖恒慈協同)"},{"subject":"中年級體育","teachers":["廖恒慈","詹可德"],"groups":null,"notes":["協同教學"],"raw":"四甲中年級體育｜(詹可德+廖恒慈協同)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[{"subject":"低年級體育","teachers":["詹可德"],"groups":null,"notes":[],"raw":"一甲低年級體育(詹可德)"},{"subject":"低年級體育","teachers":["詹可德"],"groups":null,"notes":[],"raw":"二甲低年級體育(詹可德)"},{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"數學","teachers":["林家玉"],"groups":null,"notes":[],"raw":"數學(林家玉)"},{"subject":"英語","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"五甲英語(陳怡璇)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"六甲社會(廖恒慈)"}],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null]],"4":[[{"subject":"數學","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"數學(簡玉惠)"},{"subject":"數學","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"數學(郭玉雪)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"三甲視覺藝術(吳韻如)"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"數學","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"數學(陳佳君)"},{"subject":"自然","teachers":["李致德"],"groups":null,"notes":[],"raw":"六甲自然(李致德)"}],[{"subject":"生活","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"生活(簡玉惠)"},{"subject":"生活","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"二甲生活(廖恒慈)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"三甲視覺藝術(吳韻如)"},{"subject":"社會","teachers":["林家玉"],"groups":null,"notes":[],"raw":"社會(林家玉)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"本土語","teachers":["李致德"],"groups":null,"notes":[],"raw":"六甲本土語(李致德)"}],[{"subject":"健康","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"健康(廖恒慈)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"數學","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"數學(劉佳雯)"},{"subject":"英語","teachers":["陳怡伶"],"groups":null,"notes":[],"raw":"四甲英語(陳怡伶)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"五甲視覺藝術(吳韻如)"},{"subject":"數學","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"數學(黃羽瑄)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"本土語","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"二甲本土語(黃詠裕)"},{"subject":"英語","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"三甲英語(陳怡伶) ELTA計畫"},{"subject":"數學","teachers":["林家玉"],"groups":null,"notes":[],"raw":"數學(林家玉)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"五甲視覺藝術(吳韻如)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[null,null,{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"四甲視覺藝術(吳韻如)"},{"subject":"自然","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"五甲自然(廖恒慈)"},{"subject":"綜合","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"綜合(黃羽瑄)"}],[null,null,{"subject":"彈性(資訊)","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"三甲彈性(資訊)(黃詠裕)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"四甲視覺藝術(吳韻如)"},{"subject":"自然","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"五甲自然(廖恒慈)"},{"subject":"綜合","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"綜合(黃羽瑄)"}],[null,null,{"subject":"彈性(特色)","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"彈性(特色)(劉佳雯)"},{"subject":"彈性(特色)","teachers":["林家玉"],"groups":null,"notes":[],"raw":"彈性(特色)(林家玉)"},{"subject":"綜合","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"綜合(陳佳君)"},{"subject":"彈性(心木)","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"彈性(心木)(黃羽瑄)"}]],"5":[[{"subject":"生活","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"生活(簡玉惠)"},{"subject":"數學","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"數學(郭玉雪)"},{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"數學","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"數學(陳佳君)"},{"subject":"數學","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"數學(黃羽瑄)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"數學","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"數學(劉佳雯)"},{"subject":"彈性(資訊)","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"四甲彈性(資訊)(黃詠裕)"},{"subject":"本土語","teachers":["李致德","陳怡璇"],"groups":[{"subject":"本土語","teachers":["李致德"],"raw":"五甲本土語(李致德)"},{"subject":"客家語海陸腔","teachers":["陳怡璇"],"raw":"客家語海陸腔(陳怡璇)"}],"notes":[],"raw":"五甲本土語(李致德)／客家語海陸腔(陳怡璇)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"六甲社會(廖恒慈)"}],[{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":["低年級合班"],"raw":"一甲視覺藝術(吳韻如)｜低年級合班"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":["低年級合班"],"raw":"視覺藝術(吳韻如)｜低年級合班"},{"subject":"本土語","teachers":["黃詠裕","陳怡璇"],"groups":[{"subject":"本土語","teachers":["黃詠裕"],"raw":"三甲本土語(黃詠裕)"},{"subject":"卡群布農語","teachers":["陳怡璇"],"raw":"卡群布農語(陳怡璇)"}],"notes":[],"raw":"三甲本土語(黃詠裕)／卡群布農語(陳怡璇)"},{"subject":"數學","teachers":["林家玉"],"groups":null,"notes":[],"raw":"數學(林家玉)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"社會(廖恒慈)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":["低年級合班"],"raw":"一甲視覺藝術(吳韻如)｜低年級合班"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":["低年級合班"],"raw":"視覺藝術(吳韻如)｜低年級合班"},{"subject":"社會","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"三甲社會(陳怡璇)"},{"subject":"社會","teachers":["林家玉"],"groups":null,"notes":[],"raw":"社會(林家玉)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"健康","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"六甲健康(廖恒慈)"}],[null,null,null,null,{"subject":"自然","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"自然(廖恒慈)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"六甲視覺藝術(吳韻如)"}],[null,null,null,null,{"subject":"健康","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"健康(廖恒慈)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"六甲視覺藝術(吳韻如)"}],[null,null,null,null,{"subject":"綜合","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"綜合(陳佳君)"},{"subject":"彈性(愛閱)","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"彈性(愛閱)(黃羽瑄)"}]]},"roster":["簡玉惠","郭玉雪","劉佳雯","林家玉","陳佳君","黃羽瑄","陳怡伶","陳怡璇","黃詠裕","李致德","廖恒慈","林繼于","許聖欣","詹可德","吳韻如"],"version":"A3 橫式彩色滿版　｜　依授課老師分色　｜　2026.09.14 正式版","title":"115學年度第1學期"}</script>
+<script id="timetable" type="application/json">{"classes":[{"name":"一甲","homeroom":"簡玉惠","students":2},{"name":"二甲","homeroom":"郭玉雪","students":2},{"name":"三甲","homeroom":"劉佳雯","students":8},{"name":"四甲","homeroom":"林家玉","students":5},{"name":"五甲","homeroom":"陳佳君","students":6},{"name":"六甲","homeroom":"黃羽瑄","students":5}],"times":["08:40–09:20","09:30–10:10","10:30–11:10","11:20–12:00","13:30–14:10","14:20–15:00","15:20–16:00"],"grid":{"1":[[{"subject":"數學","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"數學(簡玉惠)"},{"subject":"數學","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"數學(郭玉雪)"},{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"彈性(英語)","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"四甲彈性(英語)(陳怡伶) ELTA計畫"},{"subject":"數學","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"數學(陳佳君)"},{"subject":"自然","teachers":["李致德"],"groups":null,"notes":[],"raw":"六甲自然(李致德)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"彈性(國際)","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"三甲彈性(國際)(陳怡伶) ELTA計畫"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"彈性(資訊)","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"五甲彈性(資訊)(黃詠裕)"},{"subject":"自然","teachers":["李致德"],"groups":null,"notes":[],"raw":"六甲自然(李致德)"}],[{"subject":"彈性(國際)","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"一甲彈性(國際)(陳怡伶) ELTA計畫"},{"subject":"生活","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"二甲生活(廖恒慈)"},{"subject":"數學","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"數學(劉佳雯)"},{"subject":"自然","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"四甲自然(黃詠裕)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"數學","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"數學(黃羽瑄)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"彈性(國際)","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"二甲彈性(國際)(陳怡伶) ELTA計畫"},{"subject":"綜合","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"綜合(劉佳雯)"},{"subject":"自然","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"四甲自然(黃詠裕)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"五甲社會(廖恒慈)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[null,null,{"subject":"健康","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"健康(劉佳雯)"},{"subject":"社會","teachers":["林家玉"],"groups":null,"notes":[],"raw":"社會(林家玉)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"五甲社會(廖恒慈)"},{"subject":"彈性(國際)","teachers":["陳怡璇"],"groups":null,"notes":["ELTA計畫"],"raw":"六甲彈性(國際)(陳怡璇) ELTA計畫"}],[null,null,{"subject":"自然","teachers":["林繼于"],"groups":null,"notes":[],"raw":"三甲自然(林繼于)"},{"subject":"數學","teachers":["林家玉"],"groups":null,"notes":[],"raw":"數學(林家玉)"},{"subject":"彈性(國際)","teachers":["陳怡璇"],"groups":null,"notes":["ELTA計畫"],"raw":"五甲彈性(國際)(陳怡璇) ELTA計畫"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"六甲社會(廖恒慈)"}],[null,null,{"subject":"自然","teachers":["林繼于"],"groups":null,"notes":[],"raw":"三甲自然(林繼于)"},{"subject":"綜合","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"四甲綜合(陳怡璇)"},{"subject":"彈性(特色)","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"彈性(特色)(陳佳君)"},{"subject":"彈性(資訊)","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"六甲彈性(資訊)(黃詠裕)"}]],"2":[[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"數學","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"數學(郭玉雪)"},{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":[],"raw":"五甲音樂(許聖欣)"},{"subject":"英語","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"六甲英語(陳怡璇)"}],[{"subject":"數學","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"數學(簡玉惠)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":[],"raw":"三甲音樂(許聖欣)"},{"subject":"自然","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"四甲自然(黃詠裕)"},{"subject":"數學","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"數學(陳佳君)"},{"subject":"英語","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"六甲英語(陳怡璇)"}],[{"subject":"本土語","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"一甲本土語(黃詠裕)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"社會","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"三甲社會(陳怡璇)"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":[],"raw":"四甲音樂(許聖欣)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"數學","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"數學(黃羽瑄)"}],[{"subject":"生活","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"生活(簡玉惠)"},{"subject":"彈性(特色)","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"彈性(特色)(郭玉雪)"},{"subject":"數學","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"數學(劉佳雯)"},{"subject":"健康","teachers":["林家玉"],"groups":null,"notes":[],"raw":"健康(林家玉)"},{"subject":"彈性(愛閱)","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"彈性(愛閱)(陳佳君)"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":[],"raw":"六甲音樂(許聖欣)"}],[{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":["低年級合班"],"raw":"一甲音樂(許聖欣)｜低年級合班"},{"subject":"音樂","teachers":["許聖欣"],"groups":null,"notes":["低年級合班"],"raw":"二甲音樂(許聖欣)｜低年級合班"},{"subject":"中年級體育","teachers":["廖恒慈","詹可德"],"groups":null,"notes":["協同教學"],"raw":"三甲中年級體育｜(詹可德+廖恒慈協同)"},{"subject":"中年級體育","teachers":["廖恒慈","詹可德"],"groups":null,"notes":["協同教學"],"raw":"四甲中年級體育｜(詹可德+廖恒慈協同)"},{"subject":"彈性(心木)","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"彈性(心木)(陳佳君)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[{"subject":"彈性(特色)","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"彈性(特色)(簡玉惠)"},{"subject":"健康","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"健康(郭玉雪)"},{"subject":"綜合","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"綜合(劉佳雯)"},{"subject":"綜合","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"四甲綜合(陳怡璇)"},{"subject":"高年級體育","teachers":["黃詠裕","詹可德"],"groups":null,"notes":["協同教學"],"raw":"五甲高年級體育｜(詹可德+黃詠裕協同)"},{"subject":"高年級體育","teachers":["黃詠裕","詹可德"],"groups":null,"notes":["協同教學"],"raw":"六甲高年級體育｜(詹可德+黃詠裕協同)"}],[{"subject":"低年級體育","teachers":["詹可德"],"groups":null,"notes":[],"raw":"一甲低年級體育(詹可德)"},{"subject":"低年級體育","teachers":["詹可德"],"groups":null,"notes":[],"raw":"二甲低年級體育(詹可德)"},{"subject":"自然","teachers":["林繼于"],"groups":null,"notes":[],"raw":"三甲自然(林繼于)"},{"subject":"本土語","teachers":["李致德"],"groups":null,"notes":[],"raw":"四甲本土語(李致德)"},{"subject":"英語","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"五甲英語(陳怡璇)"},{"subject":"彈性(特色)","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"彈性(特色)(黃羽瑄)"}]],"3":[[{"subject":"彈性(議題)","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"彈性(議題)(簡玉惠)"},{"subject":"彈性(議題)","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"彈性(議題)(郭玉雪)"},{"subject":"彈性(議題)","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"彈性(議題)(劉佳雯)"},{"subject":"彈性(議題)","teachers":["林家玉"],"groups":null,"notes":[],"raw":"彈性(議題)(林家玉)"},{"subject":"彈性(議題)","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"彈性(議題)(陳佳君)"},{"subject":"彈性(議題)","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"彈性(議題)(黃羽瑄)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"生活","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"二甲生活(廖恒慈)"},{"subject":"社會","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"三甲社會(陳怡璇)"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"高年級體育","teachers":["林繼于","詹可德"],"groups":null,"notes":["協同教學"],"raw":"五甲高年級體育｜(詹可德+林繼于協同)"},{"subject":"高年級體育","teachers":["林繼于","詹可德"],"groups":null,"notes":["協同教學"],"raw":"六甲高年級體育｜(詹可德+林繼于協同)"}],[{"subject":"數學","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"數學(簡玉惠)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"中年級體育","teachers":["廖恒慈","詹可德"],"groups":null,"notes":["協同教學"],"raw":"三甲中年級體育｜(詹可德+廖恒慈協同)"},{"subject":"中年級體育","teachers":["廖恒慈","詹可德"],"groups":null,"notes":["協同教學"],"raw":"四甲中年級體育｜(詹可德+廖恒慈協同)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[{"subject":"低年級體育","teachers":["詹可德"],"groups":null,"notes":[],"raw":"一甲低年級體育(詹可德)"},{"subject":"低年級體育","teachers":["詹可德"],"groups":null,"notes":[],"raw":"二甲低年級體育(詹可德)"},{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"數學","teachers":["林家玉"],"groups":null,"notes":[],"raw":"數學(林家玉)"},{"subject":"英語","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"五甲英語(陳怡璇)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"六甲社會(廖恒慈)"}],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null]],"4":[[{"subject":"數學","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"數學(簡玉惠)"},{"subject":"數學","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"數學(郭玉雪)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"三甲視覺藝術(吳韻如)"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"數學","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"數學(陳佳君)"},{"subject":"自然","teachers":["李致德"],"groups":null,"notes":[],"raw":"六甲自然(李致德)"}],[{"subject":"生活","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"生活(簡玉惠)"},{"subject":"生活","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"二甲生活(廖恒慈)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"三甲視覺藝術(吳韻如)"},{"subject":"社會","teachers":["林家玉"],"groups":null,"notes":[],"raw":"社會(林家玉)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"本土語","teachers":["李致德"],"groups":null,"notes":[],"raw":"六甲本土語(李致德)"}],[{"subject":"健康","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"健康(廖恒慈)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"數學","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"數學(劉佳雯)"},{"subject":"英語","teachers":["陳怡伶"],"groups":null,"notes":[],"raw":"四甲英語(陳怡伶)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"五甲視覺藝術(吳韻如)"},{"subject":"數學","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"數學(黃羽瑄)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"本土語","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"二甲本土語(黃詠裕)"},{"subject":"英語","teachers":["陳怡伶"],"groups":null,"notes":["ELTA計畫"],"raw":"三甲英語(陳怡伶) ELTA計畫"},{"subject":"數學","teachers":["林家玉"],"groups":null,"notes":[],"raw":"數學(林家玉)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"五甲視覺藝術(吳韻如)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[null,null,{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"四甲視覺藝術(吳韻如)"},{"subject":"自然","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"五甲自然(廖恒慈)"},{"subject":"綜合","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"綜合(黃羽瑄)"}],[null,null,{"subject":"彈性(資訊)","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"三甲彈性(資訊)(黃詠裕)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"四甲視覺藝術(吳韻如)"},{"subject":"自然","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"五甲自然(廖恒慈)"},{"subject":"綜合","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"綜合(黃羽瑄)"}],[null,null,{"subject":"彈性(特色)","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"彈性(特色)(劉佳雯)"},{"subject":"彈性(特色)","teachers":["林家玉"],"groups":null,"notes":[],"raw":"彈性(特色)(林家玉)"},{"subject":"綜合","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"綜合(陳佳君)"},{"subject":"彈性(心木)","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"彈性(心木)(黃羽瑄)"}]],"5":[[{"subject":"生活","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"生活(簡玉惠)"},{"subject":"數學","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"數學(郭玉雪)"},{"subject":"國語","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"國語(劉佳雯)"},{"subject":"國語","teachers":["林家玉"],"groups":null,"notes":[],"raw":"國語(林家玉)"},{"subject":"數學","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"數學(陳佳君)"},{"subject":"數學","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"數學(黃羽瑄)"}],[{"subject":"國語","teachers":["簡玉惠"],"groups":null,"notes":[],"raw":"國語(簡玉惠)"},{"subject":"國語","teachers":["郭玉雪"],"groups":null,"notes":[],"raw":"國語(郭玉雪)"},{"subject":"數學","teachers":["劉佳雯"],"groups":null,"notes":[],"raw":"數學(劉佳雯)"},{"subject":"彈性(資訊)","teachers":["黃詠裕"],"groups":null,"notes":[],"raw":"四甲彈性(資訊)(黃詠裕)"},{"subject":"本土語","teachers":["李致德","陳怡璇"],"groups":[{"subject":"本土語","teachers":["李致德"],"raw":"五甲本土語(李致德)"},{"subject":"客家語海陸腔","teachers":["陳怡璇"],"raw":"客家語海陸腔(陳怡璇)"}],"notes":[],"raw":"五甲本土語(李致德)／客家語海陸腔(陳怡璇)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"六甲社會(廖恒慈)"}],[{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":["低年級合班"],"raw":"一甲視覺藝術(吳韻如)｜低年級合班"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":["低年級合班"],"raw":"視覺藝術(吳韻如)｜低年級合班"},{"subject":"本土語","teachers":["黃詠裕","陳怡璇"],"groups":[{"subject":"本土語","teachers":["黃詠裕"],"raw":"三甲本土語(黃詠裕)"},{"subject":"卡群布農語","teachers":["陳怡璇"],"raw":"卡群布農語(陳怡璇)"}],"notes":[],"raw":"三甲本土語(黃詠裕)／卡群布農語(陳怡璇)"},{"subject":"數學","teachers":["林家玉"],"groups":null,"notes":[],"raw":"數學(林家玉)"},{"subject":"社會","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"社會(廖恒慈)"},{"subject":"國語","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"國語(黃羽瑄)"}],[{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":["低年級合班"],"raw":"一甲視覺藝術(吳韻如)｜低年級合班"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":["低年級合班"],"raw":"視覺藝術(吳韻如)｜低年級合班"},{"subject":"社會","teachers":["陳怡璇"],"groups":null,"notes":[],"raw":"三甲社會(陳怡璇)"},{"subject":"社會","teachers":["林家玉"],"groups":null,"notes":[],"raw":"社會(林家玉)"},{"subject":"國語","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"國語(陳佳君)"},{"subject":"健康","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"六甲健康(廖恒慈)"}],[null,null,null,null,{"subject":"自然","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"自然(廖恒慈)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"六甲視覺藝術(吳韻如)"}],[null,null,null,null,{"subject":"健康","teachers":["廖恒慈"],"groups":null,"notes":[],"raw":"健康(廖恒慈)"},{"subject":"視覺藝術","teachers":["吳韻如"],"groups":null,"notes":[],"raw":"六甲視覺藝術(吳韻如)"}],[null,null,null,null,{"subject":"綜合","teachers":["陳佳君"],"groups":null,"notes":[],"raw":"綜合(陳佳君)"},{"subject":"彈性(愛閱)","teachers":["黃羽瑄"],"groups":null,"notes":[],"raw":"彈性(愛閱)(黃羽瑄)"}]]},"roster":["簡玉惠","郭玉雪","劉佳雯","林家玉","陳佳君","黃羽瑄","陳怡伶","陳怡璇","黃詠裕","李致德","廖恒慈","林繼于","許聖欣","詹可德","吳韻如"],"version":"A3 橫式彩色滿版　｜　依授課老師分色　｜　2026.09.14 正式版　｜　巡堂版 2026.10.19","title":"115學年度第1學期"}</script>
 <script>
 "use strict";
 const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALAAAACwCAMAAACYaRRsAAAA2FBMVEVLayOXmmPg26iippPasktcaU9omSUpThmsjDYiIxTvzWW62oVaEgn/+9TR0srarTqHdk7/+9R1kVb++tPEuqI8V0Oqx3WScSZ+lIK+x8HwwTw9O0C/v8D19fP/85n9+tNjmCJelSD/+9RwWiW+4XwxZSIVNBrA4n14YyvD5IQwWBnp6+bS2M/vxlSvuK0sRy746q4zZBsxWCbz1W91hnZxWByGaSe83XqLlorq6NRZiSJdkh4QKhRSZ1AaOSJYiB1qeWvb5NiVdiy4xLfy2or++tMIBAL/+9PflG6yAAAASHRSTlP///7/////////////XP///yr/rf////////////8A/f//BP/////////////////+//////////////////////////7L/5GuZ6SeAAActklEQVR42tVdC1viyrLtJAQEtoiMj5lzL1sQjSGJCcSAEAkPQf3//+hWdSfp7jwcUMczt7+9fQ0ki5VVq6orjyb/fnZcw2A/nB4fv729vLxcpQN+eXs7Pj69ll/5mUG+BCxgfftx9c748Raj/jRo8im09Nvx28vVXuPl7fhaeOM3A6Y7BWb3BJuCZkx/HDL5OLn7U1tE9EdpJh8l9/RjaBPMpx+lmXwI7vXxj6tPjh+M5j8OmMJ9KwExH41G6k4cKvxlXob57SOQycFwT9/KwO4ehHEfjwaMh4fdaFQI+fRgyORL4AKvDGaD4cOfErSNBgP+AHR/AeQDAJeIQR3tErT395VKRTmi45l+VSoVBjwGXYCZCuMPAAYaro8z++oitzFWRHr5PDUHk8lAGKY5fQbsFQb8/h7VkYUM4bc/yWR/ejM5ootwGbf3laPn5+n0EhFO6Ii/0R9hEMQNsEt4fjnen2SyL72nP7JwGbmNCqCdwrik6MyB3lb4aLfblPQJ/SjTWCJ5yD9O9yWZ7EtvzhR2FK0CYE0K6RnwaarqtGy7mwx7Pp876pkGyFEqwDMQXcFYzPnGviSTj9CLgUbhPgNQk8D/beWsxXEWjLmqKW0TpQHiYIGYgbwnyeQj9KIYGpWjKVWqqShn6ry7x2ipimIiz+azUmGQDyeZ/B5v1stUFcPsmRATXUDZD2yiEVVrmzimCPkho2VwuOvPAgY5vGThgt0eAVOTQVtxW91DB4ijjSxPUcwZk3s5/S1i8ju8x7lYa1QuIc5AC5rT/diYa3oMuYGGMZdkcf0JwNdZvEBvA9klyO5H4VI5A8sDpmVQcgbx9UcBwxtl+Y4woz2jQbW1VvdzY661If6oYzxIkN/eDz2yf7iBN4B4p9PJpH1mdz8/5qjlKUr5Xkb8buiR9/BK4TbaUSczQbut7tcMR6OphJEshN57iMneeGmeAGtQ1L2w7KdwVTEZyY19EZM98aIcppgmtP3I0/U9jRl8OSZ5P8RkD7xdar5gDkDvntbg1sm+ulEVrDEUQKzug5jsg/dKRTMDOWj7JjSdkPXewaegwx1BSbRTf4+YlLQdJLwQblDrTnR1Xwxbv1r13b2D78xExLIsXkoaF6Q4X/wQ9bCj4TZo720OQHCvR/T9vQ9jb5AR8o/iDFIIWMgXUKfvIFmgme2/f60W9gCxe4gnYw1XaYiI3/7dE7CYj7vUfqfA79kBJVlEev3DKIYPicWFzHFhXUH2wjvRD8Dbda1erw+ILe2QLAJChmIVIm/+LmKSF/Apxzsf0Xg7INxwAMEUMYk2h7xNxRIOVLHj7naalzF5xyAAL6aLweAwvC5VMA5yEMUU8RQqzt17VkHeCTjKLzEn7YMKSVsf9xLAkf0BxPcN9Z3AI6UCxnk86LdYDy13D4IPVTEiRq94N/BIqYCvRqMG1UOR/Qa6854HpxQT57OIszLOABYyBggYi3WzSL/OWp+VWkTY54it2YEV55mJWVpA/OPfdwCLggAB3x8NSvxX6yglJht78B4qLuljaANaCXFzy4iClAgCA06ZlJU7a2WoayVJjlrw71W8KTtGCpSbOAkpEQUpEQQNuAlRCpsOv/SLoVLIHSVYBFyqYi1a2yXFG0XcKBEFKZnSo4Bh8lZc7wT68KYZFXHn+mG/LyDul3mxvVY6JU6jtmnglYiCFNeUIAgQsFmM14mU4eNQKWJIR4JFxL1VMcVupCplagEZDxSBYil9kBKCGwqk9pItavoQRrPA78CD+/H4jVHoyvAiKlGLDRU9ZDzuFCLFRCBYmMLtwNEGSgkDEHIqIFaUIg9maAXIhSp2yePNsNQa5zD/f4aiIkUsUEyKIg6mRMpUKtj/tyUqookEDy9y0zaXpAQLHFtB4Wd+vFOi1jv5A0Uxz8cdyVsa5OTGydQUHdjWI0ERZEglMewEBQqOTUIAHOYpbkUXw8ebpi6FnTOTZIxxN8pbGymyNHAIkL0QU798L922TZQhG1kRbmsrgVmuYpLTzqyjPt7cZESl1VvixBSnpbs8xSTtqgqCuD8ipuRoASEBJ7gZA86KMLJ6kkGUGgXazA0AvpAqEr0m4Hd0rNt43KV9WFJI8HQgNUwcb9VPd7ruDO9iwHJ+3nqhAHjV5xnEWudsBvDe3A3JTCxCpPDUmBnnsgdJ+hBij+doMmiLKS6weOg4IL8EsCplhbUlpuQF/PaUqNhrFRB8dyOly/VYSjIOpA8x3yV9CpIr20c4yZBqNIdAxbjynbjuGd7FgO+kHTqeUFdar6+vtTDleBxkCG7ewbi5e+Qza4eE8rRVk/PdmwhY9GAkOGPBmo97jhMAOH4CGJxCmMozgtGDe2H99Z9//nk10roi9B3RcoDgO4p4qKSfZEbwZa7UEJoeiRQzoyBykutCxGUJ7q7pjleUzV8QcingG8HZWl4YA+4RA/EC4kXKuahilzTvYsB3qdFgznnqjSO5NAaK1bmc7ogcct2r3T3mODGYWv6KehStFIMO1QJVBADnzhaQKgX81CN1hveff+p1q8osLvQ4BXoHFHzHxmNSpbbICiNVFDtk6OkJN4ofHLDoaXRaJBMMIffUp7N2uzuHw9nkgJups4EEKbZq1arX/0lG/bUexlN+fiiiZhMjDkGDJuK2rGLRD2spcqdCNArmbCQTcrucgh2y6j/RXAsqdqkJJ0F304QdOukOKeDaK8eLiFEWKKg0jyuxRdAvSdjBTnoJKZzi9kD04jcOmNeVBQTPLIr36akPW4NKmB1LyvANII5m8Q6rGG4ZvJRjwqAoSUa4oGDjMewobCc0m/dDS8zWZwPzkqv45ToGLNaVKnqwpGA2hwDAq6eVr6UBjiFHd8iSh0aTXBXsoZ7qlwuZpbtWYosx1scblu1acZkHlPR747VUtWG620lhR6QsN8d5hnkmz4JZ7fW0Wj2ROgY4jRgGGL43I5c5dT+xM0bsK6eaIWYqdnQFtvD4mDB8Ryuglh/2nihgKeygBpoIzvYjASwpwpT7wAnB8PmfnkKD0ZNIglLdWSPB4RPsrJ7QCnj/p55CrtdrKyzacLszHcuem0dBExqTHQXcl2etqokq3l0JmiCiR4x2eGZAk+cQTFyIuEf8iwQws1GMcyiLbUL6CNiymISB3vXc/YchBhETaxVTDEnjDukVAIMz0vdTvHCUMmEnUow+QQSPwNbJ1JRnPmtW4jLAY8Lx3qRU65pGZ0ZPmDOAY6R2NtfUjU4Rv9aq1SqrKH7BXPmRDSHsyEyrVXndT+SwGwj5+Y0B5opQG0dQ6UuVNgl7yZaq4JIJ4ESB1NkIVBFP8d5AFa+vurpRSK9pa4j9tZbUx9Yas/KjABm/w8QjkR2lmATyZEkIO9QEEQo1tXH/bMohN7OETa3IRZxTBcCwV1LrMacG5wObqOtztbcKV1Wli4hf/aSiD0lALm5ygOH9AsFplRW79mAgaALAEsHUUBFTqa60Cf/sqIjm3Z0EmNkTf1EIGp458ybgDVerUNlsNWrESY+izglOAT8OdYEVXmUlPjG45I2rYwr4jXvE0VRWhMaSBttd30pMWAT8OFRqQtVTn3WvFLRdcMH+qqN23TqvgQgBPmOw6fc74QP3c9nO0Wm24yImXMIqzO1NKculnsbKAdhdHvDdoz+OAZPFa13rqh20BLTtp+pTr9ltQexZLOxIZ/iYAwwfOBQB93tikQkVkOATIGLCJUw9Qmqmqcm0neKxOinBdxLBIZtyjuuv4DDNHsX2RH0VflCu7DUW82AVIbkYynLA703CTokIFCty7gBNcBET7sLqw4kp1z1KcqwQUCgoQkCM+0NgIN9XfX6lVFccL76xqqjdWf3VAMRjfTiUTQ0VrGBWkQCvJE2YEyF3nALg4/TyGCzUzuSpUT8u1LDMpaW7NG5wf1ZIT8rVUb6qkvYCU4p7TBYLgp/4sXkjxWuzqXYsPCZpN4NSLGkCAScnzo8B8FvaYIXSXTr/ovFOGR5xQREJy81HJPipT/G6XXQzTFkp4DjYlCtADHYHeDOAH5uPVBEZwOK1C8rEPEk18QY+/CLO7kVTw9NBT2nTaYX8ZPE2KcGgFpCvA/Jd9fopTHZcWJGsbFAWntKEcSN5ItuANEB9wvwEyvjJEdSYSdQRIeYyEna9UOrpqXcyw4AX+Bkz+a5tkC+rmzOAMQar4G8qVBUKiLipioCbsIFs80UOO9Wc4GmaJOoIr3wejuQGa0ATbrKVMRAMh1AA26QEr2L5bhSYI4mA6QQv+bkKQnZAFp0mIBZC9g5Dri9DzljxvD0RGvKn5FiQsHTKKO6dpu2mxyEeTAnwDSYpdF+QbydMijoOuMd/rlbB3yDtQeTCpxaKS4srmAOWJh7KwKykIj4WAFemE3Oeb07HiqgOhxk5IME1YlH3Vau9oiGC74G/aSjkYSO1tSGL2XxHTmzR0nKisksAvwkxNxElrI/F7j9R6LReNGEA3Kmh+9rdi17v94B7VRVlsVBUILkZhxxmnQLARKiAoJw4qiSA3wTAJxLglrcSAK+si2E67tist9m88Ggyniu9svEk/9rs2ms4IheJHw+JVfLGGo8mldbEDwngFz79nIoxxwtL5hHDpBdBGb5j/NRp8dBb9fYd4G9MFhgBN3GW6xX5BG+zOXSeFJ8xf0kAY54Ta2GbF9W4AStuYt/wGQfkKOa+1ZW8u3iCwX5+yogb/K3lgSzQ35KQKwDcF3rKLVqwxTaRAqZ5bqqKJ9yYk9K50SppYqcTI5zuvr627auLarW3/4DXXlyhv+nobxeE9bcyWsff+2NN7qekgMXE/MyVrljsbNAT4MU+aFOlHR/Wh6bnC0ha+4qAFDUzhrkPxNIennhQrF7yj1jvC8cF5i5cE5KvEcHVhMTseCS2VZjYwGTY84ly0Yx7J7T57lH5KjkGNTcdWxzNTu4IKLSsrytqQnB/NbZqtZpFVgnBMMPiZ1UA8Ekh4AkHrNVXKybg0KpZ/u3treX7OkesxLVv/pgHmqbNxNFBVfeyboH+plusgdgfA1jYvmVZJKmbViG3Yg1P0BQC5tU7bCukIl5ZNYQLw/dr5DFWhLIA971SwjxebSOMOd7HoYXVvMyVK3SLepVKgtQs2P4Y94GI4aCuViQk6RkbNOIiwOYkbaq1PPjIY1BFOK4xuLdj+PyA+O7uUWnONV2D4qHXO1IURQJD9IRYLWG6U80CrirKEaa9SGteKIj3lg+oTVbEQsat+lbMHDnADQGwFuHhQVGRhF/YFBy1mtLskFu9s7WheIgtrCoHFAxHGvDBsgTju6rz7lbTtqpStaxkF+Mx7CW0YoHUApvPkioVNcfwIAa8CXx6eEADtUQQdFMAmBC2dQ1iCQ6cGNrMZmcKsqooAd6JRBmGeZYEGKanK3Q3J4BN+p2t5o/HHPAtBp9v0b/4AUrURsDPecCNyoRl5o3uc0aN+NOP2e+eUcMtwjEkYQ9bD9mcoaE1qOqWD7WlZZMCdd1mB2n0LV9n8k2+1gwf8SJ0QPwe4JMYcKfG3ks3V8P3xgSgTCxKAWxrDBMFNJ+VfKi1giGrHIvkFZoPjQvYh59ATWKb8sv+5P+0GeCjcsAObMH3GcM4xmMR8HjMCAbc41iLkoS3rW12uG7WrDEhWQwwIL6tERHw7Zjv8fYWzDgL+IUDphMkrUZx+ugKJKxxwBTvqh/GMY16HhMiahgmQnK8tVRQRMvRpBetCLyLhcLYYtskKVT4QsDTUsRekAJ+yNQSDyfsZEwQA4YDUwMmyK0AeIzFa6yYW4zlcWz1CcGz7KDOpnSE8+T0mBEriRP4GYxsPKa7GY/BSzFEGWL44uP1phTwSSMDuBED1q0x5hzAu0rTJgtawq6gC+NPUBv3e9UQNs35U7t2fgBF2/TqUfahQcEJYPZ5wxoeSB/8gtBirx8jvrUwe1AfTgG/Ja3WExM1bOsWZ5Pl1HCMgDmVIQOMf6iueiFrr7PWGcZYkBuzdfxeSGnMVmLA4/GK7aXaR8Q+pKrE2cMxYxirTG1iAuAHecaBgOnpoxgw5Ze9tz+28M39ai82VCZAi1Rpb743TmYNilswWNhVseINayRkJwYShtODU0WAVi2tQVEVIHGQhIOtFGR4FwM+TgFPTQSswassP+YzbjrC5seEWwKhIQ6VS9LQjV+sOSVj45IVvm7cY3gBsIWiJcIFbqgJMTjhE/gABa81EwGns2ZIHM+0dekwAxZjKQSfw40liEOkHJusSWfJiuuIrBbW6SArmAWgdcetunHNx3gTqxBgVATcH6O7+hptTJgnJydqDPg0YbjyTGh5GSDF7wHu91ETVtjjfXf6apWGWBfDLBd4zRD7y7xJCTUKwBmLl5XeSr8ywL4OJjHXBwh4FDdSrpNeawJ4SzNabVVNBlCDlEMBUMX/IB9DPNfGUH+yRmxIAVc7ju1ANTm3WxxoC80Yhr3FyzdYHxg5DqHCATjjFS/8EbAkCYwkfwse4wwG05OTyihuVcXNQLyugzzjnM4OiK7rpNPpxDdTdzrwu57+3ulUSRT5JB0+8Tz4pnMBFGmCsFfBy+nw6h4MthW0fcJ/JenL2OWdZxTwfdIMTNqtOM1nk9A5K77pmbt42FiJs/MM8D2tH5E8detu4auqAsHOpmTAa/Pu8avV2rrvjG3LsdllXIPnxIbfeENbvQebOORujW8bCs0bD2lD+5R3fkzlLwUMMbdLTxmkUXfyPGj/hXjtNppEEnP/8tNe9MqD1t8HGDtVAFhNTntd86h7ngz+QhHTK39ik3gTT93Si1G0vw+wJsXcNT85nhaYf13MYa2mpifH08sPVOxot+2/DS9egJDEHL38gF/g8QAi1v+6qFPx+kAuYfESGnom9K8TsWby6p1dQpNqYnSfPdd86HA196slZSvmtFLhihAvA4PUMR1MyzWx/d09+Y6+rAcb1Sm8hQYqDRenpEHB7Sb25h0X5opILwPjxvb8jia23tJb5+9wgBKSn4pcGtFW9yJ+vbzrOs7WnQV6pPvecgHDWAbZD/QrOl+XHRraauWmJl/KiE5c7hPO+bK2yN8OPvPOg4QgbbmMNjNjkfYd3frS8+pLY2EYNfp1YdRqRhax6xlLTys1tcr9yUi6lDH1CZjXXQ7M0lv2gkLAAHLp8j2fb+aRkf7B8RaAEUCf+56nr/1I0ZdL49zJ3q+yrC2D0rwsekTmctyHyns+8XO5XOTvbXH8Zdrc33qGv+lq61lKoW4Y+kxzVUfzlsFWrweaZxi5+8QC4F8rS3PPokdkLnjGmnjSLnsMTmCUAd5ywJ4eeTqPocgwgoRrf9uB38oAuyWVWtp8//Fv/pJynNhNBuoHAG+DmfZTPzcMUOrC0CTAGHZagDr1op/FDC9LAKtY+PznPn9JeXLRPg075V3AoivQdrJvLNfa2lgiVAgrkPRSBrz2PPpP8H+0UcsAa2V1xP1/1NxF+2nYQe64nJSE3WYN+9TXuicGdMvtAILFMqqBC9S9OmCCyVhXBAykQtBF/sIINLfbkgE7Gw7YdorqiMo9uxrlLXMfx3VSTxTVmNq6A04KuzIog/wS342+hD8BdbpXW3a2TrAAH3FdCXBnAwljPZstF5oWOY4EeBNFDkzk4dgBYFdfb/MmnLR85BtP0rCjd53kwm62AJhGPIBJvt0Zol3oM9ereUCQi0c9WvD8gpKY+R6+pr7orOsRSGLBAbvLBfaiGGBHX3iByDJ2UDIhl7956uH+Mk+xHVGFAlowgSCYCQ9Um0X1heGCCYD1A4/ewmvqC27XyHAAOPQ6CNn3IAIBMD8pu4Zf5gywi2kGTHAredq08p+HwpunuLNh2zVHsbM+j9aQBIxZLutjbnC7KjDsLdEjlj/PjUUgaXgR/Yrq6wA/L0gCyN7wRINhbEN0UJdYL5ZG6pH0TsscwfkbAPF28YLksbFhc4aR/wdAsNzamIPPPSob4NEXJTFzF4a3qAfuEpIyBN1ikWS6rV+Dj2BzwFCuLI303lg6mUsIzt0AKCSPsttt8fMXAvZ0PaobuqMb9bWHIgfWRB/2lvp6vd2cA3tzFwB7ThxxRs342RUAQ45eLpMztvNCggtuYqXJQ8uXh/Yats/+LvooRBGEIbhFpwtB457jUVUlwF0t0IIo2J6jngMO2K3XDDQJ3HJcfrgeB6zRltpD6U2sPN3dn0wKvBjNp5Zl2N7OdMDraSDQ7UaHA4xK7QhlDYSRroNUDT2iHoNJJJYEJHLsr4uAsUCNa7l5m55hVktvE+Y3Yj+cPE+KZh6B4Rk/nS3k2VkwS0iiIDQ4up4LRzu6msG+IQe4LK5sYNWHbOKt3WDpR+A0ADit1tw4hAXAtjZzxLJn986N2CnFmTsAnc0G5wpB4EM+wqYo1LfGktnPBmmLtpi/oggK9A7mBSPabOKbwEC3hh7oAGIbKQ66ti4AZi8BUUSGka0l8NZmpXL/3q3uPO7wBqr0zP5GPz/HuQJsE7JZnDygCmfuv/U8PIQziKcZ0Ofqizp4xVqLzck5R/j4Stedb5xfa13LAnZ1KDZqOcAKJVh992ECkrXx+0/QzWjSkEdspluXOsVyBrWGPlsvIH3gAYj3j4R72NcGIUfntGcNG5N7CfD6Wg4wvUUmZ2mlD8QYYa84EcUWEysUNpG+hhqSXtIzixixaSL0MPnZG02H1GrrkMjTKtiIizhhLDLVWrDMMYyCKIq40keOgCj45fBQlMzcrSPmOJgCCzt1cQqJv7Onwjngr8v4AMDhAVbPowjPMP2ESbOODGdyEsypFtLNG0wQ9+pvHzkiiuKSnbZjHvyb3oGdne5DqrDjO4IjF0/UbZKX/Do3zrfZ3BNl5qDgEEDwwx4PdZGcwvxwG8jeuvy6viw6N9+E2Gwd+QMPBpdFDvHeg4nwHI1pqt3/wpjTx0uwnPzbBxMJ6QMfwdiefz9eLNIGJ/e7PR/9lMoYMjTeL/z9iDUTcvLJw74P15K8zfwvdDNV04QaorH/48vEKggfTOR+M1727KfRAQ+I44G3O0HE3xp4rTbHu/cj+PhDDh9OLg992NqnDSLFe8BDDqVK0zTb6ncamnlyrx76GEnhQZ2IePBdiFuI9yjBe8iDOrOIv0cVOMcAvLuPPApVRgw6Pvse/UIFsfvYw2ZFxDjvN/+4H6vtPfSw3wOT6WOg/nQGUfX98O71SGqVIv6jWdrF5zGexP77wUdSCw/9ViuX+ESxP3aW1Mb6YXryMPrcQ7+Fx6qP8DaaQfsPhZ6D9dlz5eHTj1UXn0/zcISrQvwRWZyBHAaxfD/54HpxaQAV79Le84nfB7kZysE8YnL4/NIAQuiNcA4y+LpnqsfuwB6VzG4D/orFF8TlLXY4zwMlz7+UXtPkcviK5S3EBURGOG3CFS3sL4KLy0aAO6hfuoBIhmR8mrb5FVKenyn4UOfLygH0fmARHLVxdDn4AshzF70Mit/dn1gER1pmiOrC/Jww8Pn6gHd6xG6c/PplhuSFnBCySVc1+FD44TItAwZ39OcWcpKXylIrKAxcrOdgzChdCleJ4f6ppbIyi5EBy5d0Uam2tj9me64q+kCG+wcXI8tCbijPFLPZ1s7U36cTtjIS00IlXrXgDy/3lltQT6W+TNccayua6sxLwnDupGChyknI/Y4F9XJLFqq7SswzQ61oZ2d4r63Tms/nLUdVz/B2r7ZuMrS46s3oe5csLFgUckdX+BIWeKOjDcOMceJKZOb0SFGSdZu+dVHIomU31ZEKoNm6ZNlBl40BZtMHsX7/spucZmlh09EOuVYUXKvu8vJyijjxLtdKY8efGvtfWtiU05xf31TlK1nij3/N0rEJ5v9Hi/NmQH/T8sf/B0eB/4U29q7QAAAAAElFTkSuQmCC";
@@ -300,6 +338,46 @@ function sameLessonClasses(d,p,ci){
   return CLS.map((_,i) => i).filter(i => { const x = cell(d,p,i); return x && key(x) === key(c); });
 }
 const when = (d,p) => `星期${WD[d-1]} 第${p}節`;
+
+/* ── 日期與時間 ──────────────────────── */
+const pad2 = n => String(n).padStart(2,'0');
+const ymd = dt => `${dt.getFullYear()}-${pad2(dt.getMonth()+1)}-${pad2(dt.getDate())}`;
+const todayStr = () => ymd(new Date());
+function parseYmd(s){
+  const m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(s || '');
+  if (!m) return null;
+  const dt = new Date(+m[1], +m[2]-1, +m[3]);
+  return isNaN(dt) ? null : dt;
+}
+const WD7 = ['日','一','二','三','四','五','六'];
+const weekdayOf = dt => { const w = dt.getDay(); return (w >= 1 && w <= 5) ? w : 0; };   // 0 = 週末
+const rocDate = dt => `${dt.getFullYear()-1911}年${dt.getMonth()+1}月${dt.getDate()}日`;
+const fullDate = dt => `${rocDate(dt)}（星期${WD7[dt.getDay()]}）`;
+const PERIOD_MIN = TIMES.map(t => {
+  const m = /(\d+):(\d+)\D+(\d+):(\d+)/.exec(t);
+  return m ? [ +m[1]*60 + +m[2], +m[3]*60 + +m[4] ] : [0,0];
+});
+/* 現在是第幾節：{p, state:'in'|'before'|'after'|'break'} */
+function periodNow(now){
+  now = now || new Date();
+  const mins = now.getHours()*60 + now.getMinutes();
+  for (let i = 0; i < PERIOD_MIN.length; i++){
+    const [a,b] = PERIOD_MIN[i];
+    if (mins >= a && mins <= b) return {p:i+1, state:'in'};
+  }
+  if (mins < PERIOD_MIN[0][0]) return {p:1, state:'before'};
+  for (let i = 0; i < PERIOD_MIN.length - 1; i++){
+    if (mins > PERIOD_MIN[i][1] && mins < PERIOD_MIN[i+1][0]) return {p:i+2, state:'break', prev:i+1};
+  }
+  return {p:PERIOD_MIN.length, state:'after'};
+}
+const isToday = s => s === todayStr();
+const nowPeriodOf = dateStr => (isToday(dateStr) && weekdayOf(new Date())) ? periodNow() : null;
+/* 記住「我是誰」 */
+const store = {
+  get(k){ try { return localStorage.getItem(k) || ''; } catch(e){ return ''; } },
+  set(k,v){ try { v ? localStorage.setItem(k,v) : localStorage.removeItem(k); } catch(e){} }
+};
 const slotLabel = s => `${when(s.d,s.p)} ${CLS[s.ci].name} ${s.cell.subject}`;
 
 /* 代課候選：該節空堂的老師 */
@@ -396,12 +474,14 @@ function freeCount(d,p){
 function anyClassAt(d,p){ return CLS.some((_,ci) => cell(d,p,ci)); }
 
 /* ── 畫面 ───────────────────────────── */
-const S = {tab:'find', me:'', d:1, p:'', freePick:null, ttMode:'class', ttWho:0};
+const S = {tab:'find', me:'', d:1, p:'', freePick:null, ttMode:'class', ttWho:0, ttDay:1, date:'', pp:''};
+{ const w = weekdayOf(new Date()); if (w){ S.d = w; S.ttDay = w; } }
 const h = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const TABS = [
-  {id:'find',  label:'找代課・調課'},
-  {id:'free',  label:'空堂一覽'},
-  {id:'table', label:'課表'}
+  {id:'patrol', label:'巡堂・觀課'},
+  {id:'find',   label:'找代課・調課'},
+  {id:'free',   label:'空堂一覽'},
+  {id:'table',  label:'課表'}
 ];
 
 function toast(msg){
@@ -419,7 +499,7 @@ function render(){
     `<button role="tab" aria-selected="${S.tab===t.id}" data-tab="${t.id}">${t.label}</button>`).join('');
   const label = (TABS.find(t => t.id === S.tab) || {}).label || '';
   document.getElementById('main').innerHTML = sheetHead(label) +
-    (S.tab === 'find' ? viewFind() : S.tab === 'free' ? viewFree() : viewTable());
+    (S.tab === 'patrol' ? viewPatrol() : S.tab === 'find' ? viewFind() : S.tab === 'free' ? viewFree() : viewTable());
   syncHash();
 }
 
@@ -443,7 +523,7 @@ function viewFind(){
       <div class="step">
         <label><i>2</i>哪一天</label>
         <div class="dayrow">${DAYS.map(d =>
-          `<button data-day="${d}" aria-pressed="${S.d===d}">週${WD[d-1]}</button>`).join('')}</div>
+          `<button data-day="${d}" aria-pressed="${S.d===d}">週${WD[d-1]}${d===weekdayOf(new Date())?'<span class="nt">今天</span>':''}</button>`).join('')}</div>
       </div>
       <div class="step">
         <label for="per"><i>3</i>要調哪一節</label>
@@ -613,6 +693,131 @@ function helpBlock(){
   </div></details>`;
 }
 
+/* ── 分頁：巡堂・觀課 ───────────────── */
+/* 某一天全校 7 節 × 6 班的格子；highlightP 標出節次，me 標出自己的課 */
+function dayGrid(d, highlightP, me){
+  const head = CLS.map(c => `<th>${h(c.name)}<span><br>導師 ${h(c.homeroom)}</span></th>`).join('');
+  const rows = PERIODS.map(p => `${p===5?lunchRow():''}<tr class="${highlightP===p?'nowrow':''}"><th class="p"><b>${p}</b><span class="num">${h(TIMES[p-1])}</span></th>${
+    CLS.map((_,ci) => {
+      const c = cell(d,p,ci);
+      const cls = (highlightP===p ? ' now' : '') + (c && me && c.teachers.includes(me) ? ' me' : '');
+      if (!c) return `<td class="none${cls}"></td>`;
+      return `<td class="${cls.trim()}"><div class="s">${h(c.subject)}</div><div class="t"><b>${h(c.teachers.join('、'))}</b>${c.notes.length?'<br>'+h(c.notes.join('・')):''}</div></td>`;
+    }).join('')}</tr>`).join('');
+  return `<div class="wrap"><table class="tt"><thead><tr><th class="p">節次</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function obsRecord(dt, p, ci, c, observer){
+  const cls = CLS[ci];
+  const co = c.teachers.length > 1 ? `（${c.notes.includes('協同教學')?'協同教學':'合班／分組'}）` : '';
+  return [
+    '觀課紀錄',
+    `日期：${fullDate(dt)}`,
+    `節次：第${p}節　${TIMES[p-1]}`,
+    `班級：${cls.name}（導師 ${cls.homeroom}，${cls.students} 人）`,
+    `科目：${c.subject}${c.groups?'　'+c.groups.map(g => g.subject+'（'+g.teachers.join('、')+'）').join('／'):''}`,
+    `授課教師：${c.teachers.join('、')}${co}`,
+    `觀課人員：${observer || '＿＿＿＿'}`,
+    '觀察重點：',
+    '教學紀錄：',
+    '回饋與建議：'
+  ].join('\n');
+}
+function viewPatrol(){
+  if (!S.date) S.date = todayStr();
+  const dt = parseYmd(S.date);
+  const d = dt ? weekdayOf(dt) : 0;
+  const np = nowPeriodOf(S.date);
+  if (d && np && !S.pp) S.pp = String(np.state === 'after' ? PERIODS.length : np.p);
+  if (d && !S.pp){ const first = PERIODS.find(p => anyClassAt(d,p)); S.pp = String(first || 1); }
+  const p = +S.pp || 0;
+
+  const console_ = `
+  <section class="console">
+    <div class="steps">
+      <div class="step">
+        <label for="pdate"><i>1</i>日期（點選月曆）</label>
+        <div class="datebar"><input type="date" id="pdate" value="${h(S.date)}">
+          <button class="btn" data-pdate="today">今天</button></div>
+        <div class="tiny muted">${dt ? h(fullDate(dt)) : '日期格式不正確'}${d ? '' : (dt ? '　週末無課' : '')}</div>
+      </div>
+      <div class="step">
+        <label><i>2</i>節次</label>
+        <div class="dayrow">${PERIODS.map(q => {
+          const has = d && anyClassAt(d,q);
+          const nt = np && np.state==='in' && np.p===q ? '<span class="nt">現在</span>' : (np && np.state!=='in' && np.state!=='after' && np.p===q ? '<span class="nt">接著</span>' : '');
+          return `<button data-pp="${q}" aria-pressed="${p===q}" ${has?'':'disabled'}>${nt}第${q}節<small class="num">${h(TIMES[q-1])}</small></button>`;
+        }).join('')}</div>
+      </div>
+    </div>
+    ${np ? `<div class="nowline">${np.state==='in'
+        ? `<span class="pill">上課中</span>現在是第 ${np.p} 節（${h(TIMES[np.p-1])}）`
+        : np.state==='before' ? `<span class="pill ok">尚未上課</span>第 1 節 ${h(TIMES[0])} 開始`
+        : np.state==='after' ? `<span class="pill ok">已放學</span>今天的課都結束了`
+        : `<span class="pill ok">下課</span>第 ${np.prev} 節結束，接著第 ${np.p} 節（${h(TIMES[np.p-1])}）`}
+        <span class="tiny muted">依裝置時間判斷，開頁時更新</span></div>` : ''}
+  </section>`;
+
+  if (!dt) return console_ + `<div class="empty">請重新選擇日期。</div>`;
+  if (!d) return console_ + `<div class="empty">${h(fullDate(dt))}是週末，全校沒有課。請選擇週一到週五。</div>`;
+  if (!anyClassAt(d,p)) return console_ + `<div class="empty">星期${WD[d-1]}第 ${p} 節全校沒有課。</div>` + patrolDay(d, dt, p);
+
+  const teaching = {};   // 老師 → 班級
+  CLS.forEach((_,ci) => { const c = cell(d,p,ci); if (c) c.teachers.forEach(t => (teaching[t] = teaching[t] || []).push(ci)); });
+  const busyT = Object.keys(teaching).sort((a,b) => a.localeCompare(b,'zh-Hant'));
+  const freeT = teacherList.filter(t => !teaching[t]);
+  const allText = [`巡堂紀錄　${fullDate(dt)}　第${p}節 ${TIMES[p-1]}`,
+    ...CLS.map((c,ci) => { const x = cell(d,p,ci); return `${c.name}：${x ? x.subject+'（'+x.teachers.join('、')+'）' : '無課'}`; })].join('\n');
+
+  const rows = CLS.map((c,ci) => {
+    const x = cell(d,p,ci);
+    const mine = x && S.me && x.teachers.includes(S.me);
+    if (!x) return `<tr><td class="cls"><b>${h(c.name)}</b><span>導師 ${h(c.homeroom)}・${c.students} 人</span></td><td class="none" colspan="3">無課</td></tr>`;
+    const same = sameLessonClasses(d,p,ci).filter(i => i !== ci).map(i => CLS[i].name);
+    const flags = [];
+    if (x.notes.includes('協同教學')) flags.push('<span class="flag co">協同教學</span>');
+    if (x.notes.includes('低年級合班')) flags.push('<span class="flag co">低年級合班</span>');
+    if (x.groups) flags.push(`<span class="flag gp">分組：${x.groups.map(g => h(g.subject)+'（'+h(g.teachers.join('、'))+'）').join('／')}</span>`);
+    if (same.length) flags.push(`<span class="flag ok">與${h(same.join('、'))}同一堂</span>`);
+    x.notes.filter(n => n!=='協同教學' && n!=='低年級合班').forEach(n => flags.push(`<span class="flag">${h(n)}</span>`));
+    return `<tr class="${mine?'me':''}">
+      <td class="cls"><b>${h(c.name)}</b><span>導師 ${h(c.homeroom)}・${c.students} 人</span></td>
+      <td><div class="s">${h(x.subject)}</div>${flags.length?`<div>${flags.join(' ')}</div>`:''}</td>
+      <td><div class="t"><b>${h(x.teachers.join('、'))}</b></div>${x.teachers.map(t => t===c.homeroom?'<span class="tiny muted">本班導師</span>':'').join('')}</td>
+      <td><button class="btn sm" data-copy="${h(obsRecord(dt,p,ci,x,S.me))}">複製觀課紀錄</button></td>
+    </tr>`;
+  }).join('');
+
+  const main = `
+  <section class="plan">
+    <header><span class="n">${h(WD[d-1])}</span><h2>${h(fullDate(dt))}　第${p}節</h2><span class="count num">${h(TIMES[p-1])}</span></header>
+    <div class="body">
+      <p class="hint">這一節各班正在上的課與授課老師。按「複製觀課紀錄」會產生含日期、節次、班級、科目、授課教師的紀錄表抬頭，貼到觀課紀錄表或 LINE 即可。${S.me?'':'在「找代課」頁選了「我是」後，觀課人員會自動帶入。'}</p>
+      <div class="wrap"><table class="obs">
+        <thead><tr><th>班級</th><th>上課內容</th><th>授課老師</th><th></th></tr></thead>
+        <tbody>${rows}</tbody></table></div>
+      <div class="toolbar" style="margin:14px 0 0">
+        <button class="btn solid" data-copy="${h(allText)}">複製整節巡堂摘要</button>
+        <button class="btn" onclick="window.print()">列印</button>
+      </div>
+      <div class="split" style="margin-top:16px">
+        <div><h3>上課中的老師（${busyT.length}）</h3>
+          <div class="names">${busyT.map(t => `<span class="tag">${h(t)}<span class="muted">　${h(gradeLabel(teaching[t]))}</span></span>`).join('')}</div></div>
+        <div><h3>這一節沒課的老師（${freeT.length}）</h3>
+          <div class="names">${freeT.length ? freeT.map(t => `<span class="tag free">${h(t)}</span>`).join('') : '<span class="muted small">全校老師都在上課</span>'}</div></div>
+      </div>
+    </div>
+  </section>`;
+  return console_ + main + patrolDay(d, dt, p);
+}
+function patrolDay(d, dt, p){
+  return `<section class="plan">
+    <header><span class="n">日</span><h2>${h(fullDate(dt))}　全天課程</h2><span class="count">7 節 × ${CLS.length} 班</span></header>
+    <div class="body">
+      <p class="hint">安排一整天巡堂時可以先看這張表；紅框是上面選的節次${S.me?'，綠底是你自己的課':''}。</p>
+      ${dayGrid(d, p, S.me)}
+    </div></section>`;
+}
+
 /* ── 分頁二：空堂一覽 ───────────────── */
 function viewFree(){
   const pick = S.freePick;
@@ -625,8 +830,10 @@ function viewFree(){
         const n = freeCount(d,p);
         const lvl = n === 0 ? 0 : n <= 3 ? 1 : 2;
         const on = pick && pick.d===d && pick.p===p;
+        const np = nowPeriodOf(todayStr());
+        const isNow = np && np.state==='in' && d===weekdayOf(new Date()) && np.p===p;
         return `<td><button class="cellbtn" data-lvl="${lvl}" data-free="${d}-${p}" aria-pressed="${!!on}">
-          <b class="num">${n}</b><span>位有空</span></button></td>`;
+          ${isNow?'<span class="nt">現在</span>':''}<b class="num">${n}</b><span>位有空</span></button></td>`;
       }).join('')}</tr>`).join('')}
     </tbody></table></div>`;
 
@@ -643,6 +850,7 @@ function viewFree(){
           const x = cell(pick.d,pick.p,ci);
           return `<span class="tag">${h(c.name)}　${x ? h(x.subject)+'<span class="muted">（'+h(x.teachers.join('、'))+'）</span>' : '<span class="muted">無課</span>'}</span>`;
         }).join('')}</div>
+        <div class="toolbar" style="margin:14px 0 0"><button class="btn" data-go-patrol="${pick.d}-${pick.p}">到巡堂頁看這一節</button></div>
       </div></section>`;
   }
   return `<p class="hint" style="margin-bottom:12px">數字是該節沒有課的老師人數。綠色代表人手充足，橘色代表只剩少數人，紅色代表全校都在上課。</p>${grid}${detail}`;
@@ -651,19 +859,26 @@ function viewFree(){
 /* ── 分頁三：課表 ───────────────────── */
 function viewTable(){
   const isClass = S.ttMode === 'class';
+  const isAll = S.ttMode === 'all';
   const who = S.ttWho;
   const picker = `
   <div class="toolbar">
     <div class="dayrow" style="flex:none">
       <button data-tt="class" aria-pressed="${isClass}">班級課表</button>
-      <button data-tt="teacher" aria-pressed="${!isClass}">老師課表</button>
+      <button data-tt="teacher" aria-pressed="${S.ttMode==='teacher'}">老師課表</button>
+      <button data-tt="all" aria-pressed="${isAll}">全校總課表</button>
     </div>
-    <select id="ttWho" style="max-width:220px">${
+    ${isAll ? `<div class="dayrow" style="flex:none">${DAYS.map(d => `<button data-ttday="${d}" aria-pressed="${S.ttDay===d}">週${WD[d-1]}</button>`).join('')}</div>` : `<select id="ttWho" style="max-width:220px">${
       (isClass ? CLS.map((c,i) => [i, `${c.name}（導師 ${c.homeroom}）`]) : teacherList.map((t,i) => [i, t]))
-      .map(([i,label]) => `<option value="${i}" ${+who===i?'selected':''}>${h(label)}</option>`).join('')}</select>
+      .map(([i,label]) => `<option value="${i}" ${+who===i?'selected':''}>${h(label)}</option>`).join('')}</select>`}
     <button class="btn" onclick="window.print()">列印</button>
   </div>`;
 
+  if (isAll){
+    const d = S.ttDay;
+    return `${picker}<h2>全校總課表　星期${WD[d-1]}</h2>${dayGrid(d, null, S.me)}
+      <div class="legend"><span><i style="background:var(--free-bg)"></i>綠底＝${S.me?h(S.me)+' 的課':'選了「我是」後會標出自己的課'}</span><span>資料：${h(DATA.version)}</span></div>`;
+  }
   let head, rows, caption;
   if (isClass){
     const ci = Math.min(who, CLS.length-1);
@@ -695,13 +910,22 @@ function lunchRow(){ return `<tr class="lunch"><th></th>${DAYS.map(()=>'<td></td
 
 /* ── 事件 ───────────────────────────── */
 document.addEventListener('click', async e => {
-  const b = e.target.closest('[data-tab],[data-day],[data-free],[data-tt],[data-copy]');
+  const b = e.target.closest('[data-tab],[data-day],[data-free],[data-tt],[data-ttday],[data-pp],[data-pdate],[data-go-patrol],[data-copy]');
   if (!b) return;
   if (b.dataset.tab){ S.tab = b.dataset.tab; render(); document.getElementById('main').focus({preventScroll:true}); }
   else if (b.dataset.day){ S.d = +b.dataset.day; S.p = ''; render(); }
   else if (b.dataset.free){ const [d,p] = b.dataset.free.split('-').map(Number);
     S.freePick = (S.freePick && S.freePick.d===d && S.freePick.p===p) ? null : {d,p}; render(); }
   else if (b.dataset.tt){ S.ttMode = b.dataset.tt; S.ttWho = 0; render(); }
+  else if (b.dataset.ttday){ S.ttDay = +b.dataset.ttday; render(); }
+  else if (b.dataset.pp){ S.pp = b.dataset.pp; render(); }
+  else if (b.dataset.pdate){ S.date = todayStr(); S.pp = ''; render(); }
+  else if (b.dataset.goPatrol){
+    const [d,p] = b.dataset.goPatrol.split('-').map(Number);
+    const base = new Date(); const w = base.getDay() || 7;          // 本週（週日算上一週）
+    base.setDate(base.getDate() - (w - 1) + (d - 1));
+    S.date = ymd(base); S.pp = String(p); S.tab = 'patrol'; render();
+    document.getElementById('main').focus({preventScroll:true}); }
   else if (b.dataset.copy){
     const text = b.dataset.copy;
     let ok = false;
@@ -716,7 +940,8 @@ document.addEventListener('click', async e => {
   }
 });
 document.addEventListener('change', e => {
-  if (e.target.id === 'who'){ S.me = e.target.value; S.p = ''; render(); }
+  if (e.target.id === 'who'){ S.me = e.target.value; S.p = ''; store.set('me', S.me); render(); }
+  else if (e.target.id === 'pdate'){ S.date = e.target.value; S.pp = ''; render(); }
   else if (e.target.id === 'per'){ S.p = e.target.value; render(); }
   else if (e.target.id === 'ttWho'){ S.ttWho = +e.target.value; render(); }
 });
@@ -726,7 +951,8 @@ function syncHash(){
   const q = new URLSearchParams();
   q.set('t', S.tab);
   if (S.tab === 'find'){ if (S.me) q.set('me', S.me); q.set('d', S.d); if (S.p) q.set('p', S.p); }
-  if (S.tab === 'table'){ q.set('m', S.ttMode); q.set('w', S.ttWho); }
+  if (S.tab === 'table'){ q.set('m', S.ttMode); S.ttMode === 'all' ? q.set('day', S.ttDay) : q.set('w', S.ttWho); }
+  if (S.tab === 'patrol'){ if (S.date) q.set('date', S.date); if (S.pp) q.set('pp', S.pp); }
   if (S.tab === 'free' && S.freePick){ q.set('s', S.freePick.d + '-' + S.freePick.p); }
   history.replaceState(null, '', '#' + q.toString());
 }
@@ -736,7 +962,11 @@ function readHash(){
   if (q.get('me') && teacherList.includes(q.get('me'))) S.me = q.get('me');
   if (+q.get('d') >= 1 && +q.get('d') <= 5) S.d = +q.get('d');
   if (q.get('p')) S.p = q.get('p');
-  if (q.get('m')) S.ttMode = q.get('m') === 'teacher' ? 'teacher' : 'class';
+  if (q.get('m')) S.ttMode = ['teacher','all'].includes(q.get('m')) ? q.get('m') : 'class';
+  if (+q.get('day') >= 1 && +q.get('day') <= 5) S.ttDay = +q.get('day');
+  if (q.get('date') && parseYmd(q.get('date'))) S.date = q.get('date');
+  if (+q.get('pp') >= 1 && +q.get('pp') <= 7) S.pp = q.get('pp');
+  if (!S.me){ const m = store.get('me'); if (teacherList.includes(m)) S.me = m; }
   if (q.get('w')) S.ttWho = +q.get('w') || 0;
   if (q.get('s')){ const [d,p] = q.get('s').split('-').map(Number); if (d && p) S.freePick = {d,p}; }
 }
