@@ -12,267 +12,337 @@
 @font-face{font-family:"NotoTC";font-weight:500;src:url(fonts/noto-sans-tc-chinese-traditional-500-normal.woff2) format("woff2")}
 @font-face{font-family:"NotoTC";font-weight:700;src:url(fonts/noto-sans-tc-chinese-traditional-700-normal.woff2) format("woff2")}
 @page{size:A4;margin:0}
-:root{--p:#7C5CFF;--p2:#5A3FE0;--y:#FFC83D;--o:#FF8A3D;--g:#2ECC8A;--r:#FF5C7A;--b:#3DA5FF;--ink:#2B2340;--ink2:#5B5370;--en:"Fredoka","NotoTC",sans-serif;--zh:"NotoTC","PingFang TC","Microsoft JhengHei",sans-serif}
+:root{
+  --ink:#1F1B2E; --ink2:#4A4560; --mute:#8A86A0; --rule:#C9C5DB; --rule2:#E6E3F0;
+  --acc:#5A3FE0; --acc-bg:#F1EEFC; --acc2:#E8620A; --acc2-bg:#FFF2E6;
+  --en:"Fredoka","NotoTC",sans-serif; --zh:"NotoTC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
 *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-html,body{margin:0;background:#e9e6f5;font-family:var(--zh);color:var(--ink)}
-.page{width:210mm;height:297mm;margin:0 auto;background:#fff;padding:10mm 11mm 8mm;position:relative;overflow:hidden;page-break-after:always;display:flex;flex-direction:column;gap:2mm}
+html,body{margin:0;background:#D9D6E6;font-family:var(--zh);color:var(--ink);font-size:10.5pt;line-height:1.45}
+.page{width:210mm;height:297mm;margin:0 auto;background:#fff;padding:14mm 15mm 12mm;position:relative;overflow:hidden;page-break-after:always;display:flex;flex-direction:column}
 .page:last-child{page-break-after:auto}
-@media screen{.page{margin:8mm auto;box-shadow:0 10px 40px -10px rgba(43,35,64,.35);border-radius:4px}}
+@media screen{.page{margin:8mm auto;box-shadow:0 8px 30px -10px rgba(0,0,0,.35)}}
 .en{font-family:var(--en)}
-.blob{position:absolute;border-radius:50%;opacity:.5;z-index:0}
-.blob.a{width:70mm;height:70mm;right:-25mm;top:-25mm;background:#DDEFFF}
-.blob.b{width:60mm;height:60mm;left:-25mm;bottom:-20mm;background:#FFE0EC}
-.page>*:not(.blob){position:relative;z-index:1}
-.hd{display:flex;align-items:center;gap:4mm;border-bottom:1.2mm solid var(--y);padding-bottom:2mm}
-.hd img{width:15mm}
-.hd h1{font-family:var(--en);font-size:22pt;margin:0;color:var(--p2);line-height:1.05;white-space:nowrap}
-.hd h1 small{display:block;font-family:var(--zh);font-size:9.5pt;color:var(--ink2);font-weight:700;letter-spacing:1px}
-.hd .sp{flex:1}
-.meta{display:grid;grid-template-columns:1fr 1fr;gap:1.5mm 4mm;font-size:9pt;color:var(--ink2);white-space:nowrap}
-.meta span{border-bottom:.5mm solid #CFCBE6;min-width:24mm;display:inline-block;height:5mm;vertical-align:bottom}
-.sec{border:.6mm solid #E6E2F7;border-radius:4mm;padding:1.8mm 3.5mm 2mm;position:relative}
-.sec .tt{display:flex;align-items:center;gap:2.5mm;margin-bottom:1.5mm}
-.sec .tt img{width:8.5mm}
-.sec .tt b{font-family:var(--en);font-size:13.5pt;color:var(--p2);white-space:nowrap}
-.sec .tt small{font-size:8.5pt;color:var(--ink2)}
-.sec .pts{margin-left:auto;font-family:var(--en);font-size:9pt;background:#FFF7DD;color:#7a5200;padding:1mm 3mm;border-radius:9mm;font-weight:700;white-space:nowrap}
-.sec.y{border-color:#FFE7A8;background:#FFFDF5}.sec.b{border-color:#CFE6FF;background:#F7FBFF}.sec.g{border-color:#C7F2DF;background:#F5FDF9}.sec.r{border-color:#FFD6DE;background:#FFF8FA}
-.line{display:inline-block;border-bottom:.5mm solid var(--ink2);min-width:26mm;height:5.5mm;vertical-align:bottom;margin:0 1mm}
-.line.w{min-width:40mm}.line.xl{min-width:66mm}
-.row{display:flex;gap:3mm;flex-wrap:wrap;align-items:center}
-.q{display:flex;align-items:flex-end;gap:2mm;font-size:10.5pt;white-space:nowrap}
-.q .en{font-weight:600}
-.tag{display:inline-block;width:6mm;height:6mm;border-radius:50%;color:#fff;font-family:var(--en);font-weight:700;text-align:center;line-height:6mm;font-size:9pt;flex:0 0 6mm}
-.t1{background:var(--r)}.t2{background:var(--b)}.t3{background:var(--g)}.t4{background:var(--o)}
+.b{font-weight:700}
+
+/* ---------- header ---------- */
+.hd{display:grid;grid-template-columns:1fr auto;gap:6mm;align-items:end;border-bottom:.7mm solid var(--ink);padding-bottom:3mm;margin-bottom:5mm}
+.hd .unit{font-family:var(--en);font-size:9pt;font-weight:600;letter-spacing:2px;color:var(--acc);text-transform:uppercase}
+.hd h1{font-family:var(--en);font-size:24pt;line-height:1;margin:1mm 0 1.5mm;font-weight:700;color:var(--ink)}
+.hd .sub{font-size:9.5pt;color:var(--ink2)}
+.ids{display:grid;grid-template-columns:auto auto;gap:2mm 6mm;font-size:9pt;color:var(--ink2);white-space:nowrap}
+.ids span{display:inline-block;border-bottom:.4mm solid var(--ink);width:30mm;height:6mm;vertical-align:bottom;margin-left:1.5mm}
+.ids span.s{width:16mm}
+.hd2{display:flex;justify-content:space-between;align-items:baseline;border-bottom:.7mm solid var(--ink);padding-bottom:2mm;margin-bottom:5mm;font-family:var(--en)}
+.hd2 b{font-size:14pt}
+.hd2 span{font-size:9pt;color:var(--mute);letter-spacing:1px}
+
+/* ---------- task block ---------- */
+.task{margin-bottom:4mm;break-inside:avoid}
+.task .th{display:flex;align-items:center;gap:3mm;margin-bottom:2mm}
+.task .num{width:8mm;height:8mm;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--en);font-weight:700;font-size:12pt;display:grid;place-items:center;flex:0 0 8mm}
+.task .th img{width:8mm;height:8mm}
+.task .th h2{font-family:var(--en);font-size:14pt;margin:0;font-weight:700;line-height:1;white-space:nowrap}
+.task .th .zh{font-size:9.5pt;color:var(--ink2)}
+.task .th .star{margin-left:auto;font-family:var(--en);font-size:9pt;font-weight:600;color:var(--acc);border:.4mm solid var(--acc);border-radius:9mm;padding:.6mm 3mm;white-space:nowrap}
+.task .body{padding-left:11mm}
+.hint{font-size:8.5pt;color:var(--ink2);background:var(--acc-bg);border-left:.8mm solid var(--acc);padding:1.5mm 3mm;margin-top:2.5mm;line-height:1.5}
+
+/* writing rows */
+.q{display:grid;grid-template-columns:7mm 1fr;align-items:end;column-gap:2mm;min-height:10mm;margin-bottom:1.2mm}
+.q .k{font-family:var(--en);font-weight:700;color:#fff;background:var(--acc);border-radius:1.5mm;width:6.5mm;height:6.5mm;font-size:9.5pt;display:grid;place-items:center;align-self:center}
+.q .k.b2{background:var(--acc2)}
+.q .t{display:flex;align-items:end;gap:2mm;white-space:nowrap;font-family:var(--en);font-size:11pt;font-weight:500}
+.ln{display:inline-block;flex:1;border-bottom:.4mm solid var(--ink);height:7mm;min-width:20mm}
+.ln.fix{flex:0 0 auto;width:34mm}
+.ln.mid{flex:0 0 auto;width:52mm}
+.ln.long{flex:0 0 auto;width:78mm}
+
 /* poster */
-.poster{display:grid;grid-template-columns:62mm 1fr;gap:4mm;align-items:start}
-.flyer{background:#fff;border:.6mm solid var(--p);border-radius:3mm;padding:2.5mm 3mm;font-family:var(--en)}
-.flyer h3{margin:0;font-size:12.5pt;color:var(--p2);text-align:center;line-height:1.1}
-.flyer .where{font-size:8.5pt;color:var(--ink2);text-align:center;margin-bottom:1.5mm}
-.flyer table{width:100%;border-collapse:collapse;font-size:9.5pt}
-.flyer td{padding:.45mm 1mm;border-top:.3mm solid #EEE}
-.flyer td:first-child{font-weight:700;color:var(--o);width:15mm}
-.flyer .note{font-size:8pt;color:var(--ink2);margin-top:1.5mm;text-align:center}
-.qa{display:flex;flex-direction:column;gap:2.2mm}
+.cols{display:grid;grid-template-columns:60mm 1fr;gap:6mm;align-items:start}
+.flyer{border:.5mm solid var(--ink);border-radius:2.5mm;padding:2.5mm 3mm;font-family:var(--en)}
+.flyer h3{margin:0;font-size:13pt;line-height:1.05;text-align:center}
+.flyer .where{font-size:8.5pt;color:var(--ink2);text-align:center;margin:.8mm 0 1.8mm;border-bottom:.3mm dashed var(--rule);padding-bottom:1.5mm}
+.flyer table{width:100%;border-collapse:collapse;font-size:10pt}
+.flyer td{padding:.7mm 1mm;line-height:1.3}
+.flyer td:first-child{font-weight:700;width:14mm;color:var(--acc)}
+.flyer .note{font-size:8pt;text-align:center;color:var(--ink2);margin-top:1.5mm;font-weight:600}
+
 /* calendar */
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:1mm;background:#fff;border:.5mm solid #E6E2F7;border-radius:3mm;padding:2mm;width:66mm}
-.cal .h{font-family:var(--en);font-size:7.5pt;text-align:center;color:var(--p2);font-weight:700}
-.cal .d{font-family:var(--en);font-size:9pt;text-align:center;height:5.4mm;line-height:5.4mm;border-radius:1.5mm;background:#F6F4FF;color:var(--ink2)}
-.cal .d.off{background:transparent}.cal .d.wk{color:var(--o)}
-.cal .d.c1,.cal .d.c2,.cal .d.c3,.cal .d.c4{color:#fff;font-weight:700}
-.cal .d.c1{background:var(--r)}.cal .d.c2{background:var(--b)}.cal .d.c3{background:var(--g)}.cal .d.c4{background:var(--o)}
-.ws{display:grid;grid-template-columns:auto 1fr;gap:4mm;align-items:center}
-.wsg{display:inline-grid;grid-auto-rows:4.7mm;border:.5mm solid #E6E2F7;border-radius:2mm;background:#fff;padding:1mm}
-.wsg span{display:grid;grid-template-columns:repeat(11,4.7mm)}
-.wsg i{font-style:normal;font-family:var(--en);font-weight:600;font-size:9.5pt;text-align:center;line-height:4.7mm;color:var(--ink)}
-.wsl{display:flex;flex-wrap:wrap;gap:2mm}
-.wsl span{font-family:var(--en);font-weight:600;font-size:10pt;background:#F6F4FF;border-radius:9mm;padding:.5mm 3mm;color:var(--p2)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:.8mm;border:.5mm solid var(--ink);border-radius:2.5mm;padding:2mm;width:60mm}
+.cal .h{font-family:var(--en);font-size:7.5pt;font-weight:700;text-align:center;color:var(--ink2);padding-bottom:.5mm}
+.cal .d{font-family:var(--en);font-size:9pt;text-align:center;height:6.4mm;line-height:6.4mm;color:var(--ink)}
+.cal .d.off{color:transparent}
+.cal .d.wk{color:var(--mute)}
+.cal .d.m{background:var(--ink);color:#fff;border-radius:50%;font-weight:700;position:relative}
+.cal .d.m i{position:absolute;top:-1.3mm;right:-1.3mm;width:3.6mm;height:3.6mm;border-radius:50%;background:var(--acc);color:#fff;font-style:normal;font-size:6pt;line-height:3.6mm;font-weight:700}
+
 /* QR */
-.qrbox{display:grid;grid-template-columns:28mm 1fr;gap:3mm;align-items:center}
-.qrbox img{width:28mm;border:.5mm solid #E6E2F7;border-radius:2mm}
-.qrbox .steps{font-size:9.5pt;line-height:1.55}
-.scorebox{display:inline-block;border:.6mm solid var(--p);border-radius:2.5mm;width:22mm;height:9mm;vertical-align:middle;margin:0 1mm;text-align:center;font-family:var(--en);font-size:9pt;color:var(--ink2);line-height:9mm}
-/* dialogue */
-.bank{display:flex;gap:2mm;flex-wrap:wrap;margin-bottom:1.8mm}
-.bank span{font-family:var(--en);font-weight:600;font-size:10pt;background:#fff;border:.5mm solid var(--y);border-radius:9mm;padding:.4mm 3mm}
-.dlg{display:flex;flex-direction:column;gap:1.5mm;font-size:10.5pt}
-.dlg .l{display:flex;align-items:flex-end;gap:2mm;white-space:nowrap}
-.dlg .l img{width:7mm}
-.dlg .l b{font-family:var(--en);color:var(--p2);width:13mm;flex:0 0 13mm}
+.qr{display:grid;grid-template-columns:34mm 1fr;gap:5mm;align-items:center}
+.qr img{width:34mm;height:34mm;border:.4mm solid var(--rule);border-radius:2mm}
+.qr ol{margin:0;padding-left:5mm;font-size:10.5pt;line-height:1.9}
+.sc{display:inline-block;width:18mm;height:8mm;border:.4mm solid var(--ink);border-radius:1.5mm;vertical-align:middle;margin:0 1mm;font-family:var(--en);font-size:8pt;color:var(--mute);text-align:right;line-height:8mm;padding-right:1.5mm}
+.url{font-family:var(--en);font-size:9pt;font-weight:600;color:var(--acc)}
+
+/* word bank + dialogue */
+.bank{display:flex;flex-wrap:wrap;gap:2mm;margin-bottom:2.5mm}
+.bank span{font-family:var(--en);font-size:10pt;font-weight:600;border:.4mm solid var(--ink);border-radius:9mm;padding:.6mm 3.2mm}
+.dlg{display:flex;flex-direction:column;gap:1.2mm;font-family:var(--en);font-size:11pt}
+.dl{display:flex;align-items:end;gap:3mm;white-space:nowrap}
+.dl .who+.say+.who{margin-left:5mm}
+.dlg .who{display:flex;align-items:center;gap:1.5mm;font-weight:700;color:var(--acc);white-space:nowrap;align-self:center}
+.dlg .who img{width:7mm;height:7mm}
+.dlg .say{display:flex;align-items:end;gap:2mm;white-space:nowrap;font-weight:500;height:7.6mm}
+.dlg .say .ln.mid{width:36mm}
+
 /* week */
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:1.6mm}
-.wd{border:.5mm solid #E6E2F7;border-radius:3mm;background:#fff;height:40mm;padding:1.5mm;display:flex;flex-direction:column}
-.wd b{font-family:var(--en);font-size:9pt;color:var(--p2)}
-.wd .draw{flex:1;border-bottom:.4mm dotted #CFCBE6;margin:1mm 0}
-.wd small{font-size:7pt;color:var(--ink2)}
-/* cheer */
-.two{display:grid;grid-template-columns:1fr 46mm;gap:3mm}
-.cheer{font-family:var(--en);font-size:12.5pt;font-weight:600;line-height:2}
-.cheer .sq{display:inline-block;width:7.5mm;height:7.5mm;border:.5mm solid var(--p);border-radius:2mm;vertical-align:middle;margin:0 .4mm}
-.box{border:.5mm dashed #CFCBE6;border-radius:3mm;background:#fff;height:100%;min-height:34mm;display:flex;align-items:flex-end;justify-content:center;font-size:8.5pt;color:var(--ink2);padding:1.5mm}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:1.8mm}
+.wd{border:.4mm solid var(--ink);border-radius:2.5mm;height:27mm;display:flex;flex-direction:column;padding:1.5mm 1.8mm}
+.wd b{font-family:var(--en);font-size:9pt;line-height:1.1}
+.wd small{font-family:var(--en);font-size:7.5pt;color:var(--mute)}
+.wd .draw{flex:1;margin:1.5mm 0 1mm;border-bottom:.3mm dotted var(--rule)}
+.wd .w{font-size:7pt;color:var(--mute)}
+.frame{font-family:var(--en);font-size:11pt;font-weight:500;display:flex;align-items:end;gap:2mm;white-space:nowrap;margin-top:3mm}
+
 /* interview */
-.iv{display:grid;grid-template-columns:repeat(4,1fr);gap:2mm}
-.iv div{display:flex;align-items:center;gap:1.5mm;font-size:10pt;font-family:var(--en);font-weight:600}
-.iv img{width:7.5mm}
-.cb{display:inline-block;width:4.8mm;height:4.8mm;border:.5mm solid var(--ink2);border-radius:1mm;vertical-align:middle}
+.iv{display:grid;grid-template-columns:repeat(2,1fr);gap:2mm 8mm;width:150mm;font-family:var(--en);font-size:10.5pt;font-weight:600}
+.iv div{display:flex;align-items:center;gap:1.5mm;white-space:nowrap}
+.iv img{width:7mm;height:7mm}
+.cb{display:inline-block;width:5mm;height:5mm;border:.4mm solid var(--ink);border-radius:1mm}
+
+/* cheer */
+.cheer{font-family:var(--en);font-size:12pt;font-weight:600;line-height:1.75;white-space:nowrap}
+.cheer .sq{display:inline-block;width:7mm;height:7mm;border:.4mm solid var(--ink);border-radius:1.5mm;vertical-align:middle;margin:0 .5mm}
+.cheer .ex{color:var(--acc2)}
+.two{display:grid;grid-template-columns:1fr 44mm;gap:5mm;align-items:stretch}
+.flag{border:.4mm dashed var(--ink);border-radius:2.5mm;display:flex;align-items:flex-end;justify-content:center;font-size:8.5pt;color:var(--mute);padding:1.5mm;min-height:20mm}
+
 /* I can */
-.ican{display:grid;grid-template-columns:1fr 1fr;gap:1.5mm 5mm;font-size:10pt}
-.ican div{display:flex;align-items:center;gap:2mm;white-space:nowrap}
-.ican .en{font-weight:600}
-.faces{margin-left:auto;font-size:12pt;letter-spacing:3px}
-.ft{display:flex;align-items:center;gap:3mm;margin-top:auto;border-top:.5mm solid #E6E2F7;padding-top:2mm;font-size:9pt;color:var(--ink2);white-space:nowrap}
-.tipbox{font-size:8.5pt;color:var(--ink2);background:#F6F4FF;border-radius:2mm;padding:1mm 2.5mm;margin-top:1.5mm}
+.ican{display:grid;grid-template-columns:1fr auto;row-gap:1.2mm;column-gap:4mm;align-items:center;font-family:var(--en);font-size:11pt;font-weight:500}
+.ican .f{display:flex;gap:4mm}
+.ican .f span{width:6.5mm;height:6.5mm;border:.4mm solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:9pt}
+.ican .lbl{grid-column:1/3;font-family:var(--zh);font-size:8.5pt;color:var(--mute);display:flex;justify-content:flex-end;gap:6mm;margin-bottom:.5mm}
+
+/* footer */
+.ft{margin-top:auto;border-top:.4mm solid var(--rule);padding-top:2.5mm;display:flex;align-items:center;gap:4mm;font-size:9pt;color:var(--ink2);white-space:nowrap}
+.ft .pg{font-family:var(--en);font-weight:600;color:var(--mute);letter-spacing:1px}
+.ft .sp{flex:1}
+.ft .box{display:inline-block;width:14mm;height:7mm;border:.4mm solid var(--ink);border-radius:1.5mm;vertical-align:middle;margin-left:1mm}
+.ft .sig{display:inline-block;width:38mm;border-bottom:.4mm solid var(--ink);height:6mm;vertical-align:bottom;margin-left:1mm}
+
+/* ---------- teacher page ---------- */
+.tp{font-size:8.8pt;height:auto;min-height:297mm;padding-top:10mm;padding-bottom:8mm}
+.tp .ft{margin-top:2.5mm}
+.tp h2{font-family:var(--en);font-size:11.5pt;margin:2mm 0 1mm;border-left:1mm solid var(--acc);padding-left:2.5mm}
+.tp table{width:100%;border-collapse:collapse;font-size:8.2pt}
+.tp tr{break-inside:avoid}
+.tp th{background:var(--acc-bg);color:var(--acc);text-align:left;padding:1.2mm 2.5mm;font-weight:700;border-bottom:.4mm solid var(--acc)}
+.tp td{padding:.8mm 2.5mm;border-bottom:.3mm solid var(--rule2);vertical-align:top;line-height:1.34}
+.tp td:first-child{white-space:nowrap;font-family:var(--en);font-weight:700;color:var(--ink)}
+.tp .key{display:grid;grid-template-columns:1fr 1fr;gap:.4mm 6mm;font-size:8.6pt}
+.tp .key div{padding:.5mm 0;border-bottom:.3mm solid var(--rule2)}
+.tp .key b{font-family:var(--en);color:var(--acc)}
+.tp .ref{font-size:7.2pt;color:var(--ink2);line-height:1.35;margin-top:1.2mm}
 </style>
 </head>
 <body>
 
-<!-- ================= PAGE 1 ================= -->
-<div class="page">
-<div class="blob a"></div><div class="blob b"></div>
-<div class="hd">
-  <img src="img/soccer_ball.png" alt="">
-  <h1>What Day Is Today?<small>Unit 1 · 回家任務學習單 Homework Mission · 任務完成可得 ⭐</small></h1>
-  <span class="sp"></span>
-  <div class="meta"><div>班級 <span></span></div><div>座號 <span style="min-width:16mm"></span></div><div>姓名 <span></span></div><div>日期 <span style="min-width:16mm"></span></div></div>
-</div>
-
-<!-- A 閱讀真實海報 -->
-<div class="sec y">
-  <div class="tt"><img src="img/open_book.png" alt=""><b>A. Read the Poster</b><small>看懂真實的活動海報，回答問題（用完整句子）</small><span class="pts">4 ⭐</span></div>
-  <div class="poster">
-    <div class="flyer">
-      <h3>⚽ Kids Football Week</h3>
-      <div class="where">Taipei Sports Park · Oct 19 – 25</div>
-      <table>
-        <tr><td>Mon.</td><td>Opening Day 🎉</td></tr>
-        <tr><td>Tue.</td><td>Red vs. Blue</td></tr>
-        <tr><td>Wed.</td><td>Green vs. Yellow</td></tr>
-        <tr><td>Thu.</td><td>Free Day – no game</td></tr>
-        <tr><td>Fri.</td><td>Semi-final 🔥</td></tr>
-        <tr><td>Sat.</td><td>FINAL 🏆</td></tr>
-        <tr><td>Sun.</td><td>Family Fun Day 🎈</td></tr>
-      </table>
-      <div class="note">Have a good time! Free tickets for kids.</div>
-    </div>
-    <div class="qa">
-      <div class="q"><span class="tag t1">1</span><span class="en">What day is the FINAL?</span> → It's <span class="line w"></span>.</div>
-      <div class="q"><span class="tag t2">2</span><span class="en">What day is Red vs. Blue?</span> → <span class="line xl"></span></div>
-      <div class="q"><span class="tag t3">3</span><span class="en">Is Opening Day on Friday?</span> → <span class="line xl"></span></div>
-      <div class="q"><span class="tag t4">4</span><span class="en">Is Family Fun Day on Sunday?</span> → <span class="line xl"></span></div>
-      <div class="tipbox">💡 Yes, it is.　／　No, it isn't. It's ___.　海報上的縮寫 Mon. = Monday，想一想其他六個！</div>
-    </div>
-  </div>
-</div>
-
-<!-- B 月曆偵探 -->
-<div class="sec b">
-  <div class="tt"><img src="img/magnifying_glass_tilted_left.png" alt=""><b>B. Calendar Detective</b><small>圈起來的那天是「今天」，先寫完整句子，再回答 Yes/No</small><span class="pts">6 ⭐</span></div>
-  <div style="display:grid;grid-template-columns:66mm 1fr;gap:4mm;align-items:start">
-    <div class="cal">
-      <div class="h">MON</div><div class="h">TUE</div><div class="h">WED</div><div class="h">THU</div><div class="h">FRI</div><div class="h">SAT</div><div class="h">SUN</div>
-      <div class="d off"></div><div class="d off"></div><div class="d off"></div>
-      <div class="d">1</div><div class="d c1">2</div><div class="d wk">3</div><div class="d wk">4</div>
-      <div class="d">5</div><div class="d">6</div><div class="d c2">7</div><div class="d">8</div><div class="d">9</div><div class="d wk">10</div><div class="d wk">11</div>
-      <div class="d">12</div><div class="d">13</div><div class="d">14</div><div class="d">15</div><div class="d">16</div><div class="d wk">17</div><div class="d wk c3">18</div>
-      <div class="d">19</div><div class="d c4">20</div><div class="d">21</div><div class="d">22</div><div class="d">23</div><div class="d wk">24</div><div class="d wk">25</div>
-      <div class="d">26</div><div class="d">27</div><div class="d">28</div><div class="d">29</div><div class="d">30</div><div class="d wk">31</div><div class="d off"></div>
-    </div>
-    <div class="qa" style="flex:1">
-      <div class="q"><span class="tag t1">2</span><span class="en">What day is today?</span> → It's <span class="line w"></span>.</div>
-      <div class="q"><span class="tag t2">7</span><span class="en">What day is today?</span> → <span class="line xl"></span></div>
-      <div class="q"><span class="tag t3">18</span><span class="en">Is it Saturday today?</span> → <span class="line xl"></span></div>
-      <div class="q"><span class="tag t4">20</span><span class="en">Is it Monday today?</span> → <span class="line xl"></span></div>
-      <div class="q"><span class="tag" style="background:var(--p)">?</span><span class="en">Circle today on the calendar. What day is today?</span></div>
-      <div class="q" style="padding-left:8mm">→ <span class="line w"></span>（圈出真正的今天）</div>
-    </div>
-  </div>
-</div>
-
-<!-- C 在家聽力 -->
-<div class="sec g">
-  <div class="tt"><img src="img/loudspeaker.png" alt=""><b>C. Listen at Home</b><small>用手機或平板掃 QR，聽真人語音玩 10 題，把分數寫下來</small><span class="pts">4 ⭐</span></div>
-  <div class="qrbox">
-    <img src="img/qr_listen.png" alt="QR">
-    <div class="steps">
-      ① 掃描 QR code（或輸入 <span class="en" style="font-weight:600">imacipadtw-lang.github.io/teacher1006/unit1-what-day/listen.html</span>）<br>
-      ② 選「標準」，按 ▶ Play，聽到哪一天就點哪一天<br>
-      ③ 第一次分數 <span class="scorebox">/ 10</span>　再玩一次 <span class="scorebox">/ 10</span>　挑戰版 <span class="scorebox">/ 10</span><br>
-      <span style="color:var(--ink2);font-size:8.5pt">聽不清楚可以按「再聽一次」。最難分的是哪兩天？<span class="line" style="min-width:34mm"></span></span>
-    </div>
-  </div>
-</div>
-
-
-<!-- D Word Hunt -->
-<div class="sec r">
-  <div class="tt"><img src="img/magnifying_glass_tilted_left.png" alt=""><b>D. Word Hunt</b><small>七個星期藏在格子裡（橫、直、斜都有），找到就圈起來並在右邊打勾</small><span class="pts">3 ⭐</span></div>
-  <div class="ws">
-    <div class="wsg"><span><i>C</i><i>T</i><i>B</i><i>T</i><i>U</i><i>G</i><i>W</i><i>P</i><i>S</i><i>Y</i><i>S</i></span><span><i>N</i><i>K</i><i>O</i><i>H</i><i>T</i><i>O</i><i>E</i><i>L</i><i>U</i><i>J</i><i>H</i></span><span><i>F</i><i>H</i><i>C</i><i>U</i><i>T</i><i>J</i><i>D</i><i>R</i><i>N</i><i>P</i><i>K</i></span><span><i>O</i><i>J</i><i>U</i><i>R</i><i>C</i><i>D</i><i>N</i><i>R</i><i>D</i><i>N</i><i>F</i></span><span><i>K</i><i>E</i><i>P</i><i>S</i><i>N</i><i>B</i><i>E</i><i>Y</i><i>A</i><i>C</i><i>F</i></span><span><i>S</i><i>T</i><i>K</i><i>D</i><i>K</i><i>L</i><i>S</i><i>U</i><i>Y</i><i>P</i><i>R</i></span><span><i>T</i><i>O</i><i>C</i><i>A</i><i>C</i><i>I</i><i>D</i><i>P</i><i>Y</i><i>C</i><i>I</i></span><span><i>B</i><i>J</i><i>W</i><i>Y</i><i>T</i><i>Y</i><i>A</i><i>O</i><i>J</i><i>M</i><i>D</i></span><span><i>Y</i><i>M</i><i>O</i><i>N</i><i>D</i><i>A</i><i>Y</i><i>L</i><i>A</i><i>O</i><i>A</i></span><span><i>S</i><i>A</i><i>T</i><i>U</i><i>R</i><i>D</i><i>A</i><i>Y</i><i>L</i><i>F</i><i>Y</i></span><span><i>U</i><i>D</i><i>P</i><i>B</i><i>T</i><i>U</i><i>E</i><i>S</i><i>D</i><i>A</i><i>Y</i></span></div>
+<!-- ======================= 正面 ======================= -->
+<section class="page">
+  <header class="hd">
     <div>
-      <div class="wsl"><span>☐ Monday</span><span>☐ Tuesday</span><span>☐ Wednesday</span><span>☐ Thursday</span><span>☐ Friday</span><span>☐ Saturday</span><span>☐ Sunday</span></div>
-      <div class="tipbox" style="margin-top:3mm">💡 先找每個字的第一個字母，再往右、往下、往右下看。<br>全部找到後，把最喜歡的一天大聲唸三次！</div>
-      <div style="font-size:10pt;margin-top:3mm;white-space:nowrap">最快找到的是：<span class="line w"></span>　花了 <span class="line" style="min-width:12mm"></span> 分鐘</div>
+      <div class="unit">Grade 5 · Unit 1 · Homework Mission</div>
+      <h1>What Day Is Today?</h1>
+      <div class="sub">回家任務學習單 · 正面：讀一讀、找一找、聽一聽</div>
+    </div>
+    <div class="ids"><div>班級<span class="s"></span></div><div>座號<span class="s"></span></div><div>姓名<span></span></div><div>日期<span class="s"></span></div></div>
+  </header>
+
+  <!-- 1 Read the poster -->
+  <div class="task">
+    <div class="th"><div class="num">1</div><img src="img/open_book.png" alt=""><h2>Read the Poster</h2><span class="zh">看懂真實的活動海報，用完整句子回答</span><span class="star">4 ★</span></div>
+    <div class="body cols">
+      <div class="flyer">
+        <h3>Kids Football Week</h3>
+        <div class="where">Taipei Sports Park · Oct 19 – 25</div>
+        <table>
+          <tr><td>Mon.</td><td>Opening Day</td></tr>
+          <tr><td>Tue.</td><td>Red vs. Blue</td></tr>
+          <tr><td>Wed.</td><td>Green vs. Yellow</td></tr>
+          <tr><td>Thu.</td><td>Free Day – no game</td></tr>
+          <tr><td>Fri.</td><td>Semi-final</td></tr>
+          <tr><td>Sat.</td><td>FINAL</td></tr>
+          <tr><td>Sun.</td><td>Family Fun Day</td></tr>
+        </table>
+        <div class="note">Free tickets for kids. Have a good time!</div>
+      </div>
+      <div>
+        <div class="q"><span class="k">a</span><div class="t">What day is the FINAL? → It's<span class="ln"></span>.</div></div>
+        <div class="q"><span class="k">b</span><div class="t">What day is Red vs. Blue? →<span class="ln"></span></div></div>
+        <div class="q"><span class="k">c</span><div class="t">Is Opening Day on Friday? →<span class="ln"></span></div></div>
+        <div class="q"><span class="k">d</span><div class="t">Is Family Fun Day on Sunday? →<span class="ln"></span></div></div>
+        <div class="hint">回答 Yes/No 問題的兩種方式：<b class="en">Yes, it is.</b>　／　<b class="en">No, it isn't. It's ___.</b>　海報上的 Mon. 是 Monday 的縮寫，其他六天你也認得出來嗎？</div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="ft"><img src="img/polar_bear.png" alt="" style="width:8mm">Page 1 · 翻到背面還有任務 ➜<span style="flex:1"></span>A ⭐<span class="line" style="min-width:8mm"></span> B ⭐<span class="line" style="min-width:8mm"></span> C ⭐<span class="line" style="min-width:8mm"></span> D ⭐<span class="line" style="min-width:8mm"></span></div>
-</div>
-
-<!-- ================= PAGE 2 ================= -->
-<div class="page">
-<div class="blob a"></div><div class="blob b"></div>
-
-<!-- D Daily Talk -->
-<div class="sec y">
-  <div class="tt"><img src="img/speaking_head.png" alt=""><b>E. Daily Talk</b><small>這是他們在球場的對話。從字庫選一句填進去，每句只能用一次</small><span class="pts">5 ⭐</span></div>
-  <div class="bank"><span>Good idea!</span><span>Have a good time.</span><span>Thank you.</span><span>TGIF!</span><span>It's awesome!</span></div>
-  <div class="dlg">
-    <div class="l"><img src="img/nerd_face.png" alt=""><b>Kate:</b><span class="en">Look at the stadium! <span class="line w"></span></span></div>
-    <div class="l"><img src="img/smiling_face_with_hearts.png" alt=""><b>Amy:</b><span class="en">Let's go watch football.</span>&nbsp;<img src="img/grinning_face_with_big_eyes.png" alt=""><b>Teddy:</b><span class="line w"></span></div>
-    <div class="l"><img src="img/star-struck.png" alt=""><b>Ben:</b><span class="en">What day is today?</span>&nbsp;<img src="img/grinning_face_with_big_eyes.png" alt=""><b>Teddy:</b><span class="en">It's Friday. <span class="line w"></span></span></div>
-    <div class="l"><img src="img/smiling_face_with_sunglasses.png" alt=""><b>Staff:</b><span class="en">Here are your tickets. <span class="line w"></span></span>&nbsp;<img src="img/polar_bear.png" alt=""><b>Snowy:</b><span class="line w"></span></div>
-  </div>
-</div>
-
-<!-- E My Week -->
-<div class="sec b">
-  <div class="tt"><img src="img/spiral_calendar.png" alt=""><b>F. My Real Week</b><small>每一天畫一件你真的會做的事，再選最喜歡的一天用英文介紹</small><span class="pts">5 ⭐</span></div>
-  <div class="week">
-    <div class="wd"><b>Monday</b><div class="draw"></div><small>Mon.</small></div>
-    <div class="wd"><b>Tuesday</b><div class="draw"></div><small>Tue.</small></div>
-    <div class="wd"><b>Wednesday</b><div class="draw"></div><small>Wed.</small></div>
-    <div class="wd"><b>Thursday</b><div class="draw"></div><small>Thu.</small></div>
-    <div class="wd"><b>Friday</b><div class="draw"></div><small>Fri.</small></div>
-    <div class="wd"><b>Saturday</b><div class="draw"></div><small>Sat.</small></div>
-    <div class="wd"><b>Sunday</b><div class="draw"></div><small>Sun.</small></div>
-  </div>
-  <div style="font-size:10.5pt;margin-top:2mm;line-height:2;white-space:nowrap"><span class="en" style="font-weight:600">My favorite day: It's</span> <span class="line w"></span>. <span class="en" style="font-weight:600">Let's</span> <span class="line xl"></span>!　<span class="en" style="font-weight:600;color:var(--g)">It's awesome!</span></div>
-  <div class="tipbox">可以用上課學的：go to the night market ／ play baseball ／ watch a movie ／ go to the park ／ go swimming ／ read a book，或問家人新的說法</div>
-</div>
-
-<!-- F Family interview -->
-<div class="sec r">
-  <div class="tt"><img src="img/bar_chart.png" alt=""><b>G. Family Interview</b><small>用英文問家裡 3 個人 "What sport do you like?"，打勾後寫一句</small><span class="pts">4 ⭐</span></div>
-  <div class="iv">
-    <div><img src="img/baseball.png" alt="">Baseball <span class="cb"></span><span class="cb"></span><span class="cb"></span></div>
-    <div><img src="img/basketball.png" alt="">Basketball <span class="cb"></span><span class="cb"></span><span class="cb"></span></div>
-    <div><img src="img/badminton.png" alt="">Badminton <span class="cb"></span><span class="cb"></span><span class="cb"></span></div>
-    <div><img src="img/soccer_ball.png" alt="">Football <span class="cb"></span><span class="cb"></span><span class="cb"></span></div>
-  </div>
-  <div style="font-size:10.5pt;margin-top:1.5mm;line-height:2;white-space:nowrap"><span class="en" style="font-weight:600">Football is popular in Spain.</span> <span class="line w"></span> <span class="en" style="font-weight:600">is popular in my family.</span></div>
-</div>
-
-<!-- G Cheer -->
-<div class="sec g">
-  <div class="tt"><img src="img/megaphone.png" alt=""><b>H. Make a Cheer!</b><small>用你的名字或喜歡的字編一句加油口號，畫一面隊旗，上課要表演</small><span class="pts">3 ⭐</span></div>
-  <div class="two">
-    <div>
-      <div class="cheer">Big G, little o. <span style="color:var(--r)">Go! Go! Go!</span></div>
-      <div class="cheer">Big <span class="sq"></span>, little <span class="sq"></span>, little <span class="sq"></span>, little <span class="sq"></span>, little <span class="sq"></span>.</div>
-      <div class="cheer" style="white-space:nowrap"><span class="line" style="min-width:30mm"></span>! <span class="line" style="min-width:30mm"></span>! <span class="line" style="min-width:30mm"></span>!</div>
+  <!-- 2 Calendar detective -->
+  <div class="task">
+    <div class="th"><div class="num">2</div><img src="img/magnifying_glass_tilted_left.png" alt=""><h2>Calendar Detective</h2><span class="zh">黑色圓圈是「今天」，看右上角的小字母作答</span><span class="star">6 ★</span></div>
+    <div class="body cols">
+      <div class="cal">
+        <div class="h">MON</div><div class="h">TUE</div><div class="h">WED</div><div class="h">THU</div><div class="h">FRI</div><div class="h">SAT</div><div class="h">SUN</div>
+        <div class="d off">0</div><div class="d off">0</div><div class="d off">0</div>
+        <div class="d">1</div><div class="d m">2<i>a</i></div><div class="d wk">3</div><div class="d wk">4</div>
+        <div class="d">5</div><div class="d">6</div><div class="d m">7<i>b</i></div><div class="d">8</div><div class="d">9</div><div class="d wk">10</div><div class="d wk">11</div>
+        <div class="d">12</div><div class="d">13</div><div class="d">14</div><div class="d">15</div><div class="d">16</div><div class="d wk">17</div><div class="d wk m">18<i>c</i></div>
+        <div class="d">19</div><div class="d m">20<i>d</i></div><div class="d">21</div><div class="d">22</div><div class="d">23</div><div class="d wk">24</div><div class="d wk">25</div>
+        <div class="d">26</div><div class="d">27</div><div class="d">28</div><div class="d">29</div><div class="d">30</div><div class="d wk">31</div><div class="d off">0</div>
+      </div>
+      <div>
+        <div class="q"><span class="k">a</span><div class="t">What day is today? → It's<span class="ln"></span>.</div></div>
+        <div class="q"><span class="k">b</span><div class="t">What day is today? →<span class="ln"></span></div></div>
+        <div class="q"><span class="k">c</span><div class="t">Is it Saturday today? →<span class="ln"></span></div></div>
+        <div class="q"><span class="k">d</span><div class="t">Is it Monday today? →<span class="ln"></span></div></div>
+        <div class="q"><span class="k b2">★</span><div class="t">Circle the real today. What day is today? →<span class="ln"></span></div></div>
+        <div class="hint">★ 在月曆上圈出「真正的今天」，再用完整句子寫下來。寫完大聲唸一次給家人聽。</div>
+      </div>
     </div>
-    <div class="box">🚩 My team flag 我的隊旗</div>
   </div>
-</div>
 
-<!-- H I can -->
-<div class="sec y">
-  <div class="tt"><img src="img/check_mark_button.png" alt=""><b>I. I can…</b><small>誠實打分：😊 完全會　🙂 大概會　🤔 還要練</small><span class="pts">自評</span></div>
-  <div class="ican">
-    <div><span class="en">I can say the 7 days.</span><span class="faces">😊🙂🤔</span></div>
-    <div><span class="en">I can ask and answer "What day is today?"</span><span class="faces">😊🙂🤔</span></div>
-    <div><span class="en">I can answer Yes, it is. / No, it isn't.</span><span class="faces">😊🙂🤔</span></div>
-    <div><span class="en">I can use Good job! / TGIF! / Have a good time.</span><span class="faces">😊🙂🤔</span></div>
+  <!-- 3 Listen at home -->
+  <div class="task">
+    <div class="th"><div class="num">3</div><img src="img/loudspeaker.png" alt=""><h2>Listen at Home</h2><span class="zh">掃 QR code，聽真人語音玩 10 題，把分數記下來（可以玩很多次）</span><span class="star">4 ★</span></div>
+    <div class="body qr">
+      <img src="img/qr_listen.png" alt="QR code">
+      <ol>
+        <li>用手機或平板掃描 QR code，或輸入網址：<br><span class="url">imacipadtw-lang.github.io/teacher1006/unit1-what-day/listen.html</span></li>
+        <li>選「標準」，按 ▶ Play，聽到哪一天就點哪一天；聽不清楚可以按「再聽一次」</li>
+        <li>第 1 次 <span class="sc">/10</span>　第 2 次 <span class="sc">/10</span>　挑戰版 <span class="sc">/10</span><br>最難分的兩天：<span class="ln fix" style="display:inline-block;vertical-align:bottom;width:50mm"></span></li>
+      </ol>
+    </div>
   </div>
-  <div style="font-size:9.5pt;margin-top:1.5mm;white-space:nowrap">我想再多練習的是：<span class="line xl"></span></div>
-</div>
 
-<div class="ft">
-  家長簽名 <span class="line w"></span>　家長一句話（中英文都可）<span class="line xl"></span>
-  <span style="flex:1"></span>總分 <span class="line" style="min-width:12mm"></span> / 34 ⭐
-</div>
-</div>
+  <footer class="ft"><span class="pg">FRONT · 1 / 2</span><span>翻到背面繼續 →</span><span class="sp"></span>任務 1 <span class="box"></span>　任務 2 <span class="box"></span>　任務 3 <span class="box"></span></footer>
+</section>
+
+<!-- ======================= 背面 ======================= -->
+<section class="page">
+  <div class="hd2"><b>What Day Is Today? · Homework Mission</b><span>BACK · 背面：說一說、寫一寫、評一評</span></div>
+
+  <!-- 4 Daily Talk -->
+  <div class="task">
+    <div class="th"><div class="num">4</div><img src="img/speaking_head.png" alt=""><h2>Daily Talk</h2><span class="zh">他們在球場說的話。從字庫選一句填入，每句只能用一次</span><span class="star">5 ★</span></div>
+    <div class="body">
+      <div class="bank"><span>Good idea!</span><span>Have a good time.</span><span>Thank you.</span><span>TGIF!</span><span>It's awesome!</span></div>
+      <div class="dlg">
+        <div class="dl"><span class="who"><img src="img/nerd_face.png" alt="">Kate</span><span class="say">Look at the stadium!<span class="ln mid"></span></span></div>
+        <div class="dl"><span class="who"><img src="img/smiling_face_with_hearts.png" alt="">Amy</span><span class="say">Let's go watch football.</span><span class="who"><img src="img/grinning_face_with_big_eyes.png" alt="">Teddy</span><span class="say"><span class="ln mid"></span></span></div>
+        <div class="dl"><span class="who"><img src="img/star-struck.png" alt="">Ben</span><span class="say">Is it Friday today?</span><span class="who"><img src="img/grinning_face_with_big_eyes.png" alt="">Teddy</span><span class="say">Yes, it is.<span class="ln mid"></span></span></div>
+        <div class="dl"><span class="who"><img src="img/smiling_face_with_sunglasses.png" alt="">Staff</span><span class="say">Here are your tickets.<span class="ln mid"></span></span><span class="who"><img src="img/polar_bear.png" alt="">Snowy</span><span class="say"><span class="ln mid"></span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 My real week -->
+  <div class="task">
+    <div class="th"><div class="num">5</div><img src="img/spiral_calendar.png" alt=""><h2>My Real Week</h2><span class="zh">每一天畫一件你真的會做的事，再介紹你最喜歡的一天</span><span class="star">5 ★</span></div>
+    <div class="body">
+      <div class="week">
+        <div class="wd"><b>Monday</b><small>Mon.</small><div class="draw"></div><span class="w">I…</span></div>
+        <div class="wd"><b>Tuesday</b><small>Tue.</small><div class="draw"></div><span class="w">I…</span></div>
+        <div class="wd"><b>Wednesday</b><small>Wed.</small><div class="draw"></div><span class="w">I…</span></div>
+        <div class="wd"><b>Thursday</b><small>Thu.</small><div class="draw"></div><span class="w">I…</span></div>
+        <div class="wd"><b>Friday</b><small>Fri.</small><div class="draw"></div><span class="w">I…</span></div>
+        <div class="wd"><b>Saturday</b><small>Sat.</small><div class="draw"></div><span class="w">I…</span></div>
+        <div class="wd"><b>Sunday</b><small>Sun.</small><div class="draw"></div><span class="w">I…</span></div>
+      </div>
+      <div class="frame">My favorite day: It's<span class="ln fix"></span>. Let's<span class="ln long"></span>!</div>
+      <div class="hint" style="margin-top:2mm">句子可以用：go to the night market ／ play baseball ／ watch a movie ／ go to the park ／ go swimming ／ read a book，或問家人找新的說法。</div>
+    </div>
+  </div>
+
+  <!-- 6 Family interview -->
+  <div class="task">
+    <div class="th"><div class="num">6</div><img src="img/bar_chart.png" alt=""><h2>Family Interview</h2><span class="zh">用英文問家裡 3 個人 "What sport do you like?"，每問一人打一個勾</span><span class="star">4 ★</span></div>
+    <div class="body">
+      <div class="iv">
+        <div><img src="img/baseball.png" alt="">Baseball <span class="cb"></span><span class="cb"></span><span class="cb"></span></div>
+        <div><img src="img/basketball.png" alt="">Basketball <span class="cb"></span><span class="cb"></span><span class="cb"></span></div>
+        <div><img src="img/badminton.png" alt="">Badminton <span class="cb"></span><span class="cb"></span><span class="cb"></span></div>
+        <div><img src="img/soccer_ball.png" alt="">Football <span class="cb"></span><span class="cb"></span><span class="cb"></span></div>
+      </div>
+      <div class="frame">Football is popular in Spain.<span class="ln fix"></span>is popular in my family.</div>
+    </div>
+  </div>
+
+  <!-- 7 Cheer -->
+  <div class="task">
+    <div class="th"><div class="num">7</div><img src="img/megaphone.png" alt=""><h2>Make a Cheer</h2><span class="zh">編一句口號（大寫＝Big，小寫＝little），畫隊旗，下次上課表演</span><span class="star">3 ★</span></div>
+    <div class="body two">
+      <div>
+        <div class="cheer">Big G, little o. <span class="ex">Go! Go! Go!</span></div>
+        <div class="cheer">Big <span class="sq"></span>, little <span class="sq"></span>, little <span class="sq"></span>, little <span class="sq"></span>, little <span class="sq"></span>.</div>
+        <div class="cheer"><span class="ln" style="display:inline-block;width:28mm;vertical-align:bottom"></span>! <span class="ln" style="display:inline-block;width:28mm;vertical-align:bottom"></span>! <span class="ln" style="display:inline-block;width:28mm;vertical-align:bottom"></span>!</div>
+      </div>
+      <div class="flag">My team flag　我的隊旗</div>
+    </div>
+  </div>
+
+  <!-- 8 I can -->
+  <div class="task">
+    <div class="th"><div class="num">8</div><img src="img/check_mark_button.png" alt=""><h2>I can…</h2><span class="zh">誠實評估自己，在對的圈圈打勾</span><span class="star">自評</span></div>
+    <div class="body ican">
+      <div class="lbl"><span>完全會</span><span>大概會</span><span>還要練</span></div>
+      <div>I can say the seven days of the week.</div><div class="f"><span>A</span><span>B</span><span>C</span></div>
+      <div>I can ask and answer "What day is today?"</div><div class="f"><span>A</span><span>B</span><span>C</span></div>
+      <div>I can answer "Yes, it is." / "No, it isn't."</div><div class="f"><span>A</span><span>B</span><span>C</span></div>
+      <div>I can use Good job! / TGIF! / Have a good time.</div><div class="f"><span>A</span><span>B</span><span>C</span></div>
+    </div>
+  </div>
+
+  <footer class="ft"><span class="pg">BACK · 2 / 2</span><span>家長簽名<span class="sig" style="width:30mm"></span></span><span>家長一句話<span class="sig" style="width:42mm"></span></span><span class="sp"></span>總分<span class="box"></span> / 31 ★</footer>
+</section>
+
+<!-- ======================= 教師版 ======================= -->
+<section class="page tp">
+  <div class="hd2"><b>Teacher's Page · 解答與設計理念</b><span>UNIT 1 · WHAT DAY IS TODAY? · 教師用，不發給學生</span></div>
+
+  <h2>Answer Key 解答</h2>
+  <div class="key">
+    <div><b>1a</b> It's Saturday.</div><div><b>2a</b> It's Friday.</div>
+    <div><b>1b</b> It's Tuesday.</div><div><b>2b</b> It's Wednesday.</div>
+    <div><b>1c</b> No, it isn't. It's Monday.</div><div><b>2c</b> Yes, it is.</div>
+    <div><b>1d</b> Yes, it is.</div><div><b>2d</b> No, it isn't. It's Tuesday.</div>
+    <div><b>2★</b> 依作答當天而定（檢查日期與星期是否一致）</div><div><b>3</b> 線上自動計分；三格分數應呈上升趨勢</div>
+    <div><b>4</b> Kate → It's awesome!　Teddy → Good idea!　Teddy → Yes, it is. TGIF!</div><div><b>4</b> Staff → Have a good time.　Snowy → Thank you.</div>
+    <div><b>5–7</b> 開放式；評分重點：句子完整（有 It's）、大小寫正確、口號格式符合</div><div><b>8</b> 自評；C 最多的那一句下次上課優先複習</div>
+  </div>
+
+  <h2>Design Rationale 每個任務的理論依據與預期成效</h2>
+  <table>
+    <tr><th style="width:26mm">任務</th><th style="width:50mm">教學法／理論</th><th>為什麼這樣設計、預期看到什麼</th></tr>
+    <tr><td>1 Read the Poster</td><td>Nation (2007) 四股線：意義為主的輸入；Krashen 可理解輸入 i+1</td><td>學生要從一份「不是為課本寫的」真實文本抓資訊，縮寫 Mon.–Sun. 在語境中被反覆辨認。預期：能把海報資訊轉成課本句型回答。</td></tr>
+    <tr><td>2 Calendar Detective</td><td>Nation 語言形式為主的學習；Roediger &amp; Karpicke (2006) 測驗效應（提取練習）</td><td>兩種問句（Wh- / Yes-No）交錯，迫使學生在每題重新「提取」而不是照抄；★ 題把練習連回真實的今天，建立「這個句子是用來講真的事」的連結。</td></tr>
+    <tr><td>3 Listen at Home</td><td>Field (2008) 聽力解碼訓練；間隔練習（spaced practice）；Dörnyei 動機：即時回饋與自主選擇難度</td><td>真人語音、不同說話者，訓練在整句中抓關鍵詞；三格分數讓學生看見自己進步，教師也能看出誰需要補聽力。預期：第 2 次分數高於第 1 次。</td></tr>
+    <tr><td>4 Daily Talk</td><td>Lewis 詞彙組塊法（lexical chunks）；語用能力：在對的情境用對的話</td><td>五句情境短語不是背定義，而是放進「誰、在哪裡、對誰說」的對話裡判斷。預期：能說出每句話適合的情境。</td></tr>
+    <tr><td>5 My Real Week</td><td>Swain (1985) 輸出假說；Willis 任務型教學（TBLT）；個人化（personalization）提升保留率</td><td>畫自己真實的一週＝把語言和個人經驗綁在一起；句型框架 "It's ___. Let's ___!" 讓低成就學生也能完成，高成就學生可以自己查新動詞片語。</td></tr>
+    <tr><td>6 Family Interview</td><td>真實互動（authentic interaction）；108 課綱 C3 多元文化與國際理解</td><td>延伸課本 Think and Say：Football is popular in Spain → ___ is popular in my family。學生用英文問真人、整理資料、下結論。</td></tr>
+    <tr><td>7 Make a Cheer</td><td>拼讀覺識（大小寫、字母名）；創造性輸出與同儕表演（Dörnyei 動機）</td><td>課本 "Big G, little o" 的格式被遷移到學生自己的字；下次上課表演＝有真實的觀眾與目的。</td></tr>
+    <tr><td>8 I can…</td><td>CEFR / 歐洲語言檔案 Can-do 自評；Zimmerman 自我調整學習</td><td>學生為自己的學習負責；教師以 C 的分布決定下一堂複習重點。</td></tr>
+  </table>
+
+  <h2>Using the Results 怎麼用這張學習單的結果</h2>
+  <table>
+    <tr><th style="width:40mm">你看到的情況</th><th>下一步</th></tr>
+    <tr><td>任務 1、2 常漏掉 It's</td><td>下次課堂「Calendar Detective」改用標準難度，全班齊答時手比「It's」的手勢再說日期。</td></tr>
+    <tr><td>任務 3 第二次沒進步</td><td>課堂 Listen and Point 用挑戰版，特別練 Tuesday / Thursday、Saturday / Sunday 的最小對比。</td></tr>
+    <tr><td>任務 4 Good idea! 與 It's awesome! 互換</td><td>示範：Good idea! 回應「提議」(Let's…)，It's awesome! 回應「看到的東西」。</td></tr>
+    <tr><td>任務 8 的 C 集中在某一句</td><td>那一句就是下一堂暖身的主題；用簡報對應頁面 3 分鐘複習。</td></tr>
+  </table>
+  <div class="ref">參考：Nation, I.S.P. (2007). The four strands. <i>Innovation in Language Learning and Teaching</i>, 1(1). ／ Roediger, H.L. &amp; Karpicke, J.D. (2006). Test-enhanced learning. <i>Psychological Science</i>, 17(3). ／ Swain, M. (1985). Communicative competence: Some roles of comprehensible input and comprehensible output. ／ Willis, J. (1996). <i>A Framework for Task-Based Learning</i>. ／ Field, J. (2008). <i>Listening in the Language Classroom</i>. ／ Dörnyei, Z. (2001). <i>Motivational Strategies in the Language Classroom</i>. ／ Council of Europe (2020). <i>CEFR Companion Volume</i>. ／ 教育部 (2018). 十二年國教英語文領域課程綱要。</div>
+  <footer class="ft"><span class="pg">TEACHER · 教師版</span><span class="sp"></span>簡報密碼 0686 ・ imacipadtw-lang.github.io/teacher1006/unit1-what-day/</footer>
+</section>
 
 </body>
 </html>
