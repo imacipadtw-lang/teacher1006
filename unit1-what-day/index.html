@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Unit 1 · What Day Is Today? 互動簡報</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="icon" href="img/soccer_ball.png">
+<style>
+:root{
+  --bg1:#FFF4D6; --bg2:#DDEFFF; --bg3:#FFE0EC;
+  --ink:#2B2340; --ink2:#5B5370; --card:#FFFFFF;
+  --p:#7C5CFF; --p2:#5A3FE0; --y:#FFC83D; --o:#FF8A3D; --g:#2ECC8A; --r:#FF5C7A; --b:#3DA5FF; --t:#1ED3C1;
+  --shadow:0 10px 30px -12px rgba(43,35,64,.35);
+  --en:"Fredoka","Noto Sans TC",sans-serif;
+  --zh:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;overflow:hidden}
+body{font-family:var(--zh);color:var(--ink);background:linear-gradient(135deg,var(--bg1),var(--bg2) 55%,var(--bg3));user-select:none}
+button{font-family:inherit;cursor:pointer;border:0}
+img{-webkit-user-drag:none}
+.en{font-family:var(--en)}
+
+/* floating blobs */
+.blob{position:fixed;border-radius:50%;filter:blur(60px);opacity:.55;z-index:0;animation:drift 18s ease-in-out infinite alternate}
+.blob.a{width:48vw;height:48vw;left:-12vw;top:-14vw;background:#FFD6A5}
+.blob.b{width:40vw;height:40vw;right:-10vw;top:20vh;background:#BDE0FE;animation-delay:-6s}
+.blob.c{width:36vw;height:36vw;left:30vw;bottom:-16vw;background:#FFC8DD;animation-delay:-12s}
+@keyframes drift{to{transform:translate(6vw,4vh) scale(1.08)}}
+
+/* ===== password gate ===== */
+#gate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:linear-gradient(135deg,#7C5CFF,#3DA5FF 60%,#1ED3C1);transition:opacity .6s,transform .6s}
+#gate.open{opacity:0;transform:scale(1.15);pointer-events:none}
+.gate-card{background:rgba(255,255,255,.95);border-radius:36px;padding:28px 32px 26px;width:min(92vw,420px);text-align:center;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);animation:pop .6s cubic-bezier(.2,1.4,.4,1)}
+.gate-card img{width:110px;animation:bob 2.2s ease-in-out infinite}
+.gate-card h1{font-family:var(--en);font-size:30px;margin:6px 0 2px;color:var(--p2)}
+.gate-card p{margin:0 0 14px;color:var(--ink2);font-size:15px}
+.pin{display:flex;gap:12px;justify-content:center;margin:8px 0 16px}
+.pin i{width:22px;height:22px;border-radius:50%;background:#E8E3FF;border:3px solid var(--p);transition:.2s}
+.pin i.on{background:var(--p);transform:scale(1.15)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pad button{font-family:var(--en);font-size:28px;font-weight:600;padding:14px 0;border-radius:18px;background:#F3F0FF;color:var(--p2);transition:.12s}
+.pad button:active{transform:scale(.92);background:var(--p);color:#fff}
+.pad .del{background:#FFE5EA;color:var(--r);font-size:20px}
+.pad .ok{background:var(--g);color:#fff;font-size:22px}
+.shake{animation:shake .5s}
+@keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-8px)}40%,60%{transform:translateX(8px)}}
+.gate-msg{height:22px;font-weight:700;color:var(--r)}
+
+/* ===== app shell ===== */
+#app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:10px;padding:10px 16px;flex:0 0 auto}
+header .logo{display:flex;align-items:center;gap:8px;font-family:var(--en);font-weight:700;font-size:20px;color:var(--p2)}
+header .logo img{width:34px}
+header .sp{flex:1}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:#fff;box-shadow:var(--shadow);font-weight:700;font-size:14px;color:var(--ink2)}
+.chip button{padding:4px 10px;border-radius:999px;background:transparent;font-weight:700;color:var(--ink2)}
+.chip button.on{background:var(--p);color:#fff}
+.icon-btn{width:40px;height:40px;border-radius:50%;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;font-size:18px}
+.icon-btn.on{background:var(--y)}
+#counter{font-family:var(--en);font-weight:600;color:var(--ink2)}
+.time-badge{font-family:var(--en);background:var(--y);color:#5a3b00;padding:6px 12px;border-radius:999px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+
+main{flex:1;position:relative;overflow:hidden}
+.slide{position:absolute;inset:0;padding:8px 24px 70px;display:none;flex-direction:column;align-items:center;justify-content:flex-start;overflow:auto}
+.slide.cur{display:flex;animation:slidein .5s cubic-bezier(.2,1,.3,1)}
+@keyframes slidein{from{opacity:0;transform:translateX(60px) scale(.98)}}
+.slide .head{display:flex;align-items:center;gap:12px;width:100%;max-width:1100px;margin-bottom:6px}
+.slide h2{font-family:var(--en);font-size:clamp(26px,3.6vw,44px);margin:0;color:var(--p2);font-weight:700;letter-spacing:.3px}
+.slide h2 .zh{font-family:var(--zh);font-size:.5em;color:var(--ink2);font-weight:700;margin-left:10px}
+.stage{width:100%;max-width:1100px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.card{background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:22px 26px}
+.big{font-family:var(--en);font-size:clamp(28px,4.5vw,56px);font-weight:700;color:var(--ink);text-align:center;line-height:1.2}
+.mid{font-family:var(--en);font-size:clamp(20px,2.6vw,32px);font-weight:600;color:var(--ink);text-align:center}
+.sub{color:var(--ink2);font-size:15px;text-align:center}
+.ico{width:clamp(56px,8vw,110px);height:auto}
+.bob{animation:bob 2.4s ease-in-out infinite}
+.bob2{animation:bob 2.4s ease-in-out -1.2s infinite}
+.spin{animation:spin 6s linear infinite}
+.wig{animation:wiggle 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-3deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes wiggle{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+@keyframes pop{from{opacity:0;transform:scale(.4)}60%{transform:scale(1.12)}to{opacity:1;transform:scale(1)}}
+.pop{animation:pop .55s cubic-bezier(.2,1.4,.4,1) both}
+.hidden{display:none!important}
+
+.btn{font-family:var(--en);font-size:clamp(18px,2vw,24px);font-weight:700;padding:12px 26px;border-radius:999px;color:#fff;background:linear-gradient(135deg,var(--p),var(--b));box-shadow:0 8px 20px -8px var(--p);transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(.95)}
+.btn.y{background:linear-gradient(135deg,var(--o),var(--y));box-shadow:0 8px 20px -8px var(--o);color:#4a2b00}
+.btn.g{background:linear-gradient(135deg,var(--g),var(--t));box-shadow:0 8px 20px -8px var(--g)}
+.btn.r{background:linear-gradient(135deg,var(--r),#FF8A9B);box-shadow:0 8px 20px -8px var(--r)}
+.btn.ghost{background:#fff;color:var(--p2);box-shadow:var(--shadow)}
+.btn img{width:28px}
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center}
+
+/* options */
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%;max-width:900px}
+.opt{background:#fff;border-radius:26px;padding:20px 10px;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:.18s;border:4px solid transparent}
+.opt:hover{transform:translateY(-4px) scale(1.02)}
+.opt img{width:clamp(60px,9vw,120px)}
+.opt .en{display:block;font-size:clamp(20px,2.4vw,30px);font-weight:700;margin-top:6px}
+.opt.ok{border-color:var(--g);background:#E9FBF3;animation:pop .5s}
+.opt.no{border-color:var(--r);background:#FFEDF1;animation:shake .5s}
+
+/* TPR */
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;width:100%;max-width:1100px}
+.day{background:#fff;border-radius:22px;padding:14px 6px 10px;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:.2s;border:4px solid transparent;position:relative}
+.day img{width:clamp(44px,6vw,80px);transition:.3s}
+.day .n{font-family:var(--en);font-weight:700;font-size:clamp(14px,1.7vw,22px);color:var(--p2)}
+.day .ab{font-family:var(--en);font-size:12px;color:var(--ink2)}
+.day .act{font-size:12px;color:var(--ink2);margin-top:4px}
+.day.hot{border-color:var(--y);background:#FFF7DD;transform:scale(1.1) translateY(-8px)}
+.day.hot img{animation:wiggle .5s infinite}
+
+/* scenes */
+.scene{display:grid;grid-template-columns:1.05fr 1fr;gap:20px;width:100%;max-width:1100px;align-items:stretch}
+.pic{background:#fff;border-radius:28px;box-shadow:var(--shadow);min-height:300px;position:relative;overflow:hidden;display:grid;place-items:center}
+.pic .sky{position:absolute;inset:0;background:linear-gradient(180deg,#CDE9FF,#FFF8E6)}
+.pic .ground{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,#B9F0C8,#8EE0A7)}
+.pic .grass{background:linear-gradient(180deg,#8EDC7A,#4FBF61)}
+.pic .night{background:linear-gradient(180deg,#5A3FE0,#1ED3C1)}
+.pic .el{position:absolute;width:var(--w,110px)}
+.bubbles{display:flex;flex-direction:column;gap:10px;justify-content:center}
+.bub{display:flex;align-items:center;gap:12px;opacity:0;transform:translateY(16px);transition:.4s}
+.bub.show{opacity:1;transform:none}
+.bub img{width:52px;flex:0 0 52px}
+.bub .t{background:#fff;border-radius:20px 20px 20px 6px;padding:12px 18px;font-family:var(--en);font-size:clamp(18px,2.1vw,27px);font-weight:600;box-shadow:var(--shadow);position:relative}
+.bub .t small{display:block;font-family:var(--zh);font-size:13px;color:var(--ink2);font-weight:500}
+.bub.r{flex-direction:row-reverse}
+.bub.r .t{border-radius:20px 20px 6px 20px;background:#EEF4FF}
+.keys{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:1100px}
+.key{background:#FFF7DD;border:2px dashed var(--y);border-radius:16px;padding:8px 16px;font-family:var(--en);font-weight:700;font-size:18px}
+.key small{font-family:var(--zh);font-weight:500;color:var(--ink2);margin-left:8px}
+
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;background:#fff;padding:16px;border-radius:24px;box-shadow:var(--shadow);width:min(100%,560px)}
+.cal .h{font-family:var(--en);text-align:center;font-weight:700;color:var(--p2);font-size:15px}
+.cal .d{aspect-ratio:1;display:grid;place-items:center;border-radius:14px;font-family:var(--en);font-weight:600;font-size:clamp(14px,1.8vw,22px);background:#F6F4FF;color:var(--ink2);position:relative}
+.cal .d.off{background:transparent}
+.cal .d.pick{background:var(--r);color:#fff;transform:scale(1.15);box-shadow:0 8px 18px -6px var(--r);animation:pop .5s}
+.cal .d.pick::after{content:"";position:absolute;inset:-6px;border:3px solid var(--r);border-radius:50%;animation:ring .9s ease-out infinite}
+@keyframes ring{to{transform:scale(1.5);opacity:0}}
+.cal .d.wk{color:var(--o)}
+.cal-wrap{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;width:100%;max-width:1100px}
+@media(max-width:860px){.cal-wrap,.scene{grid-template-columns:1fr}}
+.answer{min-height:90px;display:flex;align-items:center;justify-content:center}
+.yn{display:flex;gap:18px}
+.yn .btn{font-size:clamp(22px,3vw,36px);padding:16px 40px}
+.score{font-family:var(--en);font-weight:700;color:var(--ink2)}
+
+/* reorder */
+.lines{display:flex;flex-direction:column;gap:10px;width:min(100%,760px)}
+.line{background:#fff;border-radius:18px;padding:12px 18px;font-family:var(--en);font-size:clamp(18px,2.2vw,28px);font-weight:600;box-shadow:var(--shadow);cursor:pointer;display:flex;align-items:center;gap:12px;transition:.2s;border:3px solid transparent}
+.line .num{width:36px;height:36px;border-radius:50%;background:#F0ECFF;display:grid;place-items:center;font-size:18px;color:var(--p2);flex:0 0 36px}
+.line.picked{border-color:var(--p);background:#F6F3FF}
+.line.good{border-color:var(--g);background:#E9FBF3}
+.line.bad{border-color:var(--r);background:#FFEDF1;animation:shake .5s}
+
+/* matching */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:28px;width:min(100%,760px)}
+.col{display:flex;flex-direction:column;gap:10px}
+.tile{background:#fff;border-radius:16px;padding:12px;text-align:center;font-family:var(--en);font-size:clamp(18px,2.2vw,26px);font-weight:700;box-shadow:var(--shadow);cursor:pointer;border:3px solid transparent;transition:.15s}
+.tile.sel{border-color:var(--p);background:#F6F3FF;transform:scale(1.04)}
+.tile.done{background:#E9FBF3;border-color:var(--g);color:var(--g);pointer-events:none}
+.tile.bad{animation:shake .5s;border-color:var(--r)}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;background:#fff;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);width:min(100%,900px);font-size:clamp(15px,1.8vw,21px)}
+th{background:var(--p);color:#fff;padding:12px;font-family:var(--en)}
+td{padding:11px 12px;border-top:1px solid #EEE;text-align:center}
+td.en{font-weight:600}
+.blank{display:inline-block;min-width:110px;border-bottom:3px dashed var(--o);height:1.2em}
+.tabs{display:flex;gap:8px}
+.tabs .btn{padding:8px 20px;font-size:18px}
+.teamdot{display:inline-block;width:20px;height:20px;border-radius:50%;vertical-align:middle;margin-right:6px}
+
+/* roles */
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:1100px}
+@media(max-width:860px){.roles{grid-template-columns:repeat(2,1fr)}}
+.role{background:#fff;border-radius:22px;padding:14px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;cursor:pointer;transition:.2s}
+.role:hover{transform:translateY(-3px)}
+.role img{width:64px}
+.role b{font-family:var(--en);font-size:20px;color:var(--p2);display:block}
+.role small{color:var(--ink2);display:block}
+.role .tone{font-size:14px;background:#FFF7DD;border-radius:999px;padding:2px 10px;display:inline-block;margin-top:4px}
+
+/* cheer */
+.cheer-word{display:flex;gap:12px}
+.cheer-word .btn{font-size:24px}
+.cheer-in{font-family:var(--en);font-size:24px;padding:10px 16px;border-radius:999px;border:3px solid var(--p);width:200px;text-align:center;text-transform:uppercase}
+.cheer-out{font-family:var(--en);font-size:clamp(26px,4vw,48px);font-weight:700;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;text-align:center;min-height:80px}
+.cheer-out span{display:inline-block;animation:pop .5s both}
+.cheer-out .go{color:var(--r);animation:jump .6s infinite alternate}
+@keyframes jump{to{transform:translateY(-14px) scale(1.1)}}
+
+/* vote */
+.vote{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:100%;max-width:1000px}
+.vcard{background:#fff;border-radius:24px;padding:14px 8px 10px;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.vcard:active{transform:scale(.95)}
+.vcard img{width:clamp(50px,7vw,96px)}
+.vcard .en{font-size:clamp(16px,2vw,24px);font-weight:700}
+.bar{width:70%;height:140px;background:#F3F0FF;border-radius:14px;display:flex;align-items:flex-end;overflow:hidden}
+.bar i{display:block;width:100%;height:0;transition:height .6s cubic-bezier(.2,1.2,.3,1);border-radius:14px 14px 0 0}
+.vcard .cnt{font-family:var(--en);font-weight:700;font-size:24px;color:var(--p2)}
+
+/* exit */
+.exit{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:1000px}
+@media(max-width:860px){.exit,.vote{grid-template-columns:repeat(2,1fr)}}
+.ticket{background:#fff;border-radius:28px;box-shadow:var(--shadow);padding:22px;text-align:center;position:relative;overflow:hidden}
+.ticket::before,.ticket::after{content:"";position:absolute;width:40px;height:40px;border-radius:50%;background:var(--bg2);top:50%;transform:translateY(-50%)}
+.ticket::before{left:-20px}.ticket::after{right:-20px}
+.timer{font-family:var(--en);font-size:clamp(34px,5vw,64px);font-weight:700;color:var(--r)}
+
+/* checklist */
+.chk{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(100%,900px)}
+@media(max-width:700px){.chk{grid-template-columns:1fr}}
+.chk label{background:#fff;border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center;cursor:pointer;font-size:16px}
+.chk input{width:22px;height:22px;accent-color:var(--g)}
+.chk label.done{background:#E9FBF3;text-decoration:line-through;color:var(--ink2)}
+
+/* goals summary */
+.goals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:1000px}
+@media(max-width:860px){.goals{grid-template-columns:1fr}}
+.goal{background:#fff;border-radius:24px;padding:18px;box-shadow:var(--shadow);text-align:center}
+.goal img{width:70px}
+.goal b{display:block;font-family:var(--en);font-size:22px;color:var(--p2);margin-top:6px}
+.goal p{margin:6px 0 0;color:var(--ink2);font-family:var(--en);font-size:17px}
+
+/* nav */
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;gap:14px;padding:10px;z-index:5;pointer-events:none}
+nav>*{pointer-events:auto}
+nav .icon-btn{width:52px;height:52px;font-size:22px}
+.dots{display:flex;gap:5px;background:rgba(255,255,255,.8);padding:8px 12px;border-radius:999px;box-shadow:var(--shadow);max-width:60vw;overflow:hidden}
+.dots i{width:8px;height:8px;border-radius:50%;background:#D8D2F0;flex:0 0 8px;cursor:pointer;transition:.2s}
+.dots i.on{background:var(--p);transform:scale(1.4)}
+.dots i.sec{background:#FFD36A}
+
+/* teacher panel */
+#tip{position:fixed;right:0;top:0;bottom:0;width:min(92vw,420px);background:#fff;z-index:50;box-shadow:-10px 0 40px rgba(0,0,0,.15);transform:translateX(105%);transition:.35s cubic-bezier(.2,1,.3,1);padding:18px 20px 90px;overflow:auto;font-size:15px;line-height:1.6}
+#tip.on{transform:none}
+#tip h3{margin:0 0 4px;font-size:20px;color:var(--p2);display:flex;align-items:center;gap:8px}
+#tip h4{margin:14px 0 4px;font-size:15px;color:var(--o);border-left:4px solid var(--y);padding-left:8px}
+#tip ul{margin:4px 0;padding-left:20px}
+#tip .close{position:absolute;top:12px;right:12px}
+#tip .lv{display:inline-block;background:#F0ECFF;color:var(--p2);border-radius:8px;padding:1px 8px;font-size:12px;font-weight:700;margin-right:4px}
+
+/* confetti canvas */
+#cf{position:fixed;inset:0;pointer-events:none;z-index:90}
+.toast{position:fixed;left:50%;top:14px;transform:translateX(-50%) translateY(-80px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;z-index:95;transition:.35s;font-weight:700}
+.toast.on{transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="blob a"></div><div class="blob b"></div><div class="blob c"></div>
+<canvas id="cf"></canvas>
+<div class="toast" id="toast"></div>
+
+<!-- ===== 密碼頁 ===== -->
+<div id="gate">
+  <div class="gate-card" id="gateCard">
+    <img id="lockImg" src="img/locked.png" alt="">
+    <h1>What Day Is Today?</h1>
+    <p>Unit 1 互動簡報 · 請輸入 4 位數密碼</p>
+    <div class="pin"><i></i><i></i><i></i><i></i></div>
+    <div class="pad">
+      <button>1</button><button>2</button><button>3</button>
+      <button>4</button><button>5</button><button>6</button>
+      <button>7</button><button>8</button><button>9</button>
+      <button class="del">⌫</button><button>0</button><button class="ok">GO</button>
+    </div>
+    <div class="gate-msg" id="gateMsg"></div>
+  </div>
+</div>
+
+<div id="app">
+<header>
+  <div class="logo"><img src="img/soccer_ball.png" alt="">Unit 1</div>
+  <span id="counter">1 / 20</span>
+  <span class="time-badge" id="tbadge">⏱ 1 min</span>
+  <span class="sp"></span>
+  <span class="chip">難度
+    <button data-lv="1">基礎</button><button data-lv="2" class="on">標準</button><button data-lv="3">挑戰</button>
+  </span>
+  <button class="icon-btn on" id="sndBtn" title="音效">🔊</button>
+  <button class="icon-btn" id="fsBtn" title="全螢幕">⛶</button>
+  <button class="icon-btn" id="tipBtn" title="老師提示 (T)">👩‍🏫</button>
+</header>
+<main id="main">
+
+<!-- 1 Title -->
+<section class="slide" data-time="1" data-tip="t1">
+  <div class="stage">
+    <div class="row">
+      <img class="ico bob" src="img/castle.png" alt=""><img class="ico bob2" src="img/church.png" alt=""><img class="ico bob" src="img/stadium.png" alt=""><img class="ico bob2" src="img/soccer_ball.png" alt="">
+    </div>
+    <div class="big en" style="font-size:clamp(40px,7vw,96px);background:linear-gradient(90deg,var(--p),var(--b),var(--t));-webkit-background-clip:text;color:transparent">What Day Is Today?</div>
+    <div class="mid">Unit 1 · Let's Travel to Spain! 🇪🇸</div>
+    <div class="card" style="text-align:center">
+      <div class="sub">今天我們要學：星期名稱 ✦ What day is today? ✦ Is it ___ today? ✦ 球場加油短語</div>
+    </div>
+    <button class="btn" onclick="go(1)"><img src="img/rocket.png" alt="">Let's go!</button>
+  </div>
+</section>
+
+<!-- 2 Where are the kids -->
+<section class="slide" data-time="2" data-tip="t2">
+  <div class="head"><h2>Where are the kids?<span class="zh">看圖猜猜看</span></h2></div>
+  <div class="stage">
+    <div class="row">
+      <img class="ico bob" src="img/polar_bear.png" alt=""><img class="ico bob2" src="img/nerd_face.png" alt=""><img class="ico bob" src="img/grinning_face_with_big_eyes.png" alt=""><img class="ico bob2" src="img/smiling_face_with_hearts.png" alt="">
+      <img class="ico wig" src="img/red_question_mark.png" alt="">
+    </div>
+    <div class="sub">提示：彩色馬賽克長椅、高高的教堂、好大的足球場…</div>
+    <div class="opts" id="whereOpts">
+      <div class="opt" data-ok="0"><img src="img/sun.png" alt=""><span class="en">Japan</span></div>
+      <div class="opt" data-ok="1"><img src="img/church.png" alt=""><span class="en">Spain</span></div>
+      <div class="opt" data-ok="0"><img src="img/rocket.png" alt=""><span class="en">USA</span></div>
+    </div>
+    <div class="answer" id="whereAns"></div>
+  </div>
+</section>
+
+<!-- 3 TPR chant -->
+<section class="slide" data-time="3" data-tip="t3">
+  <div class="head"><h2>Days of the Week Chant<span class="zh">邊唸邊做動作</span></h2></div>
+  <div class="stage">
+    <div class="days" id="days"></div>
+    <div class="row">
+      <button class="btn" id="chantPlay"><img src="img/musical_notes.png" alt="">Play Chant</button>
+      <button class="btn y" id="chantFast">⚡ Faster!</button>
+      <span class="chip">速度 <b id="bpm">90</b> bpm</span>
+    </div>
+    <div class="sub">點任何一天：看動作 ✦ Play：全班跟著拍子一起唸</div>
+  </div>
+</section>
+
+<!-- 4-7 scenes (generated) -->
+<section class="slide" data-time="2" data-tip="s1" data-scene="0"></section>
+<section class="slide" data-time="2" data-tip="s2" data-scene="1"></section>
+<section class="slide" data-time="2" data-tip="s3" data-scene="2"></section>
+<section class="slide" data-time="2" data-tip="s4" data-scene="3"></section>
+
+<!-- 8 Calendar detective -->
+<section class="slide" data-time="3" data-tip="t8">
+  <div class="head"><h2>Calendar Detective<span class="zh">行事曆偵探</span></h2><span class="sp" style="flex:1"></span><span class="score">Round <b id="cdRound">1</b></span></div>
+  <div class="stage">
+    <div class="cal-wrap">
+      <div class="cal" id="cal1"></div>
+      <div class="card" style="text-align:center">
+        <img class="ico wig" src="img/magnifying_glass_tilted_left.png" alt="">
+        <div class="big">What day is today?</div>
+        <div class="answer" id="cdAns"></div>
+        <div class="row">
+          <button class="btn g" id="cdReveal"><img src="img/eyes.png" alt="">Show</button>
+          <button class="btn" id="cdNext"><img src="img/shuffle_tracks_button.png" alt="">Next day</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 Yes or No -->
+<section class="slide" data-time="3" data-tip="t9">
+  <div class="head"><h2>Yes or No?<span class="zh">舉牌搶答</span></h2><span class="sp" style="flex:1"></span><span class="score">Q <b id="ynQ">1</b> / 6</span></div>
+  <div class="stage">
+    <div class="cal-wrap">
+      <div class="cal" id="cal2"></div>
+      <div class="card" style="text-align:center">
+        <div class="big" id="ynQuestion">Is it Monday today?</div>
+        <div class="yn" style="justify-content:center;margin:12px 0">
+          <button class="btn g" data-yn="1">✅ Yes</button><button class="btn r" data-yn="0">❌ No</button>
+        </div>
+        <div class="answer" id="ynAns"></div>
+        <button class="btn ghost" id="ynNext">Next ➜</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 Reorder -->
+<section class="slide" data-time="3" data-tip="t10">
+  <div class="head"><h2>Put It in Order<span class="zh">對話重組</span></h2></div>
+  <div class="stage">
+    <div class="sub">依照正確順序，一句一句點下去</div>
+    <div class="lines" id="lines"></div>
+    <div class="row"><button class="btn ghost" id="roReset">🔄 Reset</button><button class="btn y" id="roNew">🎲 New dialogue</button></div>
+  </div>
+</section>
+
+<!-- 11 Matching -->
+<section class="slide" data-time="2" data-tip="t11">
+  <div class="head"><h2>Match!<span class="zh">縮寫配對</span></h2></div>
+  <div class="stage">
+    <div class="sub">左邊點一個、右邊點一個，配對成功就會變綠色</div>
+    <div class="match"><div class="col" id="mL"></div><div class="col" id="mR"></div></div>
+    <button class="btn ghost" id="mReset">🔄 Again</button>
+  </div>
+</section>
+
+<!-- 12 Info gap -->
+<section class="slide" data-time="4" data-tip="t12">
+  <div class="head"><h2>Game Schedule<span class="zh">資訊差：兩人一組</span></h2></div>
+  <div class="stage">
+    <div class="tabs"><button class="btn on" data-ab="A">Student A</button><button class="btn ghost" data-ab="B">Student B</button></div>
+    <table id="igTable"></table>
+    <div class="card" style="padding:12px 20px">
+      <div class="mid" style="font-size:20px">Ask: <b>"What day is the Red vs. Blue game?"</b> → <b>"It's Wednesday."</b></div>
+      <div class="sub">B 不能偷看 A 的螢幕！只能用英文問。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 Reader's theater -->
+<section class="slide" data-time="3" data-tip="t13">
+  <div class="head"><h2>Reader's Theater<span class="zh">讀者劇場：分角色</span></h2></div>
+  <div class="stage">
+    <div class="roles" id="roles"></div>
+    <div class="sub">點角色卡可以聽到（看到）他的台詞 ✦ 每組六人，一人一角</div>
+  </div>
+</section>
+
+<!-- 14 Cheer -->
+<section class="slide" data-time="3" data-tip="t14">
+  <div class="head"><h2>Make a Cheer!<span class="zh">自編加油口號</span></h2></div>
+  <div class="stage">
+    <div class="card" style="text-align:center;width:min(100%,800px)">
+      <img class="ico wig" src="img/megaphone.png" alt="">
+      <div class="mid">Big G, little o. Go! Go! Go!</div>
+      <div class="sub">選一個字，或打上你們的組名 ⬇</div>
+      <div class="row" style="margin:12px 0">
+        <div class="cheer-word">
+          <button class="btn y" data-w="WIN">WIN</button><button class="btn y" data-w="YES">YES</button><button class="btn y" data-w="GOAL">GOAL</button>
+        </div>
+        <input class="cheer-in en" id="cheerIn" maxlength="6" placeholder="TEAM">
+        <button class="btn g" id="cheerGo">Cheer! 📣</button>
+      </div>
+      <div class="cheer-out" id="cheerOut"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 Vote -->
+<section class="slide" data-time="3" data-tip="t15">
+  <div class="head"><h2>Think and Say<span class="zh">班級投票</span></h2></div>
+  <div class="stage">
+    <div class="mid">Football is popular in Spain. <span style="color:var(--p2)">What sport is popular in our class?</span></div>
+    <div class="vote" id="vote"></div>
+    <div class="card" style="padding:10px 24px"><div class="big" id="voteSay" style="font-size:clamp(22px,3vw,40px)">Tap to vote! 👆</div></div>
+    <button class="btn ghost" id="voteReset">🔄 Reset</button>
+  </div>
+</section>
+
+<!-- 16 Exit ticket -->
+<section class="slide" data-time="3" data-tip="t16">
+  <div class="head"><h2>Exit Ticket<span class="zh">出場券</span></h2></div>
+  <div class="stage">
+    <div class="exit">
+      <div class="ticket">
+        <img class="ico bob" id="etIcon" src="img/game_die.png" alt="">
+        <div class="big" id="etDay">?</div>
+        <div class="mid" id="etScene" style="color:var(--ink2);font-size:20px">Press Shuffle</div>
+      </div>
+      <div class="ticket">
+        <div class="sub">Write 2 lines:</div>
+        <div class="mid">1. What day is today? → ______</div>
+        <div class="mid">2. One Daily Talk phrase</div>
+        <div class="timer" id="etTimer">60</div>
+        <div class="answer" id="etAns"></div>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn" id="etShuffle"><img src="img/game_die.png" alt="">Shuffle</button>
+      <button class="btn y" id="etStart">⏱ Start 60s</button>
+      <button class="btn g" id="etShow"><img src="img/eyes.png" alt="">Sample answer</button>
+    </div>
+  </div>
+</section>
+
+<!-- 17 Good job -->
+<section class="slide" data-time="2" data-tip="t17">
+  <div class="stage">
+    <img class="ico bob" src="img/trophy.png" alt="" style="width:130px">
+    <div class="big en" style="font-size:clamp(40px,7vw,90px);color:var(--o)">Good job!</div>
+    <div class="goals">
+      <div class="goal"><img src="img/calendar.png" alt=""><b>7 Days</b><p>Mon. – Sun.</p></div>
+      <div class="goal"><img src="img/speaking_head.png" alt=""><b>Ask &amp; Answer</b><p>What day is today?<br>Is it Friday today?</p></div>
+      <div class="goal"><img src="img/megaphone.png" alt=""><b>Daily Talk</b><p>Good idea! · TGIF!<br>Have a good time.</p></div>
+    </div>
+    <div class="sub">Next time ➜ Unit 2 · 你們猜猜下一站去哪裡？</div>
+    <button class="btn y" onclick="boom(2)">🎉 Celebrate!</button>
+  </div>
+</section>
+
+<!-- 18 Teacher prep -->
+<section class="slide" data-time="0" data-tip="t18">
+  <div class="head"><h2>Teacher Prep List<span class="zh">老師備課清單</span></h2></div>
+  <div class="stage">
+    <div class="chk" id="chk">
+      <label><input type="checkbox">印「Game Schedule」A/B 學習單（每組各 1 份，共 6 組）</label>
+      <label><input type="checkbox">Yes / No 舉牌（每人 1 張，或用手勢 👍👎）</label>
+      <label><input type="checkbox">讀者劇場角色牌 6 張 × 6 組（或用名牌貼紙）</label>
+      <label><input type="checkbox">Exit Ticket 小紙條（每人 1 張，便利貼即可）</label>
+      <label><input type="checkbox">分組：5–6 組，每組 5 人，先指定組長</label>
+      <label><input type="checkbox">確認電子白板可觸控、音量開啟（Chant 有節拍聲）</label>
+      <label><input type="checkbox">開啟本簡報、輸入密碼、選好難度（基礎／標準／挑戰）</label>
+      <label><input type="checkbox">加油口號道具：小旗子或彩色紙（選用）</label>
+      <label><input type="checkbox">投票工具：用本頁投票即可；無觸控時可舉手計數</label>
+      <label><input type="checkbox">課本 p.7–11 翻好，Listen and Read 音軌 1-16、1-17 準備好</label>
+    </div>
+    <div class="sub">勾選狀態會記在這台電腦上 ✦ 按 <b>T</b> 可隨時打開每一頁的老師提示</div>
+  </div>
+</section>
+
+</main>
+<nav>
+  <button class="icon-btn" id="prevBtn">◀</button>
+  <div class="dots" id="dots"></div>
+  <button class="icon-btn" id="nextBtn">▶</button>
+</nav>
+</div>
+
+<!-- teacher tip panel -->
+<aside id="tip"><button class="icon-btn close" id="tipClose">✕</button><div id="tipBody"></div></aside>
+
+<script>
+/* ======================= 基本設定 ======================= */
+const PASS="0686";
+const DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const ABBR=["Mon.","Tue.","Wed.","Thu.","Fri.","Sat.","Sun."];
+const ACTS=[["clapping_hands","拍手 2 下"],["flexed_biceps","舉手臂秀肌肉"],["person_running","原地跑步"],["sparkles","雙手畫大圈"],["party_popper","雙手高舉歡呼"],["sun","伸懶腰"],["musical_notes","左右搖擺"]];
+let LV=2;
+
+/* ======================= 音效（Web Audio，不需外部檔案） ======================= */
+let AC=null,SND=true;
+function tone(f,d=0.12,type="sine",v=0.25,t0=0){if(!SND)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);const s=AC.currentTime+t0;o.start(s);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(0.001,s+d);o.stop(s+d+0.02);}catch(e){}}
+const sfx={click:()=>tone(660,.08,"triangle",.15),ok:()=>{tone(523,.12);tone(659,.12,"sine",.25,.1);tone(784,.2,"sine",.25,.2)},no:()=>{tone(220,.18,"sawtooth",.15);tone(180,.22,"sawtooth",.15,.12)},beat:()=>tone(880,.06,"square",.08),win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.22,"sine",.25,i*.11))};
+
+/* ======================= 彩帶 ======================= */
+const cf=document.getElementById("cf"),ctx=cf.getContext("2d");let parts=[];
+function sizeCf(){cf.width=innerWidth;cf.height=innerHeight}sizeCf();addEventListener("resize",sizeCf);
+function boom(n=1){const cols=["#7C5CFF","#FFC83D","#FF8A3D","#2ECC8A","#FF5C7A","#3DA5FF","#1ED3C1"];for(let i=0;i<120*n;i++)parts.push({x:cf.width/2+(Math.random()-.5)*200,y:cf.height*0.45,vx:(Math.random()-.5)*18,vy:-Math.random()*18-6,g:.35,r:Math.random()*7+4,c:cols[i%cols.length],a:Math.random()*6.28,s:(Math.random()-.5)*.3,l:120+Math.random()*60});if(!boom.run){boom.run=true;requestAnimationFrame(tick)}sfx.win()}
+function tick(){ctx.clearRect(0,0,cf.width,cf.height);parts=parts.filter(p=>p.l>0);for(const p of parts){p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.vx*=.98;p.a+=p.s;p.l--;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.globalAlpha=Math.min(1,p.l/40);ctx.fillStyle=p.c;ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6);ctx.restore()}if(parts.length)requestAnimationFrame(tick);else boom.run=false}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("on"),1600)}
+
+/* ======================= 密碼頁 ======================= */
+(function(){const gate=document.getElementById("gate"),dots=[...document.querySelectorAll(".pin i")],msg=document.getElementById("gateMsg");let buf="";
+if(sessionStorage.getItem("u1ok")==="1"){gate.classList.add("open");return}
+function draw(){dots.forEach((d,i)=>d.classList.toggle("on",i<buf.length))}
+function check(){if(buf===PASS){sfx.ok();document.getElementById("lockImg").src="img/unlocked.png";msg.style.color="var(--g)";msg.textContent="Welcome! 🎉";sessionStorage.setItem("u1ok","1");setTimeout(()=>{gate.classList.add("open");boom(1)},500)}else{sfx.no();document.getElementById("gateCard").classList.add("shake");msg.textContent="Oops! Try again.";setTimeout(()=>document.getElementById("gateCard").classList.remove("shake"),500);buf="";draw()}}
+document.querySelector(".pad").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;sfx.click();if(b.classList.contains("del")){buf=buf.slice(0,-1)}else if(b.classList.contains("ok")){check();return}else if(buf.length<4){buf+=b.textContent}draw();if(buf.length===4)setTimeout(check,150)});
+addEventListener("keydown",e=>{if(gate.classList.contains("open"))return;if(/^[0-9]$/.test(e.key)&&buf.length<4){buf+=e.key;draw();if(buf.length===4)setTimeout(check,150)}else if(e.key==="Backspace"){buf=buf.slice(0,-1);draw()}else if(e.key==="Enter")check()});
+})();
+
+/* ======================= 老師提示內容 ======================= */
+const TIPS={
+t1:{h:"開場",time:"1 分鐘",body:`<h4>做法</h4><ul><li>先不要講解，請學生看四個圖示猜「這一課會去哪裡？」</li><li>按右上角選好今天的難度：<span class="lv">基礎</span>只要說出單字、<span class="lv">標準</span>要說完整句、<span class="lv">挑戰</span>還要加一句情境短語。</li></ul><h4>快捷鍵</h4><ul><li>← → 翻頁、<b>T</b> 開關老師提示、<b>F</b> 全螢幕、<b>M</b> 靜音</li></ul>`},
+t2:{h:"暖身①　Where are the kids?",time:"2 分鐘",body:`<h4>分組／道具</h4><ul><li>全班搶答，不用道具。</li></ul><h4>做法</h4><ul><li>先唸提示，請學生舉手猜，再請一位學生上台點選。</li><li>點錯會抖動、點對會放彩帶 → 帶全班說 <b>"Spain!"</b> 然後教 <b>"Hola."</b></li></ul><h4>常見錯誤與回饋</h4><ul><li>學生唸成 /spain/ 兩個音節 → 示範 /speɪn/ 一個音節，手掌往前推一次。</li></ul>`},
+t3:{h:"暖身②　Days of the Week Chant（TPR）",time:"3 分鐘",body:`<h4>分組／道具</h4><ul><li>全班起立，不用道具，需要音量。</li></ul><h4>做法</h4><ul><li>先點每一天的卡片，示範動作（卡片下方有中文）。</li><li>按 Play Chant：卡片會跟著拍子亮起來，學生邊唸邊做動作。</li><li>唸順了按 Faster! 加速，五年級最愛這個。</li></ul><h4>難度調整</h4><ul><li><span class="lv">基礎</span>只唸單字　<span class="lv">標準</span>唸 "Monday, Mon." 含縮寫　<span class="lv">挑戰</span>唸 "What day is today? It's Monday!"</li></ul><h4>常見錯誤</h4><ul><li>Wednesday 唸出 d → 示範 /ˈwenz.deɪ/，用手遮住 d 字母。</li><li>Tuesday / Thursday 混淆 → 拍手節奏：Tues-day 兩拍、Thurs-day 兩拍，但 Th 要吐舌頭。</li></ul>`},
+s1:{h:"輸入①　Park Güell 訂票",time:"2 分鐘",body:`<h4>做法</h4><ul><li>先只看圖（沒有文字），問：「他們在做什麼？」讓學生用中文或英文猜。</li><li>每按一次 Next line 出現一句，全班跟讀一次，注意語調。</li></ul><h4>關鍵短語</h4><ul><li><b>Let's go here!</b>（提議）　<b>Let's book the tickets.</b>（訂票）</li><li><b>What day is today? / It's Friday.</b> 本課核心句型第一次出現，請多讀兩次。</li></ul><h4>常見錯誤</h4><ul><li>"It's Friday today." 不算錯，但先統一用課本句 "It's Friday."</li><li>漏掉 It's 直接說 "Friday" → 回饋語："Good! Full sentence? It's…?"</li></ul>`},
+s2:{h:"輸入②　聖家堂",time:"2 分鐘",body:`<h4>做法</h4><ul><li>看圖猜：「女孩看到什麼？她的表情？」引出 <b>It's awesome!</b></li><li>Hola 是西班牙文的 Hi，請學生互相說 Hola 並揮手。</li></ul><h4>關鍵短語</h4><ul><li><b>It's awesome!</b>（讚嘆）　<b>Good idea!</b>（同意提議）</li></ul><h4>常見錯誤</h4><ul><li>awesome 唸成 /ɔːsəm/ 三個音節 → 示範 /ˈɔː.səm/ 兩拍。</li></ul>`},
+s3:{h:"輸入③　球場入口",time:"2 分鐘",body:`<h4>做法</h4><ul><li>看圖猜：「紅髮男孩在想什麼？」→ 引出 <b>Is it Wednesday today?</b></li><li>重點是 Yes/No 問句的回答格式：<b>No, it isn't. It's Friday.</b></li><li>TGIF 讓學生猜四個字母各代表什麼，再揭曉。</li></ul><h4>關鍵短語</h4><ul><li><b>Have a good time.</b>（驗票員祝福）→ 回 <b>Thank you.</b></li></ul><h4>常見錯誤</h4><ul><li>回答 "No, it's Friday." 漏掉 it isn't → 可接受，但示範完整版並請學生再說一次。</li></ul>`},
+s4:{h:"輸入④　球賽進球",time:"2 分鐘",body:`<h4>做法</h4><ul><li>先放圖，請學生用動作演「進球」；再揭曉 <b>Big G, little o. Go! Go! Go!</b> 全班一起喊。</li><li><b>Good job!</b> 是本課最常用的稱讚語，之後每次活動結束都用它。</li></ul><h4>常見錯誤</h4><ul><li>Go 唸成 "gou" 太重 → 示範 /ɡoʊ/ 嘴型由圓漸小。</li></ul>`},
+t8:{h:"引導練習①　Calendar Detective",time:"3 分鐘",body:`<h4>分組／道具</h4><ul><li>全班搶答或分組輪流，不用道具。</li></ul><h4>做法</h4><ul><li>月曆上紅圈的日子就是「今天」。老師問 What day is today?，學生搶答，再按 Show 揭曉。</li><li>按 Next day 換日期，可以無限玩；至少玩 5 輪。</li></ul><h4>難度版本（右上角切換）</h4><ul><li><span class="lv">基礎</span>只要說 "Friday"　<span class="lv">標準</span>要說 "It's Friday."　<span class="lv">挑戰</span>揭曉頁會多一句短語（如 TGIF!），學生要跟著說。</li></ul><h4>常見錯誤</h4><ul><li>看成星期幾的「欄位」數錯 → 請學生用手指從 MON 往右數。</li><li>Saturday / Sunday 混淆 → 提示 Sun 像太陽 ☀。</li></ul>`},
+t9:{h:"引導練習②　Yes or No?",time:"3 分鐘",body:`<h4>分組／道具</h4><ul><li>每人一張 Yes/No 舉牌（或 👍👎 手勢）。</li></ul><h4>做法</h4><ul><li>老師唸問句，數 3-2-1，全班同時舉牌，再點 Yes 或 No 揭曉。</li><li>共 6 題，Yes 3 題、No 3 題。No 的題目一定要讓全班說完整的 <b>No, it isn't. It's ___.</b></li></ul><h4>常見錯誤</h4><ul><li>"Yes, it's." → 示範 "Yes, it <b>is</b>." 結尾不能縮寫。</li><li>"No, it isn't Friday." → 引導成兩句："No, it isn't. It's Friday."</li></ul>`},
+t10:{h:"引導練習③　Put It in Order",time:"3 分鐘",body:`<h4>分組／道具</h4><ul><li>先全班一起做一題，再分組：每組用平板或輪流上台。</li></ul><h4>做法</h4><ul><li>句子被打亂了，依正確順序一句一句點。點對變綠、點錯會抖動。</li><li>完成後全班分 A/B 兩邊，用角色唸一次。</li><li>New dialogue 換一組對話（共 4 組）。</li></ul><h4>重點</h4><ul><li>問句一定在答句前面；Good idea! 一定接在 Let's… 之後。</li></ul>`},
+t11:{h:"引導練習④　Match!",time:"2 分鐘",body:`<h4>做法</h4><ul><li>左邊全名、右邊縮寫，配對成功變綠色。可請 7 位學生輪流上台各配一組。</li><li>提醒：縮寫後面有 <b>一個點</b>，而且都是前三個字母（Tue. / Thu. 特別注意）。</li></ul>`},
+t12:{h:"產出①　Game Schedule（資訊差）",time:"4 分鐘",body:`<h4>分組／道具</h4><ul><li>兩人一組。印 A/B 學習單（本頁兩個分頁就是 A/B 版）。</li></ul><h4>做法</h4><ul><li>A 拿有資料的表，B 拿空白表。B 必須問 <b>"What day is the Red vs. Blue game?"</b>，A 回答 <b>"It's Wednesday."</b>，B 填上。</li><li>填完互換角色。</li></ul><h4>難度版本</h4><ul><li><span class="lv">基礎</span>B 只問 "Red vs. Blue?" A 答單字　<span class="lv">標準</span>完整問答　<span class="lv">挑戰</span>B 用 "Is it Monday?" 猜，A 用 Yes/No 回答，猜到為止。</li></ul><h4>常見錯誤</h4><ul><li>B 直接用中文問 → 老師巡視時只回應英文問句。</li></ul>`},
+t13:{h:"產出②　Reader's Theater",time:"3 分鐘",body:`<h4>分組／道具</h4><ul><li>六人一組，一人一角，角色牌。</li></ul><h4>做法</h4><ul><li>點角色卡會顯示該角色的台詞和語氣。</li><li>要求「用對的語氣」：Good idea! 要興奮、TGIF! 要歡呼、Have a good time. 要有禮貌。</li><li>每組練 2 分鐘，抽一組上台演，其他組當觀眾用 Good job! 稱讚。</li></ul>`},
+t14:{h:"產出③　Make a Cheer!",time:"3 分鐘",body:`<h4>做法</h4><ul><li>先全班喊一次範本：Big G, little o. Go! Go! Go!</li><li>點 WIN / YES / GOAL，或打上組名，系統會自動生成同格式的口號。</li><li>各組編一句，30 秒後輪流表演，聲音最大的組得獎。</li></ul><h4>學習點</h4><ul><li>這是把「字母拼讀」偽裝成遊戲：Big = 大寫、little = 小寫。</li></ul>`},
+t15:{h:"產出④　Think and Say 投票",time:"3 分鐘",body:`<h4>做法</h4><ul><li>每人上台點一下自己最喜歡的運動（或老師代點）。</li><li>長條圖會即時長高，下方句子自動變成 <b>"___ is popular in our class."</b></li><li>帶全班唸出來，再問："Football is popular in Spain. What about Taiwan?"</li></ul><h4>延伸</h4><ul><li>可問：Is baseball popular in Taiwan? → Yes, it is.（把本課句型套到新情境）</li></ul>`},
+t16:{h:"檢核　Exit Ticket",time:"3 分鐘",body:`<h4>分組／道具</h4><ul><li>每人一張便利貼。</li></ul><h4>做法</h4><ul><li>按 Shuffle 隨機出現一個星期＋一個情境。按 Start 倒數 60 秒。</li><li>學生寫：① 一組問答（What day is today? → It's ___.）② 一句符合情境的短語。</li><li>收回便利貼即可下課；Sample answer 可給學生自我核對。</li></ul><h4>難度版本</h4><ul><li><span class="lv">基礎</span>只寫星期單字　<span class="lv">標準</span>寫完整問答　<span class="lv">挑戰</span>問答＋短語。</li></ul>`},
+t17:{h:"總結",time:"2 分鐘",body:`<ul><li>請學生用手指比出今天學到的三件事。</li><li>按 Celebrate! 放彩帶，全班一起說 Good job!</li><li>預告下一課，留一個懸念。</li></ul>`},
+t18:{h:"老師備課清單",time:"課前",body:`<ul><li>勾選會存在這台電腦的瀏覽器，下次開啟還在。</li><li>建議課前自己先跑一遍每個互動頁，確認觸控正常。</li></ul>`}
+};
+
+/* ======================= 場景資料 ======================= */
+const SCENES=[
+{title:"Park Güell",zh:"奎爾公園 · 訂票",bg:"ground",els:[["rainbow",160,"12%","8%"],["national_park",150,"60%","22%"],["mobile_phone",90,"38%","48%"],["calendar",80,"8%","52%"]],
+ lines:[["nerd_face","Let's go here!","我們去這裡吧！"],["grinning_face_with_big_eyes","OK. Let's book the tickets.","好，我們來訂票。",1],["polar_bear","What day is today?","今天星期幾？"],["smiling_face_with_hearts","It's Friday.","星期五。",1],["grinning_face_with_big_eyes","Friday. Done! Let's go!","星期五，搞定！走吧！"]],
+ keys:[["Let's go here!","我們去這裡吧"],["Let's book the tickets.","來訂票"],["Done!","搞定"]]},
+{title:"Sagrada Família",zh:"聖家堂",bg:"ground",els:[["church",190,"55%","6%"],["sparkles",80,"80%","4%"],["sun",90,"6%","6%"],["airplane",80,"28%","12%"]],
+ lines:[["nerd_face","It's awesome!","好壯觀！"],["polar_bear","Hola.","嗨（西班牙文）",1],["grinning_face_with_big_eyes","Hola.","嗨"],["smiling_face_with_hearts","Let's go watch football.","我們去看足球吧！",1],["nerd_face","Good idea!","好主意！"]],
+ keys:[["It's awesome!","好讚、好壯觀"],["Hola.","嗨（西班牙文）"],["Good idea!","好主意"]]},
+{title:"Stadium Entrance",zh:"球場入口",bg:"grass",els:[["stadium",200,"50%","6%"],["admission_tickets",100,"10%","40%"],["waving_hand",80,"78%","45%"],["triangular_flag",70,"28%","10%"]],
+ lines:[["star-struck","Is it Wednesday today?","今天是星期三嗎？"],["nerd_face","No, it isn't. It's Friday.","不是，今天星期五。",1],["grinning_face_with_big_eyes","TGIF! There's a football game today.","感謝老天是星期五！今天有球賽！"],["smiling_face_with_sunglasses","Have a good time.","玩得開心！",1],["polar_bear","Thank you.","謝謝"]],
+ keys:[["TGIF!","Thank goodness it's Friday"],["Have a good time.","玩得開心"],["Thank you.","謝謝"]]},
+{title:"GOAL!",zh:"球賽進球",bg:"night",els:[["goal_net",170,"58%","10%"],["soccer_ball",90,"34%","30%"],["fire",80,"22%","14%"],["megaphone",80,"6%","44%"],["popcorn",70,"84%","50%"]],
+ lines:[["megaphone","Big G, little o. Go! Go! Go!","大寫 G、小寫 o，衝衝衝！"],["partying_face","GOAL!","進球啦！",1],["polar_bear","Good job!","做得好！"],["star-struck","It's awesome!","太棒了！",1]],
+ keys:[["Big G, little o. Go! Go! Go!","加油口號"],["Good job!","做得好"]]}
+];
+document.querySelectorAll("[data-scene]").forEach(sec=>{const s=SCENES[+sec.dataset.scene];
+sec.innerHTML=`<div class="head"><h2>${s.title}<span class="zh">${s.zh} · 先看圖猜猜看</span></h2></div>
+<div class="stage"><div class="scene">
+<div class="pic"><div class="sky"></div><div class="ground ${s.bg}"></div>${s.els.map(([n,w,l,t],i)=>`<img class="el ${i%2?"bob2":"bob"}" src="img/${n}.png" style="--w:${w}px;left:${l};top:${t}" alt="">`).join("")}</div>
+<div class="bubbles">${s.lines.map(([ic,en,zh,r])=>`<div class="bub ${r?"r":""}"><img src="img/${ic}.png" alt=""><div class="t">${en}<small>${zh}</small></div></div>`).join("")}</div>
+</div>
+<div class="row"><button class="btn g nextline"><img src="img/speaking_head.png" alt="">Next line</button><button class="btn ghost showall">Show all</button></div>
+<div class="keys">${s.keys.map(([e,z])=>`<div class="key">${e}<small>${z}</small></div>`).join("")}</div></div>`;
+const bubs=[...sec.querySelectorAll(".bub")];
+sec.querySelector(".nextline").onclick=()=>{const b=bubs.find(x=>!x.classList.contains("show"));if(b){b.classList.add("show");sfx.click()}else{toast("全部講完了 👏")}};
+sec.querySelector(".showall").onclick=()=>{bubs.forEach((b,i)=>setTimeout(()=>b.classList.add("show"),i*150))};
+});
+
+/* ======================= 投影片導覽 ======================= */
+const slides=[...document.querySelectorAll(".slide")];let cur=0;
+const dots=document.getElementById("dots");slides.forEach((s,i)=>{const d=document.createElement("i");if([1,3,7,11,15].includes(i))d.classList.add("sec");d.onclick=()=>go(i);dots.appendChild(d)});
+function go(n){if(n<0||n>=slides.length)return;slides[cur].classList.remove("cur");cur=n;slides[cur].classList.add("cur");[...dots.children].forEach((d,i)=>d.classList.toggle("on",i===cur));document.getElementById("counter").textContent=`${cur+1} / ${slides.length}`;const t=slides[cur].dataset.time;document.getElementById("tbadge").textContent=t==="0"?"課前":`⏱ ${t} min`;renderTip();stopChant();stopTimer();location.hash=cur}
+document.getElementById("prevBtn").onclick=()=>go(cur-1);document.getElementById("nextBtn").onclick=()=>go(cur+1);
+addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;if(document.getElementById("gate").classList.contains("open")===false)return;if(e.key==="ArrowRight"||e.key==="PageDown"||e.key===" ")go(cur+1);else if(e.key==="ArrowLeft"||e.key==="PageUp")go(cur-1);else if(e.key.toLowerCase()==="t")toggleTip();else if(e.key.toLowerCase()==="f")fs();else if(e.key.toLowerCase()==="m")snd()});
+let tx=0;document.getElementById("main").addEventListener("touchstart",e=>tx=e.touches[0].clientX,{passive:true});document.getElementById("main").addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>80)go(cur+(dx<0?1:-1))});
+function fs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+function snd(){SND=!SND;document.getElementById("sndBtn").textContent=SND?"🔊":"🔇";document.getElementById("sndBtn").classList.toggle("on",SND)}
+document.getElementById("fsBtn").onclick=fs;document.getElementById("sndBtn").onclick=snd;
+document.querySelectorAll("[data-lv]").forEach(b=>b.onclick=()=>{LV=+b.dataset.lv;document.querySelectorAll("[data-lv]").forEach(x=>x.classList.toggle("on",x===b));toast("難度：" + b.textContent);renderTip()});
+function toggleTip(){document.getElementById("tip").classList.toggle("on")}
+document.getElementById("tipBtn").onclick=toggleTip;document.getElementById("tipClose").onclick=toggleTip;
+function renderTip(){const t=TIPS[slides[cur].dataset.tip];document.getElementById("tipBody").innerHTML=`<h3>👩‍🏫 ${t.h}</h3><div class="sub" style="text-align:left">預計 ${t.time} ・ 目前難度：<b>${["","基礎","標準","挑戰"][LV]}</b></div>${t.body}`}
+
+/* ======================= TPR chant ======================= */
+const daysEl=document.getElementById("days");
+DAYS.forEach((d,i)=>{const [ic,zh]=ACTS[i];const el=document.createElement("div");el.className="day";el.innerHTML=`<img src="img/${ic}.png" alt=""><div class="n">${d}</div><div class="ab">${ABBR[i]}</div><div class="act hidden">${zh}</div>`;el.onclick=()=>{sfx.click();el.querySelector(".act").classList.toggle("hidden");el.classList.add("hot");setTimeout(()=>el.classList.remove("hot"),600)};daysEl.appendChild(el)});
+let chantT=null,bpm=90;
+function stopChant(){clearInterval(chantT);chantT=null;document.querySelectorAll(".day").forEach(d=>d.classList.remove("hot"));const b=document.getElementById("chantPlay");if(b)b.innerHTML='<img src="img/musical_notes.png" alt="">Play Chant'}
+document.getElementById("chantPlay").onclick=()=>{if(chantT){stopChant();return}let i=0;const cards=[...document.querySelectorAll(".day")];document.getElementById("chantPlay").innerHTML="⏹ Stop";const step=()=>{cards.forEach(c=>c.classList.remove("hot"));cards[i%7].classList.add("hot");sfx.beat();i++};step();chantT=setInterval(step,60000/bpm)};
+document.getElementById("chantFast").onclick=()=>{bpm=bpm>=150?90:bpm+20;document.getElementById("bpm").textContent=bpm;if(chantT){stopChant();document.getElementById("chantPlay").click()}};
+
+/* ======================= 月曆工具 ======================= */
+function buildCal(el,pick){el.innerHTML="";ABBR.forEach(a=>{const h=document.createElement("div");h.className="h";h.textContent=a.toUpperCase().replace(".","");el.appendChild(h)});for(let i=0;i<3;i++){const o=document.createElement("div");o.className="d off";el.appendChild(o)}for(let d=1;d<=31;d++){const c=document.createElement("div");const dow=(d+2)%7;c.className="d"+(dow>=5?" wk":"")+(d===pick?" pick":"");c.textContent=d;el.appendChild(c)}}
+const dowOf=d=>(d+2)%7; // day 1 = Thursday
+/* Calendar detective */
+let cdDay=2,cdRound=1;
+function cdRender(){buildCal(document.getElementById("cal1"),cdDay);document.getElementById("cdAns").innerHTML="";document.getElementById("cdRound").textContent=cdRound}
+document.getElementById("cdNext").onclick=()=>{let n;do{n=1+Math.floor(Math.random()*31)}while(dowOf(n)===dowOf(cdDay));cdDay=n;cdRound++;sfx.click();cdRender()};
+const EXTRA={0:"Oh no, Monday!",1:"Let's go!",2:"Hump day!",3:"Almost Friday!",4:"TGIF!",5:"Have a good time!",6:"Sunday fun day!"};
+document.getElementById("cdReveal").onclick=()=>{const d=DAYS[dowOf(cdDay)];const txt=LV===1?d:LV===2?`It's ${d}.`:`It's ${d}. ${EXTRA[dowOf(cdDay)]}`;document.getElementById("cdAns").innerHTML=`<div class="big pop" style="color:var(--g)">${txt}</div>`;sfx.ok()};
+cdRender();
+/* Yes or No */
+const YN=[[5,"Monday"],[14,"Thursday"],[9,"Friday"],[2,"Friday"],[24,"Saturday"],[17,"Sunday"]];let ynI=0,ynDone=false;
+function ynRender(){const [d,q]=YN[ynI];buildCal(document.getElementById("cal2"),d);document.getElementById("ynQuestion").textContent=`Is it ${q} today?`;document.getElementById("ynAns").innerHTML="";document.getElementById("ynQ").textContent=ynI+1;ynDone=false}
+document.querySelectorAll("[data-yn]").forEach(b=>b.onclick=()=>{if(ynDone)return;ynDone=true;const [d,q]=YN[ynI];const real=DAYS[dowOf(d)];const yes=real===q;const right=(+b.dataset.yn===1)===yes;let a;if(LV===1)a=yes?"Yes!":`No! ${real}`;else a=yes?"Yes, it is.":`No, it isn't. It's ${real}.`;if(LV===3&&!yes)a+=` ${EXTRA[dowOf(d)]}`;document.getElementById("ynAns").innerHTML=`<div class="big pop" style="color:${right?"var(--g)":"var(--r)"}">${a}</div>`;right?sfx.ok():sfx.no();if(right&&ynI===5)boom(1)});
+document.getElementById("ynNext").onclick=()=>{ynI=(ynI+1)%YN.length;sfx.click();ynRender()};ynRender();
+
+/* ======================= 對話重組 ======================= */
+const DLG=[["What day is today?","It's Friday.","Let's go watch football.","Good idea!"],["Is it Wednesday today?","No, it isn't. It's Friday.","TGIF! There's a football game today."],["Let's go here!","OK. Let's book the tickets.","Done! Let's go!"],["Have a good time.","Thank you.","Big G, little o. Go! Go! Go!","Good job!"]];
+let roI=0,roStep=0;
+function roRender(){const lines=DLG[roI];const order=lines.map((_,i)=>i).sort(()=>Math.random()-.5);const el=document.getElementById("lines");el.innerHTML="";roStep=0;order.forEach(i=>{const d=document.createElement("div");d.className="line";d.dataset.i=i;d.innerHTML=`<span class="num">?</span>${lines[i]}`;d.onclick=()=>{if(d.classList.contains("good"))return;if(+d.dataset.i===roStep){d.classList.add("good");d.querySelector(".num").textContent=roStep+1;roStep++;sfx.ok();if(roStep===lines.length){boom(1);toast("Perfect! 👏")}}else{d.classList.add("bad");sfx.no();setTimeout(()=>d.classList.remove("bad"),500)}};el.appendChild(d)})}
+document.getElementById("roReset").onclick=roRender;document.getElementById("roNew").onclick=()=>{roI=(roI+1)%DLG.length;roRender()};roRender();
+
+/* ======================= 縮寫配對 ======================= */
+let mSel=null,mDone=0;
+function mRender(){mSel=null;mDone=0;const L=document.getElementById("mL"),R=document.getElementById("mR");L.innerHTML="";R.innerHTML="";const idx=[0,1,2,3,4,5,6];idx.sort(()=>Math.random()-.5).forEach(i=>L.appendChild(tile(DAYS[i],i,"L")));idx.sort(()=>Math.random()-.5).forEach(i=>R.appendChild(tile(ABBR[i],i,"R")))}
+function tile(t,i,side){const d=document.createElement("div");d.className="tile";d.textContent=t;d.dataset.i=i;d.dataset.side=side;d.onclick=()=>{sfx.click();if(mSel&&mSel.dataset.side!==side){if(mSel.dataset.i===d.dataset.i){mSel.classList.add("done");d.classList.add("done");mSel.classList.remove("sel");mSel=null;sfx.ok();if(++mDone===7){boom(1);toast("All matched! 🎉")}}else{d.classList.add("bad");mSel.classList.add("bad");sfx.no();const a=mSel;setTimeout(()=>{d.classList.remove("bad");a.classList.remove("bad","sel")},500);mSel=null}}else{document.querySelectorAll(".tile.sel").forEach(x=>x.classList.remove("sel"));d.classList.add("sel");mSel=d}};return d}
+document.getElementById("mReset").onclick=mRender;mRender();
+
+/* ======================= 資訊差 ======================= */
+const TEAMS=[["Red","#FF5C7A"],["Blue","#3DA5FF"],["Green","#2ECC8A"],["Yellow","#FFC83D"],["Purple","#7C5CFF"]];
+const GAMES=[[0,1,"Wednesday"],[2,0,"Friday"],[3,4,"Saturday"],[1,2,"Monday"],[4,0,"Sunday"]];
+function igRender(ab){const t=document.getElementById("igTable");const dot=i=>`<span class="teamdot" style="background:${TEAMS[i][1]}"></span>${TEAMS[i][0]}`;t.innerHTML=`<tr><th>Game</th><th>Day</th></tr>`+GAMES.map(([a,b,d],i)=>{const show=ab==="A"?i%2===0:i%2===1;return`<tr><td class="en">${dot(a)} vs. ${dot(b)}</td><td class="en">${show?d:'<span class="blank"></span>'}</td></tr>`}).join("")}
+document.querySelectorAll("[data-ab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-ab]").forEach(x=>{x.classList.toggle("ghost",x!==b);x.classList.toggle("on",x===b)});igRender(b.dataset.ab);sfx.click()});igRender("A");
+
+/* ======================= 讀者劇場 ======================= */
+const ROLES=[["nerd_face","Kate","戴眼鏡女孩 · ①⑥⑩⑫","興奮、聰明","Let's go here! / It's awesome! / No, it isn't. It's Friday."],["grinning_face_with_big_eyes","Teddy","黑髮男孩 · ②⑤⑦⑬","開心、有活力","OK. Let's book the tickets. / TGIF! There's a football game today."],["smiling_face_with_hearts","Amy","金髮女孩 · ④⑨","溫柔、有禮貌","It's Friday. / Let's go watch football."],["star-struck","Ben","紅髮男孩 · ③⑪⑰","好奇、大聲","What day is today? / Is it Wednesday today? / Good job!"],["polar_bear","Snowy","白熊 · ⑧⑮","呆萌、可愛","Hola. / Thank you."],["smiling_face_with_sunglasses","Staff","驗票員＋加油隊 · ⑭⑯","有禮貌 → 超大聲","Have a good time. / Big G, little o. Go! Go! Go!"]];
+document.getElementById("roles").innerHTML=ROLES.map(([ic,n,zh,tone,l])=>`<div class="role" onclick="sfx.click();toast('${n}: ${l.replace(/'/g,"\\'")}')"><img src="img/${ic}.png" alt=""><div><b>${n}</b><small>${zh}</small><span class="tone">🎭 ${tone}</span></div></div>`).join("");
+
+/* ======================= 加油口號 ======================= */
+function cheer(w){w=(w||"").toUpperCase().replace(/[^A-Z]/g,"").slice(0,6);if(!w){toast("先打上一個字！");return}const out=document.getElementById("cheerOut");out.innerHTML="";const parts=[...w].map((ch,i)=>`<span style="animation-delay:${i*.15}s">${i===0?"Big":"little"} ${i===0?ch:ch.toLowerCase()}${i===w.length-1?"":","}</span>`);const nice=w[0]+w.slice(1).toLowerCase();out.innerHTML=parts.join("")+`<span style="animation-delay:${w.length*.15}s">.</span>`+[0,1,2].map(i=>`<span class="go" style="animation-delay:${(w.length+1+i)*.15}s">${nice}!</span>`).join("");sfx.win()}
+document.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>cheer(b.dataset.w));document.getElementById("cheerGo").onclick=()=>cheer(document.getElementById("cheerIn").value);document.getElementById("cheerIn").addEventListener("keydown",e=>{if(e.key==="Enter")cheer(e.target.value)});
+
+/* ======================= 投票 ======================= */
+const SPORTS=[["baseball","Baseball","#FF8A3D"],["basketball","Basketball","#FF5C7A"],["badminton","Badminton","#2ECC8A"],["ping_pong","Table tennis","#3DA5FF"]];let votes=[0,0,0,0];
+const vEl=document.getElementById("vote");vEl.innerHTML=SPORTS.map(([ic,n,c],i)=>`<div class="vcard" data-v="${i}"><img src="img/${ic}.png" alt=""><div class="bar"><i style="background:${c}"></i></div><div class="cnt">0</div><div class="en">${n}</div></div>`).join("");
+function vRender(){const mx=Math.max(1,...votes);document.querySelectorAll(".vcard").forEach((c,i)=>{c.querySelector("i").style.height=(votes[i]/mx*100)+"%";c.querySelector(".cnt").textContent=votes[i]});const tot=votes.reduce((a,b)=>a+b,0);const say=document.getElementById("voteSay");if(!tot){say.textContent="Tap to vote! 👆";return}const top=votes.indexOf(Math.max(...votes));say.textContent=`${SPORTS[top][1]} is popular in our class! 🏆`}
+vEl.addEventListener("click",e=>{const c=e.target.closest(".vcard");if(!c)return;votes[+c.dataset.v]++;sfx.click();c.querySelector("img").classList.add("pop");setTimeout(()=>c.querySelector("img").classList.remove("pop"),600);vRender()});
+document.getElementById("voteReset").onclick=()=>{votes=[0,0,0,0];vRender()};
+
+/* ======================= Exit ticket ======================= */
+const ETS=[["ticket","At the stadium gate 🎟","Have a good time. / Thank you."],["church","At a beautiful place ⛪","It's awesome!"],["soccer_ball","Your team scores! ⚽","Good job! / Go! Go! Go!"],["mobile_phone","Booking tickets 📱","Let's book the tickets. / Done!"],["calendar","Friday at last 📅","TGIF!"],["national_park","Choosing where to go 🗺","Let's go here! / Good idea!"]];
+let etD=4,etS=0,timerT=null;
+document.getElementById("etShuffle").onclick=()=>{etD=Math.floor(Math.random()*7);etS=Math.floor(Math.random()*ETS.length);const b=document.getElementById("etIcon");b.src=`img/${ETS[etS][0]}.png`;b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");document.getElementById("etDay").textContent=DAYS[etD];document.getElementById("etScene").textContent=ETS[etS][1];document.getElementById("etAns").innerHTML="";sfx.click()};
+function stopTimer(){clearInterval(timerT);timerT=null}
+document.getElementById("etStart").onclick=()=>{stopTimer();let s=60;const el=document.getElementById("etTimer");el.textContent=s;timerT=setInterval(()=>{s--;el.textContent=s;if(s<=5)sfx.beat();if(s<=0){stopTimer();sfx.win();toast("Time's up! ✋")}},1000)};
+document.getElementById("etShow").onclick=()=>{const d=DAYS[etD];const a=LV===1?d:LV===2?`What day is today? → It's ${d}.`:`What day is today? → It's ${d}. <br>${ETS[etS][2]}`;document.getElementById("etAns").innerHTML=`<div class="mid pop" style="color:var(--g)">${a}</div>`;sfx.ok()};
+
+/* ======================= 備課清單 ======================= */
+document.querySelectorAll("#chk input").forEach((c,i)=>{c.checked=localStorage.getItem("u1chk"+i)==="1";c.parentElement.classList.toggle("done",c.checked);c.onchange=()=>{localStorage.setItem("u1chk"+i,c.checked?"1":"0");c.parentElement.classList.toggle("done",c.checked);sfx.click()}});
+
+/* ======================= 其他 ======================= */
+document.getElementById("whereOpts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;if(o.dataset.ok==="1"){o.classList.add("ok");document.getElementById("whereAns").innerHTML=`<div class="big pop" style="color:var(--g)">They are in Spain! 🇪🇸 Hola!</div>`;boom(1)}else{o.classList.add("no");sfx.no();setTimeout(()=>o.classList.remove("no"),600)}});
+go(Math.min(slides.length-1,parseInt(location.hash.slice(1))||0));
+</script>
+</body>
+</html>
