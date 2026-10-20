@@ -35,16 +35,22 @@ h1{font-size:26px;color:var(--p2);margin:8px 0 2px;text-align:center}
 <div class="lv"><button data-lv="1">基礎</button><button data-lv="2" class="on">標準</button><button data-lv="3">挑戰</button></div>
 <div class="card">
   <div class="big" id="hint">按 ▶ 開始</div>
-  <button class="btn" id="play">▶ Play</button><button class="btn ghost" id="again">🔁 再聽一次</button>
+  <button class="btn" id="play">⏳ 載入中…</button><button class="btn ghost" id="again">🔁 再聽一次</button>
   <div class="score">第 <b id="q">0</b> / 10 題 ・ 答對 <b id="s">0</b> 題</div>
 </div>
 <div class="days" id="days"></div>
 <div class="card" id="result" style="display:none"></div>
 <script>
 const DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],ABBR=["Mon.","Tue.","Wed.","Thu.","Fri.","Sat.","Sun."];
-let AUDIO={},LV=2,target=-1,q=0,s=0,last=null,lock=false,cur=null;
-fetch("audio/map.json").then(r=>r.json()).then(m=>AUDIO=m);
-function say(t,v="nar"){return new Promise(res=>{if(cur)cur.pause();const m=AUDIO[t];const f=m&&(m[v]||Object.values(m)[0]);if(!f){res();return}const a=new Audio("audio/"+f);cur=a;a.onended=res;a.onerror=res;a.play().catch(res)})}
+let AUDIO={},LV=2,target=-1,q=0,s=0,last=null,lock=false;
+/* 單一共用播放器：在第一次觸控時「解鎖」，之後換 src 再播，iOS Safari 才允許非手勢觸發的連續播放 */
+let curRes=null;const player=new Audio();player.preload="auto";player.setAttribute("playsinline","");
+const SILENT="data:audio/wav;base64,UklGRtYBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgATElTVBoAAABJTkZPSVNGVA4AAABMYXZmNjAuMTYuMTAwAGRhdGGQAQAAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==";
+let unlocked=false;function unlock(){if(unlocked)return;unlocked=true;if(player.paused&&!curRes){player.src=SILENT;player.play().catch(()=>{})}}
+["pointerdown","touchend","keydown"].forEach(e=>document.addEventListener(e,unlock,{passive:true}));
+const playBtn=document.getElementById("play");playBtn.disabled=true;playBtn.textContent="⏳ 載入中…";
+const AUDIO_READY=fetch("audio/map.json?v=2").then(r=>r.json()).then(m=>{AUDIO=m;playBtn.disabled=false;playBtn.textContent="▶ Play"}).catch(()=>{playBtn.textContent="⚠ 載入失敗，請重新整理"});
+async function say(t,v="nar"){await AUDIO_READY.catch(()=>{});return new Promise(res=>{const m=AUDIO[t];const f=m&&(m[v]||Object.values(m)[0]);if(!f){res();return}if(curRes){const r0=curRes;curRes=null;r0()}player.pause();player.onended=null;player.onerror=null;player.src="audio/"+f;curRes=res;player.onended=()=>{curRes=null;res()};player.onerror=()=>{curRes=null;res()};const pr=player.play();if(pr&&pr.catch)pr.catch(()=>{document.getElementById("hint").textContent="🔇 請再按一次 ▶ 或「再聽一次」";res()})})}
 const daysEl=document.getElementById("days");
 DAYS.forEach((d,i)=>{const el=document.createElement("div");el.className="day";el.innerHTML=`${d}<small>${ABBR[i]}</small>`;el.onclick=()=>{if(target<0||lock)return;if(i===target){lock=true;el.classList.add("ok");s++;document.getElementById("s").textContent=s;document.getElementById("hint").textContent="✅ "+last[0];setTimeout(()=>{el.classList.remove("ok");lock=false;next()},1200)}else{el.classList.add("no");setTimeout(()=>el.classList.remove("no"),450)}};daysEl.appendChild(el)});
 function next(){if(q>=10){finish();return}q++;document.getElementById("q").textContent=q;let n;do{n=Math.floor(Math.random()*7)}while(n===target);target=n;const d=DAYS[n];const sp=[["kate","teddy","amy","ben"][n%4],["ben","snowy","staff","party"][n%4]];const pool=LV===1?[[d,"nar"]]:LV===2?[[`It's ${d}.`,"nar"],[`It's ${d}. Let's go!`,sp[0]]]:[[`It's ${d}. Let's go!`,sp[0]],[`What day is today? It's ${d}.`,sp[1]],[`No, it isn't. It's ${d}.`,"nar"]];last=pool[Math.floor(Math.random()*pool.length)];document.getElementById("hint").textContent="👂 Listening…";say(last[0],last[1]).then(()=>document.getElementById("hint").textContent="Which day? 👆")}
